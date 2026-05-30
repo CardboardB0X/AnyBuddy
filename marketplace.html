@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=34">
+    <link rel="stylesheet" href="marketplace.css?v=34">
+    <link rel="stylesheet" href="ajax_ui.css?v=34">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Marketplace</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <!-- HERO / SEARCH -->
+    <section class="market-hero">
+        <h1>Find your perfect Buddy.</h1>
+        <form class="search-bar" action="#" method="get">
+            <label class="search-field">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input type="text" name="query" placeholder="What kind of buddy are you looking for?">
+            </label>
+            <span class="search-divider" aria-hidden="true"></span>
+            <label class="search-field">
+                <span class="search-icon" aria-hidden="true">◎</span>
+                <input type="text" name="location" placeholder="Anywhere">
+            </label>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </section>
+
+    <!-- MAIN -->
+    <div class="marketplace-container">
+        <aside class="filters-sidebar">
+            <div class="filters-header">
+                <h2>Category</h2>
+                <a href="javascript:void(0)" class="reset-link">RESET</a>
+            </div>
+
+            <div class="filter-section">
+                <div class="category-pills">
+                    <button type="button" class="category-pill" data-category="casual">
+                        <span class="pill-icon">☕</span>
+                        <span class="pill-label">Casual Hangout</span>
+                    </button>
+                    <button type="button" class="category-pill" data-category="event">
+                        <span class="pill-icon">🎉</span>
+                        <span class="pill-label">Event Plus-One</span>
+                    </button>
+                    <button type="button" class="category-pill" data-category="security">
+                        <span class="pill-icon">🛡️</span>
+                        <span class="pill-label">Bodyguard</span>
+                    </button>
+                    <button type="button" class="category-pill" data-category="arts">
+                        <span class="pill-icon">🎨</span>
+                        <span class="pill-label">Visual Arts</span>
+                    </button>
+                    <button type="button" class="category-pill" data-category="listener">
+                        <span class="pill-icon">👂</span>
+                        <span class="pill-label">Listener</span>
+                    </button>
+                    <button type="button" class="category-pill" data-category="ally">
+                        <span class="pill-icon">🏳️🌈</span>
+                        <span class="pill-label">LGBTQ+ Ally</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Hourly Rate</h3>
+                <div class="rate-slider-wrap">
+                    <div class="rate-slider-track">
+                        <div class="rate-slider-fill"></div>
+                        <input type="range" class="rate-slider-input rate-slider-min" name="min-rate" min="0" max="1000" value="0" step="50">
+                        <input type="range" class="rate-slider-input rate-slider-max" name="max-rate" min="0" max="1000" value="1000" step="50">
+                    </div>
+                    <div class="rate-slider-labels">
+                        <span class="rate-label-min">₱0</span>
+                        <span class="rate-label-max">₱1,000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Minimum Rating</h3>
+                <div class="star-rating-filter">
+                    <button type="button" class="star-btn" data-rating="1">★</button>
+                    <button type="button" class="star-btn" data-rating="2">★</button>
+                    <button type="button" class="star-btn" data-rating="3">★</button>
+                    <button type="button" class="star-btn" data-rating="4">★</button>
+                    <button type="button" class="star-btn" data-rating="5">★</button>
+                    <span class="star-rating-label">All Ratings</span>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Location</h3>
+                <div class="location-select-wrap">
+                    <span class="location-icon">📍</span>
+                    <select name="location-filter" class="location-select">
+                        <option value="">All Locations</option>
+                        <option value="Metro Manila">Metro Manila</option>
+                        <option value="Cebu">Cebu</option>
+                        <option value="Davao">Davao</option>
+                        <option value="Cavite">Cavite</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <div class="results-area">
+
+
+            <div class="results-header">
+                <p class="results-count">Showing <strong>124</strong> Buddies matching your filters</p>
+                <div class="sort-segmented">
+                    <button type="button" class="sort-seg-btn active" data-sort="recommended">✨ Recommended</button>
+                    <button type="button" class="sort-seg-btn" data-sort="price-low">💰 Price ↑</button>
+                    <button type="button" class="sort-seg-btn" data-sort="price-high">💎 Price ↓</button>
+                    <button type="button" class="sort-seg-btn" data-sort="rating">⭐ Rating</button>
+                </div>
+            </div>
+
+            <div class="buddy-grid">
+                <article class="buddy-card">
+                    <div class="buddy-image-wrap">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Rivera">
+                        <button type="button" class="favorite-btn" aria-label="Add to favorites">♡</button>
+                    </div>
+                    <div class="buddy-card-body">
+                        <h3 class="buddy-name">Alex Rivera <span class="verified-badge" title="Verified">✓</span></h3>
+                        <p class="buddy-tagline">Professional Event Stand-in</p>
+                        <div class="buddy-meta">
+                            <span class="buddy-rating">★ 4.9 <span class="review-count">(128)</span></span>
+                            <span class="buddy-price">₱300/hr</span>
+                        </div>
+                        <a href="profile.html?id=1" class="view-profile-btn">View Profile</a>
+                    </div>
+                </article>
+
+                <article class="buddy-card">
+                    <div class="buddy-image-wrap">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Santos">
+                        <button type="button" class="favorite-btn" aria-label="Add to favorites">♡</button>
+                    </div>
+                    <div class="buddy-card-body">
+                        <h3 class="buddy-name">Maria Santos <span class="verified-badge" title="Verified">✓</span></h3>
+                        <p class="buddy-tagline">Casual Hangout Companion</p>
+                        <div class="buddy-meta">
+                            <span class="buddy-rating">★ 4.8 <span class="review-count">(96)</span></span>
+                            <span class="buddy-price">₱250/hr</span>
+                        </div>
+                        <a href="profile.html?id=2" class="view-profile-btn">View Profile</a>
+                    </div>
+                </article>
+
+                <article class="buddy-card">
+                    <div class="buddy-image-wrap">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="James Chen">
+                        <button type="button" class="favorite-btn" aria-label="Add to favorites">♡</button>
+                    </div>
+                    <div class="buddy-card-body">
+                        <h3 class="buddy-name">James Chen <span class="verified-badge" title="Verified">✓</span></h3>
+                        <p class="buddy-tagline">Bodyguard &amp; Security</p>
+                        <div class="buddy-meta">
+                            <span class="buddy-rating">★ 5.0 <span class="review-count">(54)</span></span>
+                            <span class="buddy-price">₱450/hr</span>
+                        </div>
+                        <a href="profile.html?id=3" class="view-profile-btn">View Profile</a>
+                    </div>
+                </article>
+
+                <article class="buddy-card">
+                    <div class="buddy-image-wrap">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sofia Reyes">
+                        <button type="button" class="favorite-btn" aria-label="Add to favorites">♡</button>
+                    </div>
+                    <div class="buddy-card-body">
+                        <h3 class="buddy-name">Sofia Reyes <span class="verified-badge" title="Verified">✓</span></h3>
+                        <p class="buddy-tagline">LGBTQ+ Ally &amp; Listener</p>
+                        <div class="buddy-meta">
+                            <span class="buddy-rating">★ 4.7 <span class="review-count">(82)</span></span>
+                            <span class="buddy-price">₱280/hr</span>
+                        </div>
+                        <a href="profile.html?id=4" class="view-profile-btn">View Profile</a>
+                    </div>
+                </article>
+
+                <article class="buddy-card">
+                    <div class="buddy-image-wrap">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Daniel Park">
+                        <button type="button" class="favorite-btn" aria-label="Add to favorites">♡</button>
+                    </div>
+                    <div class="buddy-card-body">
+                        <h3 class="buddy-name">Daniel Park <span class="verified-badge" title="Verified">✓</span></h3>
+                        <p class="buddy-tagline">Wedding Plus-One Specialist</p>
+                        <div class="buddy-meta">
+                            <span class="buddy-rating">★ 4.9 <span class="review-count">(71)</span></span>
+                            <span class="buddy-price">₱350/hr</span>
+                        </div>
+                        <a href="profile.html?id=5" class="view-profile-btn">View Profile</a>
+                    </div>
+                </article>
+
+                <article class="buddy-card">
+                    <div class="buddy-image-wrap">
+                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Cruz">
+                        <button type="button" class="favorite-btn" aria-label="Add to favorites">♡</button>
+                    </div>
+                    <div class="buddy-card-body">
+                        <h3 class="buddy-name">Elena Cruz <span class="verified-badge" title="Verified">✓</span></h3>
+                        <p class="buddy-tagline">Corporate Event Companion</p>
+                        <div class="buddy-meta">
+                            <span class="buddy-rating">★ 4.6 <span class="review-count">(43)</span></span>
+                            <span class="buddy-price">₱320/hr</span>
+                        </div>
+                        <a href="profile.html?id=6" class="view-profile-btn">View Profile</a>
+                    </div>
+                </article>
+            </div>
+
+            <nav class="pagination" aria-label="Buddy results pages">
+                <a href="javascript:void(0)" class="page-nav" aria-label="Previous page">‹</a>
+                <a href="javascript:void(0)" class="page-num is-active">1</a>
+                <a href="javascript:void(0)" class="page-num">2</a>
+                <a href="javascript:void(0)" class="page-num">3</a>
+                <span class="page-ellipsis">…</span>
+                <a href="javascript:void(0)" class="page-num">12</a>
+                <a href="javascript:void(0)" class="page-nav" aria-label="Next page">›</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <script src="theme.js?v=34"></script>
+    <script src="app_ajax.js?v=34"></script>
+</body>
+</html>
+

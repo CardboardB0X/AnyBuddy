@@ -1,0 +1,147 @@
+Created At: 2026-05-22T01:11:17Z
+Completed At: 2026-05-22T01:11:17Z
+The following changes were made by the multi_replace_file_content tool to: c:\Users\Japoy\Downloads\AnyBuddy\theme.css. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -55,7 +55,7 @@
+ body{
+     background-color: var(--bg-page);
+     color: var(--text-primary);
+-    padding-top: 4rem !important;
++    padding-top: 5rem !important;
+ }
+ 
+ .navbar{
+@@ -481,11 +481,11 @@
+     transform: translateY(-9px) rotate(-45deg);
+ }
+ 
+-.mobile-drawer {
+-    position: fixed;
+-    top: 0;
+-    right: -320px;
+-    width: 300px;
++.more-options-drawer {
++    position: fixed;
++    top: 0;
++    right: -340px;
++    width: 320px;
+     height: 100vh;
+     background: var(--bg-modal);
+     backdrop-filter: blur(25px) saturate(180%);
+@@ -492,46 +492,84 @@
+     border-left: 1px solid var(--border-glass);
+-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+-    z-index: 1050;
+-    padding: 6rem 2rem 2rem 2rem;
+-    display: flex;
+-    flex-direction: column;
+-    gap: 1.5rem;
++    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25);
++    z-index: 2000;
++    padding: 2rem 1.5rem;
++    display: flex;
++    flex-direction: column;
+     transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+ }
+-.mobile-drawer.active {
+-    right: 0;
+-}
+-.mobile-drawer a {
+-    font-size: 1.2rem;
+-    font-weight: 700;
+-    color: var(--text-primary);
+-    text-decoration: none;
+-    transition: color 0.2s;
+-    display: flex;
+-    align-items: center;
+-    gap: 0.75rem;
+-}
+-.mobile-drawer a:hover {
+-    color: var(--accent);
+-}
+-.mobile-drawer .bab-btn {
+-    display: block;
+-    background-color: var(--accent);
+-    color: #ffffff !important;
+-    text-align: center;
+-    padding: 0.75rem;
+-    border-radius: 30px;
+-    margin-top: 1rem;
+-    font-weight: 700;
+-    box-shadow: 0 4px 14px rgba(0, 210, 255, 0.2);
+-}
+-.mobile-drawer .drawer-bottom {
+-    margin-t
+<truncated 13849 bytes>
+ background: var(--accent);
++    color: #ffffff;
++    border: none;
++    border-radius: 20px;
++    padding: 0 1.25rem;
++    font-family: inherit;
++    font-weight: 700;
++    font-size: 0.85rem;
++    cursor: pointer;
++    transition: transform 0.2s, opacity 0.2s;
++}
++.buddybot-send:hover {
++    transform: scale(1.03);
++    opacity: 0.9;
++}
++[data-theme="dark"] .buddybot-send {
++    color: #090d16;
++}
++
++/* ── ACCENT COLOR / READABILITY ADJUSTMENTS ── */
++.navlogo,
++.navlinks a:not(.bab-btn) {
++    color: var(--text-primary) !important;
++}
++
++[data-theme="dark"] .navlinks a:not(.bab-btn) {
++    color: var(--text-primary) !important;
++}
++
++[data-theme="dark"] .view-profile-btn {
++    background: linear-gradient(135deg, #0f1626, #151e33) !important;
++    border: 2px solid transparent !important;
++    background-clip: padding-box !important;
++    position: relative;
++    color: #00d2ff !important;
++    box-shadow: 0 0 15px rgba(0, 210, 255, 0.25) !important;
++    z-index: 1;
++}
++[data-theme="dark"] .view-profile-btn::before {
++    content: '';
++    position: absolute;
++    top: -2px; bottom: -2px; left: -2px; right: -2px;
++    background: linear-gradient(135deg, #fe6fbe, #00d2ff);
++    border-radius: inherit;
++    z-index: -1;
++    transition: opacity 0.3s ease;
++    opacity: 0.8;
++}
++[data-theme="dark"] .view-profile-btn:hover::before {
++    opacity: 1;
++    filter: brightness(1.2);
++}
++
++@media (max-width: 480px) {
++    .buddybot-window {
++        width: calc(100vw - 2rem);
++        height: 400px;
++        bottom: 1rem;
++        right: 1rem;
++    }
++    .buddybot-launcher {
++        bottom: 1rem;
++        right: 1rem;
++        width: 50px;
++        height: 50px;
++        font-size: 1.5rem;
++    }
++}
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

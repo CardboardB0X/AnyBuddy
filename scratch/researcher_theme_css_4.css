@@ -1,0 +1,89 @@
+Created At: 2026-05-30T06:13:29Z
+Completed At: 2026-05-30T06:13:30Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/marketplace.html`
+Total Lines: 300
+Total Bytes: 15714
+Showing lines 1 to 300
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+7:     <meta http-equiv="Pragma" content="no-cache">
+8:     <meta http-equiv="Expires" content="0">
+9:     <script>
+10:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+11:     </script>
+12:     <link rel="preconnect" href="https://fonts.googleapis.com">
+13:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+14:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+15:     <link rel="stylesheet" href="theme.css?v=30">
+16:     <link rel="stylesheet" href="marketplace.css?v=30">
+17:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+18:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+19:     <title>Marketplace</title>
+20: </head>
+21: <body>
+22:     <!-- NAVBAR -->
+23:     <div class="navbar">
+24:         <a href="homepage.html" class="navlogo">
+25:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+26:             <h2>AnyBuddy</h2>
+27:         </a>
+28:         <div class="navlinks">
+29:             <a href="marketplace.html">Marketplace</a>
+30:             <a href="about.html">About</a>
+31:             <a href="login.html">Login</a>
+32:             <a
+<truncated 13534 bytes>
+        <a href="#" class="page-num">2</a>
+254:                 <a href="#" class="page-num">3</a>
+255:                 <span class="page-ellipsis">…</span>
+256:                 <a href="#" class="page-num">12</a>
+257:                 <a href="#" class="page-nav" aria-label="Next page">›</a>
+258:             </nav>
+259:         </div>
+260:     </div>
+261: 
+262:     <!-- FOOTER -->
+263:     <div class="footer">
+264:         <div class="media-icons">
+265:             <div class="footer-logo">
+266:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+267:                 <h3>AnyBuddy</h3>
+268:             </div>
+269:             <ul class="social-media-links">
+270:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+271:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+272:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+273:             </ul>
+274:         </div>
+275:         <div class="platform-links">
+276:             <h3>Platform</h3>
+277:             <ul>
+278:                 <li><a href="marketplace.html">Marketplace</a></li>
+279:                 <li><a href="about.html">About</a></li>
+280:                 <li><a href="login.html">Login</a></li>
+281:                 <li><a href="signup.html">Sign up</a></li>
+282:             </ul>
+283:         </div>
+284: 
+285:         <div class="legal">
+286:             <h3>Legal</h3>
+287:             <ul>
+288:                 <li><a href="#">Terms of Service</a></li>
+289:                 <li><a href="#">Privacy Policy</a></li>
+290:                 <li><a href="#">Cancellation and Refund</a></li>
+291:             </ul>
+292:         </div>
+293: 
+294:     </div>
+295:     <script src="theme.js?v=30"></script>
+296:     <script src="app_ajax.js?v=30"></script>
+297: </body>
+298: </html>
+299: 
+300: 
+The above content shows the entire, complete file contents of the requested file.

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="profile.css?v=30">
+    <link rel="stylesheet" href="ajax_ui.css?v=30">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Marcus Rivera — AnyBuddy</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <main class="profile-page">
+        <div class="profile-container">
+            <div class="gallery-column">
+                <div class="main-gallery">
+                    <img
+                        class="main-gallery-img"
+                        src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80"
+                        alt="Marcus Rivera in his art studio">
+                    <div class="carousel-dots" role="tablist" aria-label="Gallery images">
+                        <span class="dot"></span>
+                        <span class="dot is-active"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+                <div class="thumbnail-row">
+                    <button type="button" class="thumb is-active" aria-label="View image 1">
+                        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=200&q=80" alt="">
+                    </button>
+                    <button type="button" class="thumb" aria-label="View image 2">
+                        <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&q=80" alt="">
+                    </button>
+                    <button type="button" class="thumb" aria-label="View image 3">
+                        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=200&q=80" alt="">
+                    </button>
+                    <button type="button" class="thumb" aria-label="View image 4">
+                        <img src="https://images.unsplash.com/photo-1460668261837-312dc0fc0afa?w=200&q=80" alt="">
+                    </button>
+                </div>
+            </div>
+
+            <div class="profile-details">
+                <header class="profile-header">
+                    <img
+                        class="profile-avatar"
+                        src="https://randomuser.me/api/portraits/men/52.jpg"
+                        alt="Marcus Rivera">
+                    <div>
+                        <h1>Marcus Rivera</h1>
+                        <p class="profile-title">Visual Artist</p>
+                    </div>
+                </header>
+
+                <section class="profile-section">
+                    <h2 class="section-label">Overview</h2>
+                    <p class="overview-text">
+                        Marcus is a passionate visual artist specializing in abstract expressionism
+                        and digital compositions. With over 8 years of studio experience, he offers
+                        guided sessions, creative collaboration, and custom artwork for events and
+                        personal projects across Metro Manila.
+                    </p>
+                </section>
+
+                <section class="quick-info-grid">
+                    <div class="info-item">
+                        <span class="info-icon" aria-hidden="true">
+                            <svg class="info-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                        <div>
+                            <span class="info-label">Availability</span>
+                            <span class="info-value">Flexible Schedule</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon" aria-hidden="true">
+                            <svg class="info-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </span>
+                        <div>
+                            <span class="info-label">Verified</span>
+                            <span class="info-value">Identity Confirmed</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon" aria-hidden="true">
+                            <svg class="info-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </span>
+                        <div>
+                            <span class="info-label">Gender</span>
+                            <span class="info-value">Male</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon" aria-hidden="true">
+                            <svg class="info-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </span>
+                        <div>
+                            <span class="info-label">Location</span>
+                            <span class="info-value">Westview</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon" aria-hidden="true">
+                            <svg class="info-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                        </span>
+                        <div>
+                            <span class="info-label">Category</span>
+                            <span class="info-value">Visual Arts</span>
+                        </div>
+                    </div>
+                    <div class="info-item info-item--rate">
+                        <span class="info-icon" aria-hidden="true">
+                            <svg class="info-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M8 20V4h6a5 5 0 0 1 0 10H8" />
+                              <line x1="6" y1="7" x2="16" y2="7" />
+                              <line x1="6" y1="11" x2="16" y2="11" />
+                            </svg>
+                        </span>
+                        <div>
+                            <span class="info-label">Rate</span>
+                            <span class="info-value info-value--rate">₱200/hr</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="profile-section reviews-section">
+                    <div class="reviews-header">
+                        <div class="reviews-score">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span class="rating-num">5.0</span>
+                            <span class="review-count">(20 Reviews)</span>
+                        </div>
+
+                    </div>
+                    <div class="reviews-list-container">
+                        <!-- Dynamic reviews populated by JS -->
+                    </div>
+                </section>
+
+                <section class="profile-section">
+                    <h2 class="section-label">Rules &amp; Limitations</h2>
+                    <ul class="rules-list">
+                        <li>
+                            <span class="rule-check" aria-hidden="true">✓</span>
+                            Sessions must be booked at least 24 hours in advance.
+                        </li>
+                        <li>
+                            <span class="rule-check" aria-hidden="true">✓</span>
+                            Studio visits are limited to groups of 4 or fewer.
+                        </li>
+                        <li>
+                            <span class="rule-check" aria-hidden="true">✓</span>
+                            Cancellations within 12 hours may incur a partial fee.
+                        </li>
+                    </ul>
+                </section>
+
+                <div class="profile-actions-wrapper">
+                    <a href="payment.html" class="book-now-btn">
+                        <span class="book-icon" aria-hidden="true">📅</span>
+                        Book Now
+                    </a>
+                    <a href="report.html?user=Marcus%20Rivera" class="report-user-link" aria-label="Report User">❗</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <script src="theme.js?v=30"></script>
+    <script src="app_ajax.js?v=30"></script>
+</body>
+</html>
+

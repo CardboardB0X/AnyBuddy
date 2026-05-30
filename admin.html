@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="admin.css?v=31">
+    <link rel="stylesheet" href="ajax_ui.css?v=31">
+    <title>Admin Dashboard — AnyBuddy</title>
+</head>
+<body>
+    <!-- Background Blobs -->
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width="40px" height="40px">
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks" id="navbarLinks">
+            <!-- Populated dynamically by theme.js/app_ajax.js -->
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch theme">
+            </button>
+        </div>
+    </div>
+
+    <main class="admin-main">
+        <div class="admin-header-row">
+            <h1>Admin Console</h1>
+            <p class="admin-subtitle">Manage security, database records, ID verifications, and user reports.</p>
+        </div>
+
+        <!-- ADMIN SUB-NAV -->
+        <div class="admin-subnav" id="adminSubNav">
+            <button type="button" class="subnav-btn active" data-panel="moderation">🛡️ Moderation Hub</button>
+            <button type="button" class="subnav-btn" data-panel="users">👥 Manage Users</button>
+            <button type="button" class="subnav-btn" data-panel="buddies">🌟 Manage Buddies</button>
+            <button type="button" class="subnav-btn" data-panel="bookings">📅 Manage Bookings</button>
+            <button type="button" class="subnav-btn" data-panel="vouchers">🎫 Manage Vouchers</button>
+            <button type="button" class="subnav-btn" data-panel="logs">📜 Audit Logs</button>
+            <button type="button" class="subnav-btn" data-panel="chats">💬 Chat History</button>
+            <button type="button" class="subnav-btn" data-panel="settings">⚙️ System Settings</button>
+        </div>
+
+        <!-- PANEL 1: MODERATION HUB (OVERVIEW) -->
+        <div class="admin-panel active" id="panel-moderation">
+            <!-- STATS GRID -->
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Registered Users</span>
+                        <h3 id="statTotalUsers">—</h3>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Bookings</span>
+                        <h3 id="statTotalBookings">—</h3>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Revenue</span>
+                        <h3 id="statTotalRevenue">—</h3>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon">🛡️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pending Verifications</span>
+                        <h3 id="statPendingVerifications">—</h3>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Active Reports</span>
+                        <h3 id="statActiveReports">—</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TWO COLUMN WORKSPACE -->
+            <div class="admin-workspace-layout">
+                <!-- LEFT COLUMN: ID VERIFICATIONS -->
+                <div class="admin-section-card">
+                    <div class="section-title-row">
+                        <h2>Pending ID Verifications</h2>
+                        <span class="badge badge-info" id="pendingVerifCount">0</span>
+                    </div>
+                    <div class="admin-list-container" id="verificationsList">
+                        <div class="loading-state">Loading verifications...</div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: USER REPORTS -->
+                <div class="admin-section-card">
+                    <div class="section-title-row">
+                        <h2>User Safety Reports</h2>
+                        <span class="badge badge-warning" id="activeReportsCountBadge">0</span>
+                    </div>
+                    <div class="admin-list-container" id="reportsList">
+                        <div class="loading-state">Loading reports...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 2: MANAGE USERS -->
+        <div class="admin-panel" id="panel-users" style="display: none;">
+            <div class="admin-section-card">
+                <div class="crud-header-row">
+                    <h2>Registered Users Database</h2>
+                    <div class="crud-actions-row">
+                        <input type="text" class="crud-search-input" id="searchUsers" placeholder="Search by name or email...">
+                        <button type="button" class="admin-btn admin-btn-primary" id="btnAddUser">+ Add User</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Pronouns</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crudUsersTableBody">
+                            <tr><td colspan="8" class="loading-state">Loading users...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 3: MANAGE BUDDIES -->
+        <div class="admin-panel" id="panel-buddies" style="display: none;">
+            <div class="admin-section-card">
+                <div class="crud-header-row">
+                    <h2>Buddy Profiles Database</h2>
+                    <div class="crud-actions-row">
+                        <input type="text" class="crud-search-input" id="searchBuddies" placeholder="Search display name or title...">
+                        <button type="button" class="admin-btn admin-btn-primary" id="btnAddBuddy">+ Add Buddy Profile</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Display Name</th>
+                                <th>Specialty Title</th>
+                                <th>Category</th>
+                                <th>Hourly Rate</th>
+                                <th>Location</th>
+                                <th>Availability</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crudBuddiesTableBody">
+                            <tr><td colspan="9" class="loading-state">Loading buddies...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 4: MANAGE BOOKINGS -->
+        <div class="admin-panel" id="panel-bookings" style="display: none;">
+            <div class="admin-section-card">
+                <div class="crud-header-row">
+                    <h2>Bookings Database</h2>
+                    <div class="crud-actions-row">
+                        <input type="text" class="crud-search-input" id="searchBookings" placeholder="Search client or buddy...">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Client Name</th>
+                                <th>Buddy Name</th>
+                                <th>Date & Time</th>
+                                <th>Duration</th>
+                                <th>Total Price</th>
+                                <th>Payment Method</th>
+                                <th>Status</th>
+                                <th>Admin Controls</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crudBookingsTableBody">
+                            <tr><td colspan="9" class="loading-state">Loading bookings...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 5: MANAGE VOUCHERS -->
+        <div class="admin-panel" id="panel-vouchers" style="display: none;">
+            <div class="admin-section-card">
+                <div class="crud-header-row">
+                    <h2>Discount Vouchers Database</h2>
+                    <div class="crud-actions-row">
+                        <input type="text" class="crud-search-input" id="searchVouchers" placeholder="Search promo code...">
+                        <button type="button" class="admin-btn admin-btn-primary" id="btnAddVoucher">+ Add Voucher</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Promo Code</th>
+                                <th>Discount Type</th>
+                                <th>Discount Value</th>
+                                <th>Min Spend</th>
+                                <th>Status</th>
+                                <th>Expiration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crudVouchersTableBody">
+                            <tr><td colspan="8" class="loading-state">Loading vouchers...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 6: AUDIT LOGS -->
+        <div class="admin-panel" id="panel-logs" style="display: none;">
+            <div class="admin-section-card">
+                <div class="crud-header-row">
+                    <h2>Audit Logs History</h2>
+                    <div class="crud-actions-row">
+                        <input type="text" class="crud-search-input" id="searchLogs" placeholder="Search action, performer, or details...">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>Log ID</th>
+                                <th>Timestamp</th>
+                                <th>Performer</th>
+                                <th>Action</th>
+                                <th>Entity</th>
+                                <th>Entity ID</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crudLogsTableBody">
+                            <tr><td colspan="7" class="loading-state">Loading logs...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 7: CHAT HISTORY -->
+        <div class="admin-panel" id="panel-chats" style="display: none;">
+            <div class="admin-section-card">
+                <div class="crud-header-row">
+                    <h2>Chat Threads Moderation</h2>
+                    <div class="crud-actions-row">
+                        <input type="text" class="crud-search-input" id="searchChats" placeholder="Search client or buddy...">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Date & Time</th>
+                                <th>Client</th>
+                                <th>Buddy</th>
+                                <th>Message Count</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crudChatsTableBody">
+                            <tr><td colspan="6" class="loading-state">Loading chats...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 8: SYSTEM SETTINGS -->
+        <div class="admin-panel" id="panel-settings" style="display: none;">
+            <div class="admin-section-card" style="max-width: 600px; margin: 0 auto;">
+                <div class="crud-header-row">
+                    <h2>⚙️ Platform System Settings</h2>
+                </div>
+                <form id="systemSettingsForm">
+                    <div class="crud-field" style="margin-bottom: 1.5rem;">
+                        <label for="inputCommissionRate" style="font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 0.5rem;">Platform Commission Fee (%)</label>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 0.5rem 0;">The percentage commission deducted from the buddy's total earnings for each booking.</p>
+                        <input type="number" id="inputCommissionRate" name="commission_rate" min="0" max="100" step="1" required class="crud-search-input" style="width: 100%; max-width: 200px;">
+                    </div>
+                    <div class="crud-field" style="margin-bottom: 1.5rem;">
+                        <label for="inputServiceFee" style="font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 0.5rem;">Flat Service Fee (₱)</label>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 0.5rem 0;">A flat handling or safety fee added to the base price of bookings paid by clients.</p>
+                        <input type="number" id="inputServiceFee" name="service_fee" min="0" step="0.5" required class="crud-search-input" style="width: 100%; max-width: 200px;">
+                    </div>
+                    <div class="crud-field" style="margin-bottom: 2rem;">
+                        <label for="inputMaintenanceMode" style="font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 0.5rem;">Platform Maintenance Mode</label>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 0.5rem 0;">Enabling this blocks client bookings and displays a maintenance screen to users.</p>
+                        <select id="inputMaintenanceMode" name="maintenance_mode" required class="crud-search-input" style="width: 100%; max-width: 200px;">
+                            <option value="0">Disabled (Online)</option>
+                            <option value="1">Enabled (Maintenance)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                        <button type="submit" class="admin-btn admin-btn-primary" id="btnSaveSettings">Save Platform Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- DOCUMENT PREVIEW MODAL -->
+    <div class="admin-modal" id="docPreviewModal" style="display: none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Document Inspection</h3>
+                <button type="button" class="admin-modal-close" id="closeDocModalBtn">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <p id="docDetailsLabel">Buddy: Loading...</p>
+                <div class="doc-image-wrapper">
+                    <img id="previewDocImage" src="" alt="Verification ID Photo Preview">
+                </div>
+            </div>
+            <div class="admin-modal-footer" id="docModalFooterActions">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CRUD FORM MODAL -->
+    <div class="admin-modal" id="crudFormModal" style="display: none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3 id="crudModalTitle">Add New Record</h3>
+                <button type="button" class="admin-modal-close" id="closeCrudModalBtn">&times;</button>
+            </div>
+            <form id="crudForm">
+                <div class="admin-modal-body" id="crudModalFields" style="max-height: 60vh; overflow-y: auto;">
+                    <!-- Dynamic fields populated by JavaScript based on active CRUD panel -->
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn admin-btn-secondary" id="btnCancelCrud">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="btnSaveCrud">Save Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHAT HISTORY PREVIEW MODAL -->
+    <div class="admin-modal" id="chatHistoryPreviewModal" style="display: none;">
+        <div class="admin-modal-content" style="max-width: 600px;">
+            <div class="admin-modal-header">
+                <h3 id="chatPreviewTitle">Chat Thread Messages</h3>
+                <button type="button" class="admin-modal-close" id="closeChatPreviewModalBtn">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <div class="chat-preview-stream" id="chatPreviewStream" style="height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px; background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid var(--border-glass);">
+                    <!-- Dynamic chat messages go here -->
+                </div>
+            </div>
+            <div class="admin-modal-footer">
+                <button type="button" class="admin-btn admin-btn-secondary" id="btnExitChatPreview">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width="40px" height="40px">
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="theme.js?v=31">
+    </script><script src="app_ajax.js?v=31"></script>
+</body>
+</html>

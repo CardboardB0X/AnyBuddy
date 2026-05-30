@@ -1,0 +1,89 @@
+Created At: 2026-05-30T06:13:38Z
+Completed At: 2026-05-30T06:13:39Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/profile.html`
+Total Lines: 237
+Total Bytes: 12570
+Showing lines 1 to 237
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+7:     <meta http-equiv="Pragma" content="no-cache">
+8:     <meta http-equiv="Expires" content="0">
+9:     <script>
+10:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+11:     </script>
+12:     <link rel="preconnect" href="https://fonts.googleapis.com">
+13:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+14:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+15:     <link rel="stylesheet" href="theme.css?v=30">
+16:     <link rel="stylesheet" href="profile.css?v=30">
+17:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+18:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+19:     <title>Marcus Rivera — AnyBuddy</title>
+20: </head>
+21: <body>
+22:     <!-- NAVBAR -->
+23:     <div class="navbar">
+24:         <a href="homepage.html" class="navlogo">
+25:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+26:             <h2>AnyBuddy</h2>
+27:         </a>
+28:         <div class="navlinks">
+29:             <a href="marketplace.html">Marketplace</a>
+30:             <a href="about.html">About</a>
+31:             <a href="login.html">Login</a>
+32:        
+<truncated 10071 bytes>
+                   <span class="book-icon" aria-hidden="true">📅</span>
+191:                         Book Now
+192:                     </a>
+193:                     <a href="report.html?user=Marcus%20Rivera" class="report-user-link" aria-label="Report User">❗</a>
+194:                 </div>
+195:             </div>
+196:         </div>
+197:     </main>
+198: 
+199:     <!-- FOOTER -->
+200:     <div class="footer">
+201:         <div class="media-icons">
+202:             <div class="footer-logo">
+203:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+204:                 <h3>AnyBuddy</h3>
+205:             </div>
+206:             <ul class="social-media-links">
+207:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+208:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+209:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+210:             </ul>
+211:         </div>
+212:         <div class="platform-links">
+213:             <h3>Platform</h3>
+214:             <ul>
+215:                 <li><a href="marketplace.html">Marketplace</a></li>
+216:                 <li><a href="about.html">About</a></li>
+217:                 <li><a href="login.html">Login</a></li>
+218:                 <li><a href="signup.html">Sign up</a></li>
+219:             </ul>
+220:         </div>
+221: 
+222:         <div class="legal">
+223:             <h3>Legal</h3>
+224:             <ul>
+225:                 <li><a href="#">Terms of Service</a></li>
+226:                 <li><a href="#">Privacy Policy</a></li>
+227:                 <li><a href="#">Cancellation and Refund</a></li>
+228:             </ul>
+229:         </div>
+230: 
+231:     </div>
+232:     <script src="theme.js?v=30"></script>
+233:     <script src="app_ajax.js?v=30"></script>
+234: </body>
+235: </html>
+236: 
+237: 
+The above content shows the entire, complete file contents of the requested file.

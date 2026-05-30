@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="bookings.css?v=30">
+    <link rel="stylesheet" href="ajax_ui.css?v=30">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>My Bookings</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <main class="bookings-page">
+        <header class="bookings-header">
+            <span class="bookings-header-icon" aria-hidden="true">📒</span>
+            <h1>My Bookings</h1>
+        </header>
+
+        <!-- Segmented Tab Toggle for Buddies -->
+        <div class="bookings-tabs" id="bookingsTabs">
+            <button type="button" class="booking-tab-btn is-active" data-role="client">As Client</button>
+            <button type="button" class="booking-tab-btn" data-role="buddy">As Buddy</button>
+        </div>
+
+        <!-- Buddy Earnings & Availability Slots Dashboard -->
+        <div id="buddyDashboardView" style="display: none; margin-bottom: 2rem;">
+            <!-- Earnings Panel -->
+            <div id="buddyEarningsPanel"></div>
+            
+            <!-- Availability Slots Manager -->
+            <div id="buddySlotsPanel"></div>
+        </div>
+
+        <div class="bookings-list">
+            <!-- In progress -->
+            <article class="booking-card booking-card--active">
+                <div class="booking-card-inner">
+                    <div class="booking-top">
+                        <div class="booking-profile">
+                            <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="Marcus Rivera">
+                            <div>
+                                <h2 class="booking-name">Marcus Rivera</h2>
+                                <ul class="booking-meta">
+                                    <li>May 16, 2026</li>
+                                    <li>10:00 AM</li>
+                                    <li>2 hr(s)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="status-badge status-badge--progress">Accepted (In Progress)</span>
+                    </div>
+
+                    <div class="request-box">
+                        <p>I need help with assembling some IKEA furniture in my living room. Some pieces are quite heavy.</p>
+                    </div>
+
+                    <div class="stepper" aria-label="Booking progress">
+                        <div class="stepper-step is-complete">
+                            <span class="step-circle">✓</span>
+                            <span class="step-label">Requested</span>
+                        </div>
+                        <span class="stepper-line is-complete" aria-hidden="true"></span>
+                        <div class="stepper-step is-complete">
+                            <span class="step-circle">✓</span>
+                            <span class="step-label">Accepted</span>
+                        </div>
+                        <span class="stepper-line" aria-hidden="true"></span>
+                        <div class="stepper-step">
+                            <span class="step-circle">3</span>
+                            <span class="step-label">Verification</span>
+                        </div>
+                        <span class="stepper-line" aria-hidden="true"></span>
+                        <div class="stepper-step">
+                            <span class="step-circle">4</span>
+                            <span class="step-label">Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-actions">
+                        <div class="booking-action-btns">
+                            <a href="payment.html" class="pay-now-btn">Pay Now</a>
+                            <a href="chat.html" class="chat-btn">
+                                <span class="chat-icon" aria-hidden="true">💬</span>
+                                Open Chat
+                            </a>
+                        </div>
+                        <div class="booking-price">
+                            <span class="price-total">₱2,640.00</span>
+                            <span class="price-note">incl. ₱240.00 platform fee</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="booking-countdown">
+                    Starts in 1 hour 45 minutes
+                </div>
+            </article>
+
+            <!-- Declined -->
+            <article class="booking-card booking-card--declined">
+                <div class="booking-card-inner">
+                    <div class="booking-top">
+                        <div class="booking-profile">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Chen">
+                            <div>
+                                <h2 class="booking-name">Sarah Chen</h2>
+                                <ul class="booking-meta">
+                                    <li>May 10, 2026</li>
+                                    <li>2:00 PM</li>
+                                    <li>3 hr(s)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="status-badge status-badge--declined">Declined</span>
+                    </div>
+
+                    <div class="request-box">
+                        <p>Looking for a plus-one for a corporate dinner event downtown. Prefer someone professional and punctual.</p>
+                    </div>
+
+                    <div class="booking-actions">
+                        <span class="chat-btn chat-btn--disabled">
+                            <span class="chat-icon" aria-hidden="true">💬</span>
+                            Open Chat
+                        </span>
+                        <div class="booking-price">
+                            <span class="price-total">₱1,890.00</span>
+                            <span class="price-note">incl. ₱190.00 platform fee</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Completed -->
+            <article class="booking-card booking-card--completed">
+                <div class="booking-card-inner">
+                    <div class="booking-top">
+                        <div class="booking-profile">
+                            <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Rodriguez">
+                            <div>
+                                <h2 class="booking-name">Elena Rodriguez</h2>
+                                <ul class="booking-meta">
+                                    <li>Apr 28, 2026</li>
+                                    <li>11:00 AM</li>
+                                    <li>4 hr(s)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="status-badge status-badge--completed">Completed</span>
+                    </div>
+
+                    <div class="request-box">
+                        <p>Need assistance setting up and hosting a small art workshop for 8 guests at my studio.</p>
+                    </div>
+
+                    <div class="stepper" aria-label="Booking progress">
+                        <div class="stepper-step is-complete">
+                            <span class="step-circle">✓</span>
+                            <span class="step-label">Requested</span>
+                        </div>
+                        <span class="stepper-line is-complete" aria-hidden="true"></span>
+                        <div class="stepper-step is-complete">
+                            <span class="step-circle">✓</span>
+                            <span class="step-label">Accepted</span>
+                        </div>
+                        <span class="stepper-line is-complete" aria-hidden="true"></span>
+                        <div class="stepper-step is-complete">
+                            <span class="step-circle">✓</span>
+                            <span class="step-label">Verification</span>
+                        </div>
+                        <span class="stepper-line is-complete" aria-hidden="true"></span>
+                        <div class="stepper-step is-complete">
+                            <span class="step-circle">✓</span>
+                            <span class="step-label">Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-actions">
+                        <a href="chat.html" class="chat-btn">
+                            <span class="chat-icon" aria-hidden="true">💬</span>
+                            Open Chat
+                        </a>
+                        <div class="booking-price">
+                            <span class="price-total">₱3,520.00</span>
+                            <span class="price-note">incl. ₱320.00 platform fee</span>
+                            <span class="reviewed-tag">★ Reviewed</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Review Submission Modal -->
+    <div class="review-modal-overlay" id="reviewModal">
+        <div class="review-modal-card">
+            <h3>Write a Review</h3>
+            <p>Tell us about your experience with this companion.</p>
+            <form id="reviewForm">
+                <div class="rating-stars-input" id="starContainer">
+                    <button type="button" class="star-input-btn" data-value="1">★</button>
+                    <button type="button" class="star-input-btn" data-value="2">★</button>
+                    <button type="button" class="star-input-btn" data-value="3">★</button>
+                    <button type="button" class="star-input-btn" data-value="4">★</button>
+                    <button type="button" class="star-input-btn" data-value="5">★</button>
+                </div>
+                <div class="review-field">
+                    <label for="review-comment">Comments (Optional)</label>
+                    <textarea id="review-comment" name="comment" placeholder="Write a comment about your meetup details..."></textarea>
+                </div>
+                <div class="review-actions">
+                    <button type="button" class="review-btn-cancel" id="btnCancelReview">Cancel</button>
+                    <button type="submit" class="review-btn-submit" id="btnSubmitReview">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="theme.js?v=30"></script>
+    <script src="app_ajax.js?v=30"></script>
+</body>
+</html>
+

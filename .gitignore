@@ -1,0 +1,6 @@
+# AnyBuddy Git Ignore Configuration
+.vscode/
+*.log
+scratch/test_cookies.txt
+.DS_Store
+Thumbs.db

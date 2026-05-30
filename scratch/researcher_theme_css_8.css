@@ -1,0 +1,90 @@
+Created At: 2026-05-30T06:13:32Z
+Completed At: 2026-05-30T06:13:32Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/payment.html`
+Total Lines: 240
+Total Bytes: 13944
+Showing lines 1 to 240
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+7:     <meta http-equiv="Pragma" content="no-cache">
+8:     <meta http-equiv="Expires" content="0">
+9:     <script>
+10:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+11:     </script>
+12:     <link rel="preconnect" href="https://fonts.googleapis.com">
+13:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+14:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+15:     <link rel="stylesheet" href="theme.css?v=30">
+16:     <link rel="stylesheet" href="payment.css?v=30">
+17:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+18:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+19:     <title>Book your Buddy — AnyBuddy</title>
+20: </head>
+21: <body>
+22:     <!-- NAVBAR -->
+23:     <div class="navbar">
+24:         <a href="homepage.html" class="navlogo">
+25:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+26:             <h2>AnyBuddy</h2>
+27:         </a>
+28:         <div class="navlinks">
+29:             <a href="marketplace.html">Marketplace</a>
+30:             <a href="about.html">About</a>
+31:             <a href="login.html">Login</a>
+32:      
+<truncated 11460 bytes>
+               </div>
+193:                     
+194:                     <button type="submit" form="bookingPaymentForm" id="btnConfirmPayment" class="confirm-payment-btn">
+195:                         Confirm Payment — ₱0.00
+196:                     </button>
+197:                 </div>
+198:             </aside>
+199:         </div>
+200:     </main>
+201: 
+202:     <!-- FOOTER -->
+203:     <div class="footer">
+204:         <div class="media-icons">
+205:             <div class="footer-logo">
+206:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+207:                 <h3>AnyBuddy</h3>
+208:             </div>
+209:             <ul class="social-media-links">
+210:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+211:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+212:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+213:             </ul>
+214:         </div>
+215:         <div class="platform-links">
+216:             <h3>Platform</h3>
+217:             <ul>
+218:                 <li><a href="marketplace.html">Marketplace</a></li>
+219:                 <li><a href="about.html">About</a></li>
+220:                 <li><a href="login.html">Login</a></li>
+221:                 <li><a href="signup.html">Sign up</a></li>
+222:             </ul>
+223:         </div>
+224: 
+225:         <div class="legal">
+226:             <h3>Legal</h3>
+227:             <ul>
+228:                 <li><a href="#">Terms of Service</a></li>
+229:                 <li><a href="#">Privacy Policy</a></li>
+230:                 <li><a href="#">Cancellation and Refund</a></li>
+231:             </ul>
+232:         </div>
+233: 
+234:     </div>
+235:     <script src="theme.js?v=30"></script>
+236:     <script src="app_ajax.js?v=30"></script>
+237: </body>
+238: </html>
+239: 
+240: 
+The above content shows the entire, complete file contents of the requested file.

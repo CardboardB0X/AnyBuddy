@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="about.css?v=30">
+    <link rel="stylesheet" href="ajax_ui.css?v=30">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>About — AnyBuddy</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN ABOUT PAGE CONTENT -->
+    <main class="about-page">
+        <!-- Floating Emojis Background Decoration -->
+        <div class="emoji-decor float-1">🎈</div>
+        <div class="emoji-decor float-2">🤝</div>
+        <div class="emoji-decor float-3">🌟</div>
+        <div class="emoji-decor float-4">🎉</div>
+
+        <header class="about-hero scroll-reveal">
+            <span class="about-badge">Launched May 2026</span>
+            <h1 class="about-title">Connection is Everything</h1>
+            <p class="about-lead">
+                AnyBuddy started with a simple idea: everyone deserves good company—whether you need a plus-one for a wedding,
+                someone to help assemble furniture, or a friendly face on a lonely afternoon.
+            </p>
+        </header>
+
+        <!-- Stats Section -->
+        <section class="about-stats scroll-reveal">
+            <div class="stat-card">
+                <h3 class="stat-number" data-target="10000">10,000+</h3>
+                <p class="stat-label">Happy Users</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-target="500">500+</h3>
+                <p class="stat-label">Verified Buddies</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-target="6">6</h3>
+                <p class="stat-label">Diverse Categories</p>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="about-timeline-section scroll-reveal">
+            <h2 class="section-title">How it began</h2>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-item left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Early May 2026</span>
+                        <h4>The Spark ⚡</h4>
+                        <p>A small group of friends in CvSU realized everyone kept asking each other for everyday favors but there was no safe, trustworthy platform to get connected.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Mid May 2026</span>
+                        <h4>Building the Engine 🛠️</h4>
+                        <p>They designed a custom companion marketplace that prioritizes trust, reviews, safe payment, and complete user freedom.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Late May 2026</span>
+                        <h4>Launch Day 🚀</h4>
+                        <p>AnyBuddy launched officially across the Philippines, opening doors for real human connections and companionship.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Believe Section -->
+        <section class="about-beliefs-section scroll-reveal">
+            <h2 class="section-title">What we believe</h2>
+            <div class="beliefs-grid">
+                <div class="belief-card">
+                    <div class="belief-icon">🤝</div>
+                    <h4>Human Connection</h4>
+                    <p>We believe companionship should feel natural and warm, not transactional or awkward. Real people, real moments.</p>
+                </div>
+                <div class="belief-card">
+                    <div class="belief-icon">🛡️</div>
+                    <h4>Trust & Safety</h4>
+                    <p>Every profile is carefully verified, ratings are fully transparent, and you always stay in complete control.</p>
+                </div>
+                <div class="belief-card">
+                    <div class="belief-icon">💪</div>
+                    <h4>Empowerment</h4>
+                    <p>Whether you're booking help or offering your services, we support your boundaries, rates, and schedule choices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Today Section -->
+        <section class="about-today-section scroll-reveal">
+            <h2 class="section-title">Today & Beyond</h2>
+            <div class="today-card">
+                <p>
+                    AnyBuddy is still young—we launched in May 2026—but our community is already growing across the Philippines.
+                    From event stand-ins and creative collaborators to listeners and security companions, Buddies are showing up
+                    for real moments in real people’s lives.
+                </p>
+                <p>
+                    This project was built as a student initiative to explore how technology can make companionship and help
+                    more accessible. We are learning every day, and we are grateful you are here at the beginning.
+                </p>
+            </div>
+        </section>
+
+        <!-- Verified Buddies Showcase -->
+        <section class="about-buddies-section scroll-reveal">
+            <h2 class="section-title">Meet Our Verified Buddies</h2>
+            <div class="about-buddies-grid">
+                <!-- Buddy 1 -->
+                <div class="about-buddy-card">
+                    <div class="about-buddy-avatar-wrapper">
+                        <img class="about-buddy-img" src="images/Angelo_Maduro.jpg" alt="Angelo Maduro" onerror="this.src='images/AnyBuddy LOGO.png'">
+                        <span class="about-buddy-badge">✓</span>
+                    </div>
+                    <h3 class="about-buddy-name">Angelo Maduro</h3>
+                    <p class="about-buddy-tagline">"The Macho Man"</p>
+                    <p class="about-buddy-title">Personal Bodyguard & Intimidation Specialist</p>
+                    <span class="about-buddy-loc">📍 Tanza, Cavite</span>
+                </div>
+                <!-- Buddy 2 -->
+                <div class="about-buddy-card">
+                    <div class="about-buddy-avatar-wrapper">
+                        <img class="about-buddy-img" src="images/Liah_Faith.jpg" alt="Liah Faith Espineli" onerror="this.src='images/AnyBuddy LOGO.png'">
+                        <span class="about-buddy-badge">✓</span>
+                    </div>
+                    <h3 class="about-buddy-name">Liah Faith Espineli</h3>
+                    <p class="about-buddy-tagline">"Classical Virtuoso"</p>
+                    <p class="about-buddy-title">Professional Pianist & Music Instructor</p>
+                    <span class="about-buddy-loc">📍 Maragondon, Cavite</span>
+                </div>
+                <!-- Buddy 3 -->
+                <div class="about-buddy-card">
+                    <div class="about-buddy-avatar-wrapper">
+                        <img class="about-buddy-img" src="images/Emmanuel_Tristen.jpg" alt="Emmanuel Creo" onerror="this.src='images/AnyBuddy LOGO.png'">
+                        <span class="about-buddy-badge">✓</span>
+                    </div>
+                    <h3 class="about-buddy-name">Emmanuel Creo</h3>
+                    <p class="about-buddy-tagline">"Master Carpenter"</p>
+                    <p class="about-buddy-title">Construction Worker & Carpenter</p>
+                    <span class="about-buddy-loc">📍 Amadeo, Cavite</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="about-cta-section scroll-reveal">
+            <a href="marketplace.html" class="about-cta-btn primary">Browse the Marketplace</a>
+            <a href="become-buddy.html" class="about-cta-btn secondary">Become a Buddy</a>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="theme.js?v=30"></script>
+    <script src="app_ajax.js?v=30"></script>
+</body>
+</html>
+

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=34">
+    <link rel="stylesheet" href="homepage.css?v=34">
+    <link rel="stylesheet" href="ajax_ui.css?v=34">
+    <link rel="icon" href="/images/AnyBuddy LOGO.png" type="image/png" />
+    <title>Homepage</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img
+            src="images/AnyBuddy LOGO.png" 
+            alt="AnyBuddy Logo"
+            width=40px
+            height=40px>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- MAIN CONTENT -->
+        <div class="main">
+            <!-- Unified Modern Hero Section -->
+            <div class="hero-section scroll-reveal">
+                <div class="hero-content">
+                    <div class="badge-pill">🇵🇭 Philippines' #1 Companionship Marketplace</div>
+                    <h1 class="hero-title">Find Your Perfect Companion, Anytime.</h1>
+                    <p class="hero-subtitle">Connect instantly with verified local buddies for gaming sessions, study support, local guidance, event companionship, or quick helper services.</p>
+                    
+                    <!-- Search Widget -->
+                    <form class="hero-search-form" id="homepageSearchForm">
+                        <div class="search-input-group">
+                            <img src="images/user-light.png" alt="search" class="search-icon">
+                            <input type="text" id="heroSearchInput" placeholder="What buddy are you looking for? (e.g. Valorant, Tutor)..." aria-label="Search buddies">
+                        </div>
+                        <div class="search-select-group">
+                            <select id="heroCategorySelect" aria-label="Select Category">
+                                <option value="">All Categories</option>
+                                <option value="Academic Tutor">Academic Tutor</option>
+                                <option value="Gaming Companion">Gaming Companion</option>
+                                <option value="Tour Guide">Tour Guide</option>
+                                <option value="Event Companion">Event Companion</option>
+                                <option value="Personal Helper">Personal Helper</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="search-btn">
+                            <span>Search Buddies</span>
+                        </button>
+                    </form>
+
+                    <!-- Stat badges -->
+                    <div class="hero-stats">
+                        <div class="stat-badge-item">
+                            <span class="stat-number">12k+</span>
+                            <span class="stat-text">Active Buddies</span>
+                        </div>
+                        <div class="stat-badge-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-text">ID & NBI Verified</span>
+                        </div>
+                        <div class="stat-badge-item">
+                            <span class="stat-number">4.9★</span>
+                            <span class="stat-text">Avg Rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Grid Categories Section -->
+            <div class="categories-bento-section scroll-reveal">
+                <div class="section-header">
+                    <h2>Explore Specialized Specialties</h2>
+                    <p>Find companions who fit your exact needs, from hobbies to productivity</p>
+                </div>
+                <div class="bento-grid">
+                    <!-- Card 1: Gaming -->
+                    <div class="bento-card gaming-card" onclick="window.location.href='marketplace.html?category=Gaming Companion'">
+                        <div class="bento-card-bg"></div>
+                        <div class="bento-card-content">
+                            <div class="bento-icon">🎮</div>
+                            <h3>Gaming Companions</h3>
+                            <p>Rank up in Valorant, MLBB, or League with cooperative and friendly duo partners.</p>
+                            <span class="bento-link">Explore Gamers →</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Academic -->
+                    <div class="bento-card academic-card" onclick="window.location.href='marketplace.html?category=Academic Tutor'">
+                        <div class="bento-card-bg"></div>
+                        <div class="bento-card-content">
+                            <div class="bento-icon">📚</div>
+                            <h3>Academic Tutors</h3>
+                            <p>Ace coding projects, engineering calculus, statistics, or essay submissions together.</p>
+                            <span class="bento-link">Find a Tutor →</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Tour Guide -->
+                    <div class="bento-card guide-card" onclick="window.location.href='marketplace.html?category=Tour Guide'">
+                        <div class="bento-card-bg"></div>
+                        <div class="bento-card-content">
+                            <div class="bento-icon">🗺️</div>
+                            <h3>Local Tour Guides</h3>
+                            <p>Discover hidden food hubs, historical spots, or study cafes with friendly locals.</p>
+                            <span class="bento-link">Book local guide →</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Event Companion -->
+                    <div class="bento-card event-card" onclick="window.location.href='marketplace.html?category=Event Companion'">
+                        <div class="bento-card-bg"></div>
+                        <div class="bento-card-content">
+                            <div class="bento-icon">🎟️</div>
+                            <h3>Event Buddies</h3>
+                            <p>Never attend concerts, movie nights, conventions, or family weddings alone.</p>
+                            <span class="bento-link">Find event buddy →</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Personal Helper -->
+                    <div class="bento-card helper-card" onclick="window.location.href='marketplace.html?category=Personal Helper'">
+                        <div class="bento-card-bg"></div>
+                        <div class="bento-card-content">
+                            <div class="bento-icon">🧹</div>
+                            <h3>Personal Helpers</h3>
+                            <p>Outsource grocery shopping runs, heavy moving tasks, cleaning, or admin chores.</p>
+                            <span class="bento-link">Book helper →</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Popular Companions Section -->
+            <div class="popular-companions-section scroll-reveal">
+                <div class="section-header">
+                    <h2>Popular Buddies This Week</h2>
+                    <p>Meet our top-rated, highly responsive companions ready to connect</p>
+                </div>
+                <div class="popular-buddies-grid" id="popularBuddiesGrid">
+                    <!-- Dynamically populated via JS, fallback placeholders inside -->
+                    <div class="buddy-loading-card">
+                        <div class="spinner"></div>
+                        <p>Loading active buddies...</p>
+                    </div>
+                </div>
+                <div class="view-all-container">
+                    <a href="marketplace.html" class="view-all-btn">View All Companions</a>
+                </div>
+            </div>
+
+            <!-- Safety & Escrow Trust Section -->
+            <div class="trust-safety-section scroll-reveal">
+                <div class="trust-content">
+                    <h2>Your Safety is Our Top Priority</h2>
+                    <p>AnyBuddy is designed from the ground up to be safe, transparent, and secure for everyone in our community.</p>
+                    
+                    <div class="trust-cards-grid">
+                        <div class="trust-card">
+                            <div class="trust-icon-wrapper">
+                                <span class="trust-icon">🛡️</span>
+                            </div>
+                            <h3>Verification Required</h3>
+                            <p>Every single companion is required to upload government-issued IDs and NBI clearances which are hand-verified by our admin team before they can accept bookings.</p>
+                        </div>
+                        
+                        <div class="trust-card">
+                            <div class="trust-icon-wrapper">
+                                <span class="trust-icon">💳</span>
+                            </div>
+                            <h3>Escrow Payments</h3>
+                            <p>Payments are securely processed and held in escrow. Your helper is only paid after you confirm the session was successfully completed.</p>
+                        </div>
+                        
+                        <div class="trust-card">
+                            <div class="trust-icon-wrapper">
+                                <span class="trust-icon">🚨</span>
+                            </div>
+                            <h3>Safety Alerts</h3>
+                            <p>Features built-in real-time tracking, SOS safety triggers, and automated notification alerts to trusted contacts for your peace of mind.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Redesigned Testimonials Section -->
+            <div class="testimonials-section scroll-reveal">
+                <div class="section-header">
+                    <h2>What Our Community Says</h2>
+                    <p>Read honest reviews from students, gamers, and busy professionals</p>
+                </div>
+                <div class="carousel-container">
+                    <div class="carousel-track" id="testimonialTrack">
+                        <!-- Slide 1 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"AnyBuddy made finding a gaming companion and tutor so easy. Highly recommend the verification process—felt super safe!"</p>
+                            <div class="testimonial-user">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Cruz">
+                                <div>
+                                    <h4 class="user-name">Ana Cruz</h4>
+                                    <span class="user-role">Student client</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"I joined as a local tour guide buddy. The secure payment system is fantastic. Earned my first payout in a week!"</p>
+                            <div class="testimonial-user">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jay-R Santos">
+                                <div>
+                                    <h4 class="user-name">Jay-R Santos</h4>
+                                    <span class="user-role">Local Guide Buddy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"As a busy professional, finding someone to help with quick shopping trips has been a lifesaver. Outstanding customer service."</p>
+                            <div class="testimonial-user">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sofia Imperial">
+                                <div>
+                                    <h4 class="user-name">Sofia Imperial</h4>
+                                    <span class="user-role">Professional client</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">★★★★★</div>
+                            <p class="testimonial-text">"The interface is so clean. I love the interactive BuddyBot which helped me set up my booking within seconds. 10/10 experience!"</p>
+                            <div class="testimonial-user">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Kenji Mercado">
+                                <div>
+                                    <h4 class="user-name">Kenji Mercado</h4>
+                                    <span class="user-role">Gaming Client</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-dots" id="carouselDots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modern CTA Join Banner -->
+            <div class="cta-join-section scroll-reveal">
+                <div class="cta-join-content">
+                    <h2>Ready to Find Your Companion?</h2>
+                    <p>Join over 10,000+ Filipinos connecting safely on AnyBuddy today. Sign up in seconds!</p>
+                    <div class="cta-actions">
+                        <a href="signup.html" class="cta-primary-btn">Get Started Now</a>
+                        <a href="become-buddy.html" class="cta-secondary-btn">Become a Buddy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40px height=40px>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+        
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <script src="theme.js?v=34"></script>
+    <script src="app_ajax.js?v=34"></script>
+</body>
+</html>
+

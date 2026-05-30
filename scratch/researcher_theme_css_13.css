@@ -1,0 +1,93 @@
+Created At: 2026-05-30T06:13:40Z
+Completed At: 2026-05-30T06:13:41Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/report.html`
+Total Lines: 129
+Total Bytes: 5600
+Showing lines 1 to 129
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="report.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+16:     <title>Report User</title>
+17: </head>
+18: <body>
+19:     <!-- NAVBAR -->
+20:     <div class="navbar">
+21:         <a href="homepage.html" class="navlogo">
+22:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+23:             <h2>AnyBuddy</h2>
+24:         </a>
+25:         <div class="navlinks">
+26:             <a href="marketplace.html">Marketplace</a>
+27:             <a href="about.html">About</a>
+28:             <a href="login.html">Login</a>
+29:             <a href="signup.html">Sign up</a>
+30:             <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+31:             <button type="button" class="theme-toggle" id="themeToggle" aria-label="Tog
+<truncated 2559 bytes>
+on>
+78:                 </div>
+79:             </form>
+80:         </div>
+81:     </main>
+82: 
+83:     <!-- FOOTER -->
+84:     <div class="footer">
+85:         <div class="media-icons">
+86:             <div class="footer-logo">
+87:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+88:                 <h3>AnyBuddy</h3>
+89:             </div>
+90:             <ul class="social-media-links">
+91:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+92:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+93:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+94:             </ul>
+95:         </div>
+96:         <div class="platform-links">
+97:             <h3>Platform</h3>
+98:             <ul>
+99:                 <li><a href="marketplace.html">Marketplace</a></li>
+100:                 <li><a href="about.html">About</a></li>
+101:                 <li><a href="login.html">Login</a></li>
+102:                 <li><a href="signup.html">Sign up</a></li>
+103:             </ul>
+104:         </div>
+105: 
+106:         <div class="legal">
+107:             <h3>Legal</h3>
+108:             <ul>
+109:                 <li><a href="#">Terms of Service</a></li>
+110:                 <li><a href="#">Privacy Policy</a></li>
+111:                 <li><a href="#">Cancellation and Refund</a></li>
+112:             </ul>
+113:         </div>
+114: 
+115:     </div>
+116: 
+117:     <script>
+118:         const params = new URLSearchParams(window.location.search);
+119:         const name = params.get('user');
+120:         if (name) {
+121:             document.getElementById('reported-name').textContent = name;
+122:         }
+123:     </script>
+124:     <script src="theme.js?v=30"></script>
+125:     <script src="app_ajax.js?v=30"></script>
+126: </body>
+127: </html>
+128: 
+129: 
+The above content shows the entire, complete file contents of the requested file.

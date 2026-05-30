@@ -1,0 +1,97 @@
+Created At: 2026-05-30T06:13:29Z
+Completed At: 2026-05-30T06:13:29Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/homepage.html`
+Total Lines: 299
+Total Bytes: 15853
+Showing lines 1 to 299
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="homepage.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <link rel="icon" href="/images/AnyBuddy LOGO.png" type="image/png" />
+16:     <title>Homepage</title>
+17: </head>
+18: <body>
+19:     <!-- NAVBAR -->
+20:     <div class="navbar">
+21:         <a href="homepage.html" class="navlogo">
+22:             <img
+23:             src="images/AnyBuddy LOGO.png" 
+24:             alt="AnyBuddy Logo"
+25:             width=40px
+26:             height=40px>
+27:             <h2>AnyBuddy</h2>
+28:         </a>
+29:         <div class="navlinks">
+30:             <a href="marketplace.html">Marketplace</a>
+31:             <a href="about.html">About</a>
+32:             <a href="login.html">Login</a>
+33:             <a href="signup.html">Sign up</a>
+34:             <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+35:          
+<truncated 13665 bytes>
+ss="dot"></span>
+248:                     </div>
+249:                 </div>
+250:             </div>
+251: 
+252:             <div class="join scroll-reveal">
+253:                 <h3>JOIN THE COMMUNITY</h3>
+254:                 <p>Join 10,000+ Filipinos on AnyBuddy</p>
+255:             </div>
+256:             </div>
+257:         </div>
+258: 
+259: 
+260:     </div>
+261: 
+262:     <div class="footer">
+263:         <div class="media-icons">
+264:             <div class="footer-logo">
+265:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40px height=40px>
+266:                 <h3>AnyBuddy</h3>
+267:             </div>
+268:             <ul class="social-media-links">
+269:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+270:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+271:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+272:             </ul>
+273:         </div>
+274:         <div class="platform-links">
+275:             <h3>Platform</h3>
+276:             <ul>
+277:                 <li><a href="marketplace.html">Marketplace</a></li>
+278:                 <li><a href="about.html">About</a></li>
+279:                 <li><a href="login.html">Login</a></li>
+280:                 <li><a href="signup.html">Sign up</a></li>
+281:             </ul>
+282:         </div>
+283:         
+284:         <div class="legal">
+285:             <h3>Legal</h3>
+286:             <ul>
+287:                 <li><a href="#">Terms of Service</a></li>
+288:                 <li><a href="#">Privacy Policy</a></li>
+289:                 <li><a href="#">Cancellation and Refund</a></li>
+290:             </ul>
+291:         </div>
+292: 
+293:     </div>
+294:     <script src="theme.js?v=30"></script>
+295:     <script src="app_ajax.js?v=30"></script>
+296: </body>
+297: </html>
+298: 
+299: 
+The above content shows the entire, complete file contents of the requested file.

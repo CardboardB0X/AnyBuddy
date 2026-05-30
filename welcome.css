@@ -1,0 +1,380 @@
+/* ============================================================
+   AnyBuddy — Creative Welcome Page Stylesheet
+   File: welcome.css
+   ============================================================ */
+
+:root {
+    --accent-pink: #fe6fbe;
+    --accent-cyan: #00d2ff;
+    --accent-purple: #8338ec;
+    --card-glow-light: rgba(254, 111, 190, 0.12);
+    --card-glow-dark: rgba(0, 210, 255, 0.2);
+}
+
+.welcome-body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Google Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#confettiCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Background blobs */
+.welcome-blobs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.w-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+}
+
+/* Dark mode adjustment for blobs mix blend mode and opacity */
+[data-theme="dark"] .w-blob {
+    opacity: 0.25;
+    mix-blend-mode: screen;
+}
+
+.w-blob-1 {
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, var(--accent-pink) 0%, rgba(254, 111, 190, 0) 70%);
+    top: -100px;
+    right: -50px;
+    animation: float-1 25s ease-in-out infinite;
+}
+
+.w-blob-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--accent-cyan) 0%, rgba(0, 210, 255, 0) 70%);
+    bottom: -150px;
+    left: -100px;
+    animation: float-2 30s ease-in-out infinite;
+}
+
+.w-blob-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--accent-purple) 0%, rgba(131, 56, 236, 0) 70%);
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    animation: float-3 20s ease-in-out infinite;
+}
+
+/* Container & Card */
+.welcome-container {
+    position: relative;
+    z-index: 2;
+    padding: 3rem 2rem 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 12rem); /* Dynamic vertically centered height subtracting header & footer */
+    perspective: 1000px; /* Crucial for 3D card tilt */
+}
+
+.welcome-card {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 3.5rem 3rem;
+    text-align: center;
+    width: 100%;
+    max-width: 720px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05), 0 0 40px var(--card-glow-light);
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    animation: welcomeCardEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+[data-theme="dark"] .welcome-card {
+    background: rgba(15, 22, 38, 0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 40px var(--card-glow-dark);
+}
+
+.welcome-card:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1), 0 0 50px var(--card-glow-light);
+}
+
+[data-theme="dark"] .welcome-card:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 50px var(--card-glow-dark);
+}
+
+/* Logo pulse */
+.welcome-logo-wrapper {
+    margin-bottom: 2rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transform: translateZ(30px); /* 3D pop effect */
+}
+
+.welcome-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    animation: logoPulse 4s ease-in-out infinite;
+}
+
+/* Title text gradient */
+.welcome-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(135deg, var(--accent-pink) 10%, var(--accent-purple) 50%, var(--accent-cyan) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    transform: translateZ(25px);
+    letter-spacing: -0.5px;
+}
+
+.welcome-message {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    transform: translateZ(20px);
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Onboarding Steps */
+.welcome-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.8rem;
+    text-align: left;
+    transform: translateZ(15px);
+}
+
+.w-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: stepEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+[data-theme="dark"] .w-step {
+    background: rgba(21, 30, 51, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.w-step:nth-child(1) { animation-delay: 0.3s; }
+.w-step:nth-child(2) { animation-delay: 0.5s; }
+.w-step:nth-child(3) { animation-delay: 0.7s; }
+
+.w-step:hover {
+    transform: translateX(8px) translateZ(10px);
+    background: rgba(255, 255, 255, 0.3);
+    border-color: var(--accent-pink);
+    box-shadow: 0 5px 15px rgba(254, 111, 190, 0.05);
+}
+
+[data-theme="dark"] .w-step:hover {
+    background: rgba(21, 30, 51, 0.7);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 5px 15px rgba(0, 210, 255, 0.05);
+}
+
+.w-step-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+}
+
+[data-theme="dark"] .w-step-icon {
+    background: rgba(15, 22, 38, 0.6);
+}
+
+.w-step h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.w-step p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Actions Section */
+.welcome-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+    transform: translateZ(20px);
+    animation: buttonEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.9s;
+}
+
+.welcome-btn {
+    padding: 0.9rem 2.2rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.welcome-btn.primary {
+    background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(254, 111, 190, 0.35);
+}
+
+.welcome-btn.primary:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(254, 111, 190, 0.5), 0 0 15px rgba(0, 210, 255, 0.3);
+}
+
+.welcome-btn.secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--border-glass);
+}
+
+.welcome-btn.secondary:hover {
+    transform: translateY(-4px) scale(1.03);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--text-primary);
+}
+
+[data-theme="dark"] .welcome-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Entrance Animations Keyframes */
+@keyframes welcomeCardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(60px) rotateX(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+}
+
+@keyframes stepEntrance {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes buttonEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 15px rgba(254, 111, 190, 0.3));
+    }
+    50% {
+        transform: scale(1.08) rotate(5deg);
+        filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.5));
+    }
+}
+
+@keyframes float-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, -60px) scale(1.15); }
+    66% { transform: translate(-30px, 40px) scale(0.9); }
+}
+
+@keyframes float-2 {
+    0%, 100% { transform: translate(0, 0) scale(1.1); }
+    50% { transform: translate(-70px, 50px) scale(0.85); }
+}
+
+@keyframes float-3 {
+    0%, 100% { transform: translate(0, 0) scale(0.95); }
+    50% { transform: translate(40px, 70px) scale(1.25); }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .welcome-card {
+        padding: 2.5rem 1.75rem;
+    }
+    .welcome-title {
+        font-size: 1.85rem;
+    }
+    .welcome-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .welcome-btn {
+        width: 100%;
+    }
+}

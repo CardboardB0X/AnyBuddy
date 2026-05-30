@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=34">
+    <link rel="stylesheet" href="become-buddy.css?v=34">
+    <link rel="stylesheet" href="ajax_ui.css?v=34">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Become a Buddy</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <main class="become-buddy-page">
+        <div class="become-buddy-card">
+            <!-- Step indicator header -->
+            <div class="onboarding-progress-container">
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="progress-step-item active" data-step="1">
+                        <span class="step-dot">1</span>
+                        <span class="step-label">Welcome & Rules</span>
+                    </div>
+                    <div class="progress-step-item" data-step="2">
+                        <span class="step-dot">2</span>
+                        <span class="step-label">Specialty & Role</span>
+                    </div>
+                    <div class="progress-step-item" data-step="3">
+                        <span class="step-dot">3</span>
+                        <span class="step-label">Pricing & Details</span>
+                    </div>
+                    <div class="progress-step-item" data-step="4">
+                        <span class="step-dot">4</span>
+                        <span class="step-label">Verification</span>
+                    </div>
+                </div>
+            </div>
+
+            <form class="become-buddy-form" action="ajax_become_buddy.php" method="post" enctype="multipart/form-data" id="buddyWizardForm">
+                
+                <!-- STEP 1: WELCOMING, INSTRUCTIONS & RULES -->
+                <div class="onboarding-step active" id="step-1">
+                    <div class="step-welcome-header">
+                        <h1>Join the AnyBuddy Family! 🌟</h1>
+                        <p class="step-intro-text">Share your skills, meet amazing local clients, and earn money on your own schedule. Let's get your companion profile verified.</p>
+                    </div>
+
+                    <div class="guidelines-box">
+                        <h3>📋 Application Requirements</h3>
+                        <ul class="guidelines-list">
+                            <li><strong>Verification Document:</strong> A valid Student ID (CvSU), Government ID, or Professional License.</li>
+                            <li><strong>Clear Avatar:</strong> A friendly, professional profile photo showing your face clearly.</li>
+                            <li><strong>Detailed Bio:</strong> A short description (20-500 chars) detailing your expertise and services.</li>
+                        </ul>
+                    </div>
+
+                    <div class="guidelines-box rules-box">
+                        <h3>⚠️ Platform Rules & Community Guidelines</h3>
+                        <ul class="guidelines-list">
+                            <li><strong>Zero Tolerance for Abuse:</strong> Harassment, offensive behavior, or policy violations will lead to permanent ban.</li>
+                            <li><strong>Secure Escrow Payments:</strong> All client bookings must be processed through AnyBuddy's secure escrow system. Requesting or accepting off-platform payments (cash/GCash outside bookings) will cause immediate account suspension.</li>
+                            <li><strong>Authentic Profiles:</strong> All details must be completely genuine. Admin verification takes 24-48 hours.</li>
+                        </ul>
+                    </div>
+
+                    <div class="rules-acceptance">
+                        <label class="consent-checkbox-label">
+                            <input type="checkbox" id="guidelines-consent" required>
+                            <span>I have read, understood, and agree to the AnyBuddy Companion Guidelines and Platform Policies.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 2: SPECIALTY & ROLE -->
+                <div class="onboarding-step" id="step-2">
+                    <div class="step-header">
+                        <h2>Tell Us About Your Role</h2>
+                        <p>Select your primary specialty category and define your professional title.</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="display-name">Display Name</label>
+                            <input type="text" id="display-name" name="display-name" placeholder="Your public name (e.g. von_arvin)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Professional Title</label>
+                            <select id="title" name="title" required disabled>
+                                <option value="" disabled selected>Please select a category first</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Specialty Category</label>
+                        <input type="hidden" id="category" name="category" required>
+                        <div class="buddy-category-selector-grid">
+                            <div class="category-select-card" data-category="casual">
+                                <span class="category-card-icon">☕</span>
+                                <div class="category-card-info">
+                                    <span class="category-card-title">Casual Hangout</span>
+                                    <span class="category-card-desc">Social meetups, tours, coffee companion</span>
+                                </div>
+                            </div>
+                            <div class="category-select-card" data-category="event">
+                                <span class="category-card-icon">🎉</span>
+                                <div class="category-card-info">
+                                    <span class="category-card-title">Event Plus-One</span>
+                                    <span class="category-card-desc">Weddings, business dinners, concerts</span>
+                                </div>
+                            </div>
+                            <div class="category-select-card" data-category="security">
+                                <span class="category-card-icon">🛡️</span>
+                                <div class="category-card-info">
+                                    <span class="category-card-title">Bodyguard &amp; Security</span>
+                                    <span class="category-card-desc">Personal safety escort, bodyguard services</span>
+                                </div>
+                            </div>
+                            <div class="category-select-card" data-category="arts">
+                                <span class="category-card-icon">🎨</span>
+                                <div class="category-card-info">
+                                    <span class="category-card-title">Visual Arts &amp; Design</span>
+                                    <span class="category-card-desc">Photography modeling, art collabs, design help</span>
+                                </div>
+                            </div>
+                            <div class="category-select-card" data-category="listener">
+                                <span class="category-card-icon">👂</span>
+                                <div class="category-card-info">
+                                    <span class="category-card-title">Active Listener</span>
+                                    <span class="category-card-desc">Safe space, heart-to-heart chats, venting</span>
+                                </div>
+                            </div>
+                            <div class="category-select-card" data-category="ally">
+                                <span class="category-card-icon">🏳️‍🌈</span>
+                                <div class="category-card-info">
+                                    <span class="category-card-title">LGBTQ+ Ally</span>
+                                    <span class="category-card-desc">Pride escort, supportive companionship</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: DETAILS & PRICING -->
+                <div class="onboarding-step" id="step-3">
+                    <div class="step-header">
+                        <h2>Pricing & Availability</h2>
+                        <p>Set your rates, municipality coverage, and craft a compelling bio for your clients.</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rate">Hourly Rate (₱)</label>
+                            <div class="slider-wrapper">
+                                <input type="range" id="rate" name="rate" min="50" max="500" value="150" step="10" required>
+                                <span id="rate-value" class="slider-value">₱150/hr</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location (Cavite Municipality)</label>
+                            <select id="location" name="location" required>
+                                <option value="" disabled selected>Select a municipality</option>
+                                <option value="Indang">Indang (CvSU Main)</option>
+                                <option value="Tanza">Tanza</option>
+                                <option value="Trece Martires">Trece Martires</option>
+                                <option value="General Trias">General Trias</option>
+                                <option value="Naic">Naic</option>
+                                <option value="Silang">Silang</option>
+                                <option value="Tagaytay">Tagaytay</option>
+                                <option value="Imus">Imus</option>
+                                <option value="Dasmariñas">Dasmariñas</option>
+                                <option value="Bacoor">Bacoor</option>
+                                <option value="Rosario">Rosario</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availability">Availability Schedule</label>
+                        <select id="availability" name="availability" required>
+                            <option value="" disabled selected>Select schedule availability</option>
+                            <option value="Flexible (Mon-Sun, 8AM - 10PM)">Flexible (Mon-Sun, 8AM - 10PM)</option>
+                            <option value="Weekdays (Mon-Fri, 8AM - 5PM)">Weekdays (Mon-Fri, 8AM - 5PM)</option>
+                            <option value="Weekends (Sat-Sun, 8AM - 10PM)">Weekends (Sat-Sun, 8AM - 10PM)</option>
+                            <option value="Evenings Only (Mon-Sun, 6PM - 10PM)">Evenings Only (Mon-Sun, 6PM - 10PM)</option>
+                            <option value="Part-Time (Flexible Days, 4 hours/day)">Part-Time (Flexible, 4 hours/day)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">Bio / Overview</label>
+                        <textarea id="bio" name="bio" rows="4" maxlength="500" minlength="20" placeholder="Tell clients about your experience, interests, and what you offer..." required></textarea>
+                        <div class="counter-row">
+                            <small class="char-limit-hint">Minimum 20 characters, maximum 500 characters.</small>
+                            <small class="bio-char-counter">0 / 500 characters</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: VERIFICATION DOCUMENTS -->
+                <div class="onboarding-step" id="step-4">
+                    <div class="step-header">
+                        <h2>Safety Verification</h2>
+                        <p>Upload your verification documents. Only CV/Portfolio/ID matches will be approved.</p>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label>Verification Tier</label>
+                        <input type="hidden" id="verification-type" name="verification_type" value="id" required>
+                        <div class="buddy-tier-selector-grid">
+                            <div class="tier-select-card active" data-tier="id">
+                                <span class="tier-card-icon">🆔</span>
+                                <div class="tier-card-info">
+                                    <span class="tier-card-title">Government ID</span>
+                                    <span class="tier-card-desc">Verify with Government card (UMID, Driver License, etc.)</span>
+                                </div>
+                            </div>
+                            <div class="tier-select-card" data-tier="student">
+                                <span class="tier-card-icon">🎓</span>
+                                <div class="tier-card-info">
+                                    <span class="tier-card-title">Student ID</span>
+                                    <span class="tier-card-desc">Verify with CvSU Student ID Card</span>
+                                </div>
+                            </div>
+                            <div class="tier-select-card" data-tier="professional">
+                                <span class="tier-card-icon">💼</span>
+                                <div class="tier-card-info">
+                                    <span class="tier-card-title">Professional License</span>
+                                    <span class="tier-card-desc">Verify with PRC or corporate certificate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="avatar">Profile Avatar Picture</label>
+                            <input type="file" id="avatar" name="avatar" accept="image/*" required>
+                            <small class="file-hint">Upload a friendly, clear headshot picture.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="id-photo">Verification Document</label>
+                            <input type="file" id="id-photo" name="id_photo" accept="image/*,application/pdf" required>
+                            <small class="file-hint">Upload ID/Document matching selected tier.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step navigation controls -->
+                <div class="wizard-navigation">
+                    <button type="button" class="wizard-btn btn-back hidden" id="btnBack">Back</button>
+                    <button type="button" class="wizard-btn btn-next" id="btnNext">Continue</button>
+                    <button type="submit" class="wizard-btn btn-submit hidden" id="btnSubmit">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryCards = document.querySelectorAll('.category-select-card');
+            const hiddenCatInput = document.getElementById('category');
+            const titleDropdown = document.getElementById('title');
+            
+            const rateSlider = document.getElementById('rate');
+            const rateValue = document.getElementById('rate-value');
+            
+            const tierCards = document.querySelectorAll('.tier-select-card');
+            const hiddenTierInput = document.getElementById('verification-type');
+            
+            const bioTextarea = document.getElementById('bio');
+            const bioCounter = document.querySelector('.bio-char-counter');
+
+            // Wizard Step Elements
+            const steps = document.querySelectorAll('.onboarding-step');
+            const stepItems = document.querySelectorAll('.progress-step-item');
+            const progressBarFill = document.getElementById('progressBarFill');
+            const btnBack = document.getElementById('btnBack');
+            const btnNext = document.getElementById('btnNext');
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            // Wizard Inputs
+            const guidelinesConsent = document.getElementById('guidelines-consent');
+            const displayNameInput = document.getElementById('display-name');
+            const locationSelect = document.getElementById('location');
+            const availabilitySelect = document.getElementById('availability');
+            const avatarInput = document.getElementById('avatar');
+            const idPhotoInput = document.getElementById('id-photo');
+
+            let currentStep = 1;
+
+            function showStep(stepNum) {
+                steps.forEach((s, index) => {
+                    if (index + 1 === stepNum) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+
+                stepItems.forEach((item, index) => {
+                    if (index + 1 <= stepNum) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                // Update progress fill
+                const progressPct = ((stepNum - 1) / (steps.length - 1)) * 100;
+                progressBarFill.style.width = `${progressPct}%`;
+
+                // Adjust navigation buttons
+                if (stepNum === 1) {
+                    btnBack.classList.add('hidden');
+                    btnNext.classList.remove('hidden');
+                    btnSubmit.classList.add('hidden');
+                } else if (stepNum === 4) {
+                    btnBack.classList.remove('hidden');
+                    btnNext.classList.add('hidden');
+                    btnSubmit.classList.remove('hidden');
+                } else {
+                    btnBack.classList.remove('hidden');
+                    btnNext.classList.remove('hidden');
+                    btnSubmit.classList.add('hidden');
+                }
+
+                // Scroll card into view on step transition
+                document.querySelector('.become-buddy-card').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function validateStep(stepNum) {
+                if (stepNum === 1) {
+                    if (!guidelinesConsent.checked) {
+                        if (typeof showToast === 'function') {
+                            showToast('You must agree to the guidelines to continue.', 'error');
+                        } else {
+                            alert('You must agree to the guidelines to continue.');
+                        }
+                        return false;
+                    }
+                    return true;
+                }
+
+                if (stepNum === 2) {
+                    if (!displayNameInput.value.trim()) {
+                        if (typeof showToast === 'function') {
+                            showToast('Please enter a display name.', 'error');
+                        } else {
+                            alert('Please enter a display name.');
+                        }
+                        displayNameInput.focus();
+                        return false;
+                    }
+                    if (!hiddenCatInput.value) {
+                        if (typeof showToast === 'function') {
+                            showToast('Please select a specialty category.', 'error');
+                        } else {
+                            alert('Please select a specialty category.');
+                        }
+                        return false;
+                    }
+                    if (!titleDropdown.value) {
+                        if (typeof showToast === 'function') {
+                            showToast('Please select a professional title.', 'error');
+                        } else {
+                            alert('Please select a professional title.');
+                        }
+                        titleDropdown.focus();
+                        return false;
+                    }
+                    return true;
+                }
+
+                if (stepNum === 3) {
+                    if (!locationSelect.value) {
+                        if (typeof showToast === 'function') {
+                            showToast('Please select your location.', 'error');
+                        } else {
+                            alert('Please select your location.');
+                        }
+                        locationSelect.focus();
+                        return false;
+                    }
+                    if (!availabilitySelect.value) {
+                        if (typeof showToast === 'function') {
+                            showToast('Please select your availability schedule.', 'error');
+                        } else {
+                            alert('Please select your availability schedule.');
+                        }
+                        availabilitySelect.focus();
+                        return false;
+                    }
+                    const bioLen = bioTextarea.value.trim().length;
+                    if (bioLen < 20 || bioLen > 500) {
+                        if (typeof showToast === 'function') {
+                            showToast('Your bio must be between 20 and 500 characters.', 'error');
+                        } else {
+                            alert('Your bio must be between 20 and 500 characters.');
+                        }
+                        bioTextarea.focus();
+                        return false;
+                    }
+                    return true;
+                }
+
+                return true;
+            }
+
+            btnNext.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+
+            btnBack.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+
+            // Category titles dictionary
+            const categoryTitlesMap = {
+                casual: [
+                    { value: 'Casual Companion', text: 'Casual Companion' },
+                    { value: 'Coffee & Chat Buddy', text: 'Coffee & Chat Buddy' },
+                    { value: 'Local Tour Guide', text: 'Local Tour Guide' },
+                    { value: 'Study & Homework Buddy', text: 'Study & Homework Buddy' }
+                ],
+                event: [
+                    { value: 'Wedding Plus-One', text: 'Wedding Plus-One' },
+                    { value: 'Concert & Party Escort', text: 'Concert & Party Escort' },
+                    { value: 'Business Dinner Partner', text: 'Business Dinner Partner' },
+                    { value: 'Social Event Guest', text: 'Social Event Guest' }
+                ],
+                security: [
+                    { value: 'Personal Safety Escort', text: 'Personal Safety Escort' },
+                    { value: 'Executive Protection Specialist', text: 'Executive Protection Specialist' },
+                    { value: 'Night-Out Bodyguard', text: 'Night-Out Bodyguard' },
+                    { value: 'Event Security Marshal', text: 'Event Security Marshal' }
+                ],
+                arts: [
+                    { value: 'Photography Model', text: 'Photography Model' },
+                    { value: 'Art Collaboration Partner', text: 'Art Collaboration Partner' },
+                    { value: 'Drawing/Painting Subject', text: 'Drawing/Painting Subject' },
+                    { value: 'Design Consultation Assistant', text: 'Design Consultation Assistant' }
+                ],
+                listener: [
+                    { value: 'Active Listening Companion', text: 'Active Listening Companion' },
+                    { value: 'Emotional Vent Session Partner', text: 'Emotional Vent Session Partner' },
+                    { value: 'Silent Study Supporter', text: 'Silent Study Supporter' },
+                    { value: 'Compassionate Advisor', text: 'Compassionate Advisor' }
+                ],
+                ally: [
+                    { value: 'Pride Event Escort', text: 'Pride Event Escort' },
+                    { value: 'LGBTQ+ Friendly Companion', text: 'LGBTQ+ Friendly Companion' },
+                    { value: 'Ally Representative', text: 'Ally Representative' },
+                    { value: 'Safe Space Partner', text: 'Safe Space Partner' }
+                ]
+            };
+
+            // Category card click binding
+            categoryCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    categoryCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    const catVal = card.dataset.category;
+                    hiddenCatInput.value = catVal;
+                    
+                    hiddenCatInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    hiddenCatInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    
+                    titleDropdown.innerHTML = '<option value="" disabled selected>Select a specialty title</option>';
+                    titleDropdown.disabled = false;
+                    
+                    if (categoryTitlesMap[catVal]) {
+                        categoryTitlesMap[catVal].forEach(opt => {
+                            const el = document.createElement('option');
+                            el.value = opt.value;
+                            el.textContent = opt.text;
+                            titleDropdown.appendChild(el);
+                        });
+                    }
+                });
+            });
+
+            // Rate slider binding
+            rateSlider.addEventListener('input', () => {
+                rateValue.textContent = `₱${rateSlider.value}/hr`;
+            });
+
+            // Tier selector card binding
+            tierCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    tierCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    hiddenTierInput.value = card.dataset.tier;
+                });
+            });
+
+            // Bio character counter
+            bioTextarea.addEventListener('input', () => {
+                const len = bioTextarea.value.length;
+                bioCounter.textContent = `${len} / 500 characters`;
+                if (len >= 20 && len <= 500) {
+                    bioCounter.style.color = '#10b981';
+                } else {
+                    bioCounter.style.color = 'var(--text-secondary)';
+                }
+            });
+        });
+    </script>
+    <script src="theme.js?v=34"></script>
+    <script src="app_ajax.js?v=34"></script>
+</body>
+</html>
+

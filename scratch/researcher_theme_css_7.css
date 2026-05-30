@@ -1,0 +1,79 @@
+Created At: 2026-05-30T06:13:31Z
+Completed At: 2026-05-30T06:13:32Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/bookings.html`
+Total Lines: 284
+Total Bytes: 13815
+Showing lines 1 to 284
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="bookings.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+16:     <title>My Bookings</title>
+17: </head>
+18: <body>
+19:     <!-- NAVBAR -->
+20:     <div class="navbar">
+21:         <a href="homepage.html" class="navlogo">
+22:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+23:             <h2>AnyBuddy</h2>
+24:         </a>
+25:         <div class="navlinks">
+26:             <a href="marketplace.html">Marketplace</a>
+27:             <a href="about.html">About</a>
+28:             <a href="login.html">Login</a>
+29:             <a href="signup.html">Sign up</a>
+30:             <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+31:             <button type="button" class="theme-toggle" id="themeToggle" aria-label
+<truncated 11552 bytes>
+Terms of Service</a></li>
+247:                 <li><a href="#">Privacy Policy</a></li>
+248:                 <li><a href="#">Cancellation and Refund</a></li>
+249:             </ul>
+250:         </div>
+251: 
+252:     </div>
+253: 
+254:     <!-- Review Submission Modal -->
+255:     <div class="review-modal-overlay" id="reviewModal">
+256:         <div class="review-modal-card">
+257:             <h3>Write a Review</h3>
+258:             <p>Tell us about your experience with this companion.</p>
+259:             <form id="reviewForm">
+260:                 <div class="rating-stars-input" id="starContainer">
+261:                     <button type="button" class="star-input-btn" data-value="1">★</button>
+262:                     <button type="button" class="star-input-btn" data-value="2">★</button>
+263:                     <button type="button" class="star-input-btn" data-value="3">★</button>
+264:                     <button type="button" class="star-input-btn" data-value="4">★</button>
+265:                     <button type="button" class="star-input-btn" data-value="5">★</button>
+266:                 </div>
+267:                 <div class="review-field">
+268:                     <label for="review-comment">Comments (Optional)</label>
+269:                     <textarea id="review-comment" name="comment" placeholder="Write a comment about your meetup details..."></textarea>
+270:                 </div>
+271:                 <div class="review-actions">
+272:                     <button type="button" class="review-btn-cancel" id="btnCancelReview">Cancel</button>
+273:                     <button type="submit" class="review-btn-submit" id="btnSubmitReview">Submit Review</button>
+274:                 </div>
+275:             </form>
+276:         </div>
+277:     </div>
+278: 
+279:     <script src="theme.js?v=30"></script>
+280:     <script src="app_ajax.js?v=30"></script>
+281: </body>
+282: </html>
+283: 
+284: 
+The above content shows the entire, complete file contents of the requested file.

@@ -1,0 +1,88 @@
+Created At: 2026-05-30T06:13:32Z
+Completed At: 2026-05-30T06:13:32Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/chat.html`
+Total Lines: 176
+Total Bytes: 9294
+Showing lines 1 to 176
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="chat.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+16:     <title>Chat — Macy</title>
+17: </head>
+18: <body>
+19:     <!-- NAVBAR -->
+20:     <div class="navbar">
+21:         <a href="homepage.html" class="navlogo">
+22:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+23:             <h2>AnyBuddy</h2>
+24:         </a>
+25:         <div class="navlinks">
+26:             <a href="marketplace.html">Marketplace</a>
+27:             <a href="about.html">About</a>
+28:             <a href="login.html">Login</a>
+29:             <a href="signup.html">Sign up</a>
+30:             <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+31:             <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggl
+<truncated 6486 bytes>
+#" class="report-link" id="activeProfileReportLink">Report User</a>
+130:                         </div>
+131:                     </li>
+132:                 </ul>
+133:                 <a href="#" class="view-profile-sidebar-btn" id="activeProfileViewBtn" style="display: none;">View Profile</a>
+134:             </aside>
+135:         </div>
+136:     </main>
+137: 
+138:     <!-- FOOTER -->
+139:     <div class="footer">
+140:         <div class="media-icons">
+141:             <div class="footer-logo">
+142:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+143:                 <h3>AnyBuddy</h3>
+144:             </div>
+145:             <ul class="social-media-links">
+146:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+147:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+148:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+149:             </ul>
+150:         </div>
+151:         <div class="platform-links">
+152:             <h3>Platform</h3>
+153:             <ul>
+154:                 <li><a href="marketplace.html">Marketplace</a></li>
+155:                 <li><a href="about.html">About</a></li>
+156:                 <li><a href="login.html">Login</a></li>
+157:                 <li><a href="signup.html">Sign up</a></li>
+158:             </ul>
+159:         </div>
+160: 
+161:         <div class="legal">
+162:             <h3>Legal</h3>
+163:             <ul>
+164:                 <li><a href="#">Terms of Service</a></li>
+165:                 <li><a href="#">Privacy Policy</a></li>
+166:                 <li><a href="#">Cancellation and Refund</a></li>
+167:             </ul>
+168:         </div>
+169: 
+170:     </div>
+171:     <script src="theme.js?v=30"></script>
+172:     <script src="app_ajax.js?v=30"></script>
+173: </body>
+174: </html>
+175: 
+176: 
+The above content shows the entire, complete file contents of the requested file.

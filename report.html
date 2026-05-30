@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="report.css?v=30">
+    <link rel="stylesheet" href="ajax_ui.css?v=30">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Report User</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <main class="report-page">
+        <div class="report-card">
+            <div class="report-flag-icon" aria-hidden="true">🚩</div>
+            <h1>Report User</h1>
+            <p class="report-subtitle">You are reporting <strong id="reported-name">Macy</strong></p>
+
+            <form class="report-form" action="chat.html" method="get">
+                <div class="form-field">
+                    <label for="reason">Reason for report</label>
+                    <select id="reason" name="reason" required>
+                        <option value="" disabled selected>Select a reason...</option>
+                        <option value="harassment">Harassment or bullying</option>
+                        <option value="spam">Spam or misleading profile</option>
+                        <option value="safety">Safety concern</option>
+                        <option value="no-show">No-show or cancellation issue</option>
+                        <option value="payment">Payment or fee dispute</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="description">Detailed description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Please provide more context about this report..."
+                        required></textarea>
+                </div>
+
+                <div class="report-info">
+                    <span class="info-icon" aria-hidden="true">i</span>
+                    <p>Falsely reporting users may result in your own account being suspended. Please use this feature responsibly.</p>
+                </div>
+
+                <div class="report-actions">
+                    <a href="chat.html" class="btn-cancel">Cancel</a>
+                    <button type="submit" class="btn-submit">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('user');
+        if (name) {
+            document.getElementById('reported-name').textContent = name;
+        }
+    </script>
+    <script src="theme.js?v=30"></script>
+    <script src="app_ajax.js?v=30"></script>
+</body>
+</html>
+

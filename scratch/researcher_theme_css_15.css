@@ -1,0 +1,92 @@
+Created At: 2026-05-30T06:13:42Z
+Completed At: 2026-05-30T06:13:42Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/welcome.html`
+Total Lines: 263
+Total Bytes: 10377
+Showing lines 1 to 263
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700;800&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="welcome.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+16:     <title>Welcome to AnyBuddy! 🎉</title>
+17: </head>
+18: <body class="welcome-body">
+19:     <!-- NAVBAR -->
+20:     <div class="navbar"></div>
+21: 
+22:     <!-- Confetti Canvas -->
+23:     <canvas id="confettiCanvas"></canvas>
+24: 
+25:     <!-- Animated Background Blobs -->
+26:     <div class="welcome-blobs">
+27:         <div class="w-blob w-blob-1"></div>
+28:         <div class="w-blob w-blob-2"></div>
+29:         <div class="w-blob w-blob-3"></div>
+30:     </div>
+31: 
+32:     <!-- MAIN WELCOME CONTENT -->
+33:     <div class="welcome-container">
+34:         <div class="welcome-card" id="welcomeCard">
+35:             <div class="welcome-logo-wrapper">
+36:                 <img src="imag
+<truncated 8008 bytes>
+active Perspective 3D Card Hover
+218:         const card = document.getElementById('welcomeCard');
+219:         if (card) {
+220:             let isMouseDown = false;
+221:             let rect = null;
+222: 
+223:             card.addEventListener('mousedown', () => {
+224:                 isMouseDown = true;
+225:             });
+226: 
+227:             document.addEventListener('mouseup', () => {
+228:                 isMouseDown = false;
+229:                 if (card) card.style.transition = 'none';
+230:             });
+231: 
+232:             card.addEventListener('mousemove', (e) => {
+233:                 if (isMouseDown) return;
+234:                 if (!rect) rect = card.getBoundingClientRect();
+235:                 const x = e.clientX - rect.left;
+236:                 const y = e.clientY - rect.top;
+237:                 const xAxis = (rect.width / 2 - x) / 45;
+238:                 const yAxis = (rect.height / 2 - y) / 45;
+239:                 card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
+240:             });
+241: 
+242:             card.addEventListener('mouseenter', () => {
+243:                 // Reset transform to get stable, unrotated bounding rect
+244:                 const prevTransform = card.style.transform;
+245:                 card.style.transform = 'none';
+246:                 rect = card.getBoundingClientRect();
+247:                 card.style.transform = prevTransform;
+248:                 
+249:                 if (!isMouseDown) card.style.transition = 'none';
+250:             });
+251: 
+252:             card.addEventListener('mouseleave', () => {
+253:                 isMouseDown = false;
+254:                 rect = null;
+255:                 card.style.transition = 'transform 0.5s ease';
+256:                 card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+257:             });
+258:         }
+259:     </script>
+260: </body>
+261: </html>
+262: 
+263: 
+The above content shows the entire, complete file contents of the requested file.

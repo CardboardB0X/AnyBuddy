@@ -1,0 +1,86 @@
+Created At: 2026-05-30T06:13:39Z
+Completed At: 2026-05-30T06:13:40Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/become-buddy.html`
+Total Lines: 352
+Total Bytes: 19487
+Showing lines 1 to 352
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="become-buddy.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+16:     <title>Become a Buddy</title>
+17: </head>
+18: <body>
+19:     <!-- NAVBAR -->
+20:     <div class="navbar">
+21:         <a href="homepage.html" class="navlogo">
+22:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+23:             <h2>AnyBuddy</h2>
+24:         </a>
+25:         <div class="navlinks">
+26:             <a href="marketplace.html">Marketplace</a>
+27:             <a href="about.html">About</a>
+28:             <a href="login.html">Login</a>
+29:             <a href="signup.html">Sign up</a>
+30:             <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+31:             <button type="button" class="theme-toggle" id="themeToggle"
+<truncated 17568 bytes>
+ue="" disabled selected>Select a specialty title</option>';
+308:                     titleDropdown.disabled = false;
+309:                     
+310:                     if (categoryTitlesMap[catVal]) {
+311:                         categoryTitlesMap[catVal].forEach(opt => {
+312:                             const el = document.createElement('option');
+313:                             el.value = opt.value;
+314:                             el.textContent = opt.text;
+315:                             titleDropdown.appendChild(el);
+316:                         });
+317:                     }
+318:                 });
+319:             });
+320: 
+321:             // Rate slider binding
+322:             rateSlider.addEventListener('input', () => {
+323:                 rateValue.textContent = `₱${rateSlider.value}/hr`;
+324:             });
+325: 
+326:             // Tier selector card binding
+327:             tierCards.forEach(card => {
+328:                 card.addEventListener('click', () => {
+329:                     tierCards.forEach(c => c.classList.remove('active'));
+330:                     card.classList.add('active');
+331:                     hiddenTierInput.value = card.dataset.tier;
+332:                 });
+333:             });
+334: 
+335:             // Bio character counter
+336:             bioTextarea.addEventListener('input', () => {
+337:                 const len = bioTextarea.value.length;
+338:                 bioCounter.textContent = `${len} / 500 characters`;
+339:                 if (len >= 20 && len <= 500) {
+340:                     bioCounter.style.color = '#10b981';
+341:                 } else {
+342:                     bioCounter.style.color = 'var(--text-secondary)';
+343:                 }
+344:             });
+345:         });
+346:     </script>
+347:     <script src="theme.js?v=30"></script>
+348:     <script src="app_ajax.js?v=30"></script>
+349: </body>
+350: </html>
+351: 
+352: 
+The above content shows the entire, complete file contents of the requested file.

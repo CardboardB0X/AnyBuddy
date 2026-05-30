@@ -1,0 +1,632 @@
+*,*::before,*::after {
+    box-sizing: border-box;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Google Sans', sans-serif;
+}
+
+/* BOOKINGS PAGE */
+.bookings-page{
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+}
+
+.bookings-header{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.bookings-header-icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.35rem;
+    background: #ede9fe;
+    border-radius: 10px;
+}
+
+.bookings-header h1{
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.bookings-list{
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+/* BOOKING CARD */
+.booking-card{
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.booking-card-inner{
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.booking-top{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.booking-profile{
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+}
+
+.booking-profile img{
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.booking-name{
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.booking-meta{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.status-badge{
+    flex-shrink: 0;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.status-badge--progress{
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-badge--declined{
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-badge--completed{
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.request-box{
+    margin-bottom: 1.25rem;
+    padding: 0.85rem 1rem;
+    background: #f3f3f3;
+    border-radius: 8px;
+}
+
+.request-box p{
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* STEPPER */
+.stepper{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding: 0 0.25rem;
+}
+
+.stepper-step{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 0 0 auto;
+    z-index: 1;
+}
+
+.step-circle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #e5e5e5;
+    color: #666;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.stepper-step.is-complete .step-circle{
+    background: #2b8cff;
+    color: #fff;
+}
+
+.step-label{
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #666;
+    text-align: center;
+    max-width: 4.5rem;
+}
+
+.stepper-step.is-complete .step-label{
+    color: #000;
+}
+
+.stepper-line{
+    flex: 1;
+    height: 2px;
+    margin-top: 1rem;
+    background: #d4d4d4;
+    min-width: 1rem;
+}
+
+.stepper-line.is-complete{
+    background: #2b8cff;
+}
+
+/* ACTIONS & PRICE */
+.booking-actions{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.booking-action-btns{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.pay-now-btn{
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #2b8cff;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.pay-now-btn:hover{
+    background: #1a7ae8;
+}
+
+.chat-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: #000;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.chat-btn:hover{
+    background: #f5f5f5;
+}
+
+.chat-btn--disabled{
+    color: #999;
+    border-color: #ccc;
+    background: #f0f0f0;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.booking-price{
+    text-align: right;
+}
+
+.price-total{
+    display: block;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.price-note{
+    display: block;
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.15rem;
+}
+
+.reviewed-tag{
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f5b301;
+}
+
+/* COUNTDOWN BAR */
+.booking-countdown{
+    padding: 0.65rem 1.5rem;
+    background: #2b8cff;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+@media (max-width: 600px){
+    .bookings-page{
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .booking-top{
+        flex-direction: column;
+    }
+
+    .stepper{
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .stepper-line{
+        display: none;
+    }
+
+    .booking-price{
+        text-align: left;
+        width: 100%;
+    }
+}
+
+/* TABS / SEGMENTED CONTROLLER */
+.bookings-tabs {
+    display: none; /* Shown dynamically via JS if user is a buddy */
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    padding: 0.25rem;
+    border-radius: 30px;
+    margin-bottom: 2rem;
+    max-width: 320px;
+}
+
+.booking-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.booking-tab-btn.is-active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(254, 111, 190, 0.3);
+}
+
+[data-theme="dark"] .booking-tab-btn.is-active {
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+}
+
+/* REVIEW MODAL */
+.review-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.review-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.review-modal-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 450px;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: var(--text-primary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.review-modal-overlay.active .review-modal-card {
+    transform: scale(1);
+}
+
+.review-modal-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.review-modal-card p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.rating-stars-input {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.star-input-btn {
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--border);
+    padding: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star-input-btn:hover {
+    transform: scale(1.2);
+}
+
+.star-input-btn.active {
+    color: #f5b301;
+}
+
+.review-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.review-field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.review-field textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.75rem;
+    border-radius: 8px;
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.92rem;
+}
+
+.review-field textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.review-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.review-btn-cancel, .review-btn-submit {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.review-btn-cancel {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+.review-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.review-btn-submit {
+    background: var(--accent);
+    color: #fff;
+}
+
+.review-btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* Buddy Dashboard View CSS (Earnings & Slot Management) */
+#buddyDashboardView {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+.buddy-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+.buddy-dash-card {
+    background: var(--bg-navbar);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 var(--shadow);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: transform 0.3s ease;
+}
+.buddy-dash-card:hover {
+    transform: translateY(-2px);
+}
+.buddy-dash-card-title {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+.buddy-dash-card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.buddy-manager-section {
+    background: var(--bg-navbar);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 var(--shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.buddy-manager-section h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: 0.75rem;
+}
+.slots-manager-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) auto;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    background: rgba(255,255,255,0.02);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-glass);
+}
+.slots-manager-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.slots-manager-form-field label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+.slots-manager-form-field input, .slots-manager-form-field select {
+    background: var(--input-bg);
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 0.65rem 0.8rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+.btn-add-slot {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+.btn-add-slot:hover {
+    opacity: 0.9;
+}
+.slot-pill.manageable {
+    position: relative;
+    padding-right: 2.2rem;
+}
+.btn-delete-slot-overlay {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+.btn-delete-slot-overlay:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+

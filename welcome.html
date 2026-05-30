@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700;800&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="welcome.css?v=30">
+    <link rel="stylesheet" href="ajax_ui.css?v=30">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Welcome to AnyBuddy! 🎉</title>
+</head>
+<body class="welcome-body">
+    <!-- NAVBAR -->
+    <div class="navbar"></div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Animated Background Blobs -->
+    <div class="welcome-blobs">
+        <div class="w-blob w-blob-1"></div>
+        <div class="w-blob w-blob-2"></div>
+        <div class="w-blob w-blob-3"></div>
+    </div>
+
+    <!-- MAIN WELCOME CONTENT -->
+    <div class="welcome-container">
+        <div class="welcome-card" id="welcomeCard">
+            <div class="welcome-logo-wrapper">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" class="welcome-logo">
+            </div>
+            
+            <h1 class="welcome-title">Welcome to the Family, <span id="userName">Buddy</span>! 🎉</h1>
+            <p class="welcome-message">
+                Your account has been successfully created. We are absolutely thrilled to have you here! AnyBuddy is your brand new home for finding specialized local companionship, CvSU student partners, and friendly everyday help.
+            </p>
+            
+            <div class="welcome-steps">
+                <a href="marketplace.html" class="w-step">
+                    <span class="w-step-icon">🔍</span>
+                    <div>
+                        <h4>Browse the Marketplace</h4>
+                        <p>Explore verified buddies with diverse skills, categories, and flexible rates.</p>
+                    </div>
+                </a>
+                <a href="bookings.html" class="w-step">
+                    <span class="w-step-icon">💬</span>
+                    <div>
+                        <h4>Chat & Coordinate</h4>
+                        <p>Discuss schedules, guidelines, and meetup details securely using our built-in chat.</p>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="w-step legal-link" data-modal="safety">
+                    <span class="w-step-icon">🛡️</span>
+                    <div>
+                        <h4>Trust & Security First</h4>
+                        <p>Look for the verified checkmarks. We keep your safety and transactions protected.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="welcome-actions">
+                <a href="marketplace.html" class="welcome-btn primary">Explore the Marketplace</a>
+                <a href="profile.html" class="welcome-btn secondary" id="welcomeProfileBtn">Go to My Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer"></div>
+
+    <!-- Scripts -->
+    <script src="theme.js?v=30"></script>
+    <script src="app_ajax.js?v=30"></script>
+    <script>
+        // Set dynamic user name and redirect listener
+        (function() {
+            var user = null;
+            try {
+                user = JSON.parse(localStorage.getItem('ab_user') || 'null');
+            } catch(e) {}
+            if (user && user.first_name) {
+                document.getElementById('userName').textContent = user.first_name;
+            }
+            // Clear the signup flag so this page is only visited once
+            localStorage.removeItem('just_signed_up');
+
+            // Handle the Profile Button Click
+            var profileBtn = document.getElementById('welcomeProfileBtn');
+            if (user && !user.buddy_profile_id) {
+                if (profileBtn) profileBtn.style.display = 'none';
+            }
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!user) {
+                        if (typeof openAuthModal === 'function') {
+                            openAuthModal('login');
+                        } else {
+                            window.location.href = 'login.html';
+                        }
+                    } else if (user.buddy_profile_id) {
+                        window.location.href = 'profile.html?id=' + user.buddy_profile_id;
+                    } else {
+                        window.location.href = 'marketplace.html';
+                    }
+                });
+            }
+        })();
+
+        // Confetti Particle System
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const colors = [
+            '#fe6fbe', // Pink accent
+            '#00d2ff', // Cyan accent
+            '#ffd166', // Yellow
+            '#06d6a0', // Green
+            '#118ab2', // Darker Blue
+            '#8338ec', // Violet
+            '#ff006e'  // Red-pink
+        ];
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * -height - 20;
+                this.size = Math.random() * 8 + 6;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.speed = Math.random() * 3 + 2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spinSpeed = Math.random() * 0.2 - 0.1;
+                this.wobble = Math.random() * 20;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+                this.shape = Math.random() > 0.5 ? 'circle' : 'square';
+                this.opacity = 1;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.sin(this.angle) * 0.5;
+                this.angle += this.spinSpeed;
+                this.wobble += this.wobbleSpeed;
+                
+                // Slowly fade out as it nears the bottom
+                if (this.y > height * 0.7) {
+                    this.opacity -= 0.01;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x + Math.sin(this.wobble) * 5, this.y);
+                ctx.rotate(this.angle);
+                ctx.globalAlpha = Math.max(0, this.opacity);
+                ctx.fillStyle = this.color;
+                
+                if (this.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                }
+                ctx.restore();
+            }
+        }
+
+        const confettiArray = [];
+        const maxConfetti = 150;
+
+        // Populate initially
+        for (let i = 0; i < maxConfetti; i++) {
+            confettiArray.push(new Confetti());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            let alive = false;
+            for (let i = 0; i < confettiArray.length; i++) {
+                const c = confettiArray[i];
+                c.update();
+                c.draw();
+                if (c.opacity > 0 && c.y < height) {
+                    alive = true;
+                }
+            }
+
+            if (alive) {
+                requestAnimationFrame(animate);
+            } else {
+                ctx.clearRect(0, 0, width, height);
+            }
+        }
+
+        // Delay start slightly for transition effect
+        setTimeout(() => {
+            animate();
+        }, 300);
+
+        // Interactive Perspective 3D Card Hover
+        const card = document.getElementById('welcomeCard');
+        if (card) {
+            let isMouseDown = false;
+            let rect = null;
+
+            card.addEventListener('mousedown', () => {
+                isMouseDown = true;
+            });
+
+            document.addEventListener('mouseup', () => {
+                isMouseDown = false;
+                if (card) card.style.transition = 'none';
+            });
+
+            card.addEventListener('mousemove', (e) => {
+                if (isMouseDown) return;
+                if (!rect) rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xAxis = (rect.width / 2 - x) / 45;
+                const yAxis = (rect.height / 2 - y) / 45;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
+            });
+
+            card.addEventListener('mouseenter', () => {
+                // Reset transform to get stable, unrotated bounding rect
+                const prevTransform = card.style.transform;
+                card.style.transform = 'none';
+                rect = card.getBoundingClientRect();
+                card.style.transform = prevTransform;
+                
+                if (!isMouseDown) card.style.transition = 'none';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                isMouseDown = false;
+                rect = null;
+                card.style.transition = 'transform 0.5s ease';
+                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            });
+        }
+    </script>
+</body>
+</html>
+

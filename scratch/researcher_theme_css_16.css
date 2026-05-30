@@ -1,0 +1,88 @@
+Created At: 2026-05-30T06:13:42Z
+Completed At: 2026-05-30T06:13:42Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/admin.html`
+Total Lines: 436
+Total Bytes: 21474
+Showing lines 1 to 436
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=31">
+13:     <link rel="stylesheet" href="admin.css?v=31">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=31">
+15:     <title>Admin Dashboard — AnyBuddy</title>
+16: </head>
+17: <body>
+18:     <!-- Background Blobs -->
+19:     <div class="blob-container">
+20:         <div class="blob blob-1"></div>
+21:         <div class="blob blob-2"></div>
+22:         <div class="blob blob-3"></div>
+23:     </div>
+24: 
+25:     <!-- NAVBAR -->
+26:     <div class="navbar">
+27:         <a href="homepage.html" class="navlogo">
+28:             <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width="40px" height="40px">
+29:             <h2>AnyBuddy</h2>
+30:         </a>
+31:         <div class="navlinks" id="navbarLinks">
+32:             <!-- Populated dynamically by theme.js/app_ajax.js -->
+33:             <a href="marketplace.html">Marketplace</a>
+34:             <a href="about.html">About</a>
+35:             <button type="button"
+<truncated 19968 bytes>
+="chat-preview-stream" id="chatPreviewStream" style="height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px; background-color: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid var(--border-glass);">
+394:                     <!-- Dynamic chat messages go here -->
+395:                 </div>
+396:             </div>
+397:             <div class="admin-modal-footer">
+398:                 <button type="button" class="admin-btn admin-btn-secondary" id="btnExitChatPreview">Close</button>
+399:             </div>
+400:         </div>
+401:     </div>
+402: 
+403:     <!-- FOOTER -->
+404:     <div class="footer">
+405:         <div class="media-icons">
+406:             <div class="footer-logo">
+407:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width="40px" height="40px">
+408:                 <h3>AnyBuddy</h3>
+409:             </div>
+410:             <ul class="social-media-links">
+411:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+412:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+413:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+414:             </ul>
+415:         </div>
+416:         <div class="platform-links">
+417:             <h3>Platform</h3>
+418:             <ul>
+419:                 <li><a href="marketplace.html">Marketplace</a></li>
+420:                 <li><a href="about.html">About</a></li>
+421:             </ul>
+422:         </div>
+423:         <div class="legal">
+424:             <h3>Legal</h3>
+425:             <ul>
+426:                 <li><a href="#">Terms of Service</a></li>
+427:                 <li><a href="#">Privacy Policy</a></li>
+428:             </ul>
+429:         </div>
+430:     </div>
+431: 
+432:     <script src="theme.js?v=31">
+433:     </script><script src="app_ajax.js?v=31"></script>
+434: </body>
+435: </html>
+436: 
+The above content shows the entire, complete file contents of the requested file.

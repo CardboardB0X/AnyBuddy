@@ -1,0 +1,95 @@
+Created At: 2026-05-30T06:13:30Z
+Completed At: 2026-05-30T06:13:30Z
+File Path: `file:///c:/Users/Japoy/Downloads/AnyBuddy/login.html`
+Total Lines: 108
+Total Bytes: 4441
+Showing lines 1 to 108
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html lang="en">
+3: <head>
+4:     <meta charset="UTF-8">
+5:     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6:     <script>
+7:         (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+8:     </script>
+9:     <link rel="preconnect" href="https://fonts.googleapis.com">
+10:     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+11:     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+12:     <link rel="stylesheet" href="theme.css?v=30">
+13:     <link rel="stylesheet" href="login.css?v=30">
+14:     <link rel="stylesheet" href="ajax_ui.css?v=30">
+15:     <title>Login</title>
+16: </head>
+17: <body>
+18:     <!-- Background Blobs -->
+19:     <div class="blob-container">
+20:         <div class="blob blob-1"></div>
+21:         <div class="blob blob-2"></div>
+22:         <div class="blob blob-3"></div>
+23:     </div>
+24: 
+25:     <!--NAVBAR-->
+26:     <div class="navbar">
+27:         <a href="homepage.html" class="navlogo">
+28:             <img
+29:             src="images/AnyBuddy LOGO.png" 
+30:             alt="AnyBuddy Logo"
+31:             width=40px
+32:             height=40px>
+33:             <h2>AnyBuddy</h2>
+34:         </a>
+35:         <div class="navlinks">
+36:             <a href="marketplace.html">Marketplace</a>
+37:             <a href="about.html">About</a>
+38:             <a href="login.html">Login</a>
+39:  
+<truncated 1294 bytes>
+       </div>
+63:                     <input type="password" id="password" name="password" placeholder="••••••••" required>
+64:                 </div>
+65:                 <button type="submit" class="login-btn">Login</button>
+66:             </form>
+67:             <p class="signup-prompt">Don't have an account? <a href="signup.html">Sign Up</a></p>
+68:         </div>
+69:     </main>
+70:     <!--FOOTER-->
+71:     <div class="footer">
+72:         <div class="media-icons">
+73:             <div class="footer-logo">
+74:                 <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40px height=40px>
+75:                 <h3>AnyBuddy</h3>
+76:             </div>
+77:             <ul class="social-media-links">
+78:                 <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+79:                 <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+80:                 <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
+81:             </ul>
+82:         </div>
+83:         <div class="platform-links">
+84:             <h3>Platform</h3>
+85:             <ul>
+86:                 <li><a href="marketplace.html">Marketplace</a></li>
+87:                 <li><a href="about.html">About</a></li>
+88:                 <li><a href="#">Login</a></li>
+89:                 <li><a href="#">Sign up</a></li>
+90:             </ul>
+91:         </div>
+92:         
+93:         <div class="legal">
+94:             <h3>Legal</h3>
+95:             <ul>
+96:                 <li><a href="#">Terms of Service</a></li>
+97:                 <li><a href="#">Privacy Policy</a></li>
+98:                 <li><a href="#">Cancellation and Refund</a></li>
+99:             </ul>
+100:         </div>
+101: 
+102:     </div>
+103:     <script src="theme.js?v=30"></script>
+104:     <script src="app_ajax.js?v=30"></script>
+105: </body>
+106: </html>
+107: 
+108: 
+The above content shows the entire, complete file contents of the requested file.

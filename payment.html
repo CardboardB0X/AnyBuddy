@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=33">
+    <link rel="stylesheet" href="payment.css?v=30">
+    <link rel="stylesheet" href="ajax_ui.css?v=30">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Book your Buddy — AnyBuddy</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <main class="payment-page">
+        <a href="bookings.html" class="back-link">← Back to My Bookings</a>
+
+        <div class="checkout-container">
+            <!-- Left Column: Multi-Step Form -->
+            <form class="checkout-form-main" id="bookingPaymentForm">
+                <!-- Step 1: Booking Details -->
+                <div class="checkout-card">
+                    <section class="payment-section">
+                        <header class="payment-section-header">
+                            <h1>1. Booking Details</h1>
+                        </header>
+                        <div class="payment-section-body">
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <label for="booking-date">Booking Date*</label>
+                                    <input type="date" id="booking-date" name="booking-date" required>
+                                </div>
+                                <div class="form-field">
+                                    <label for="start-time">Start Time*</label>
+                                    <input type="time" id="start-time" name="start-time" required>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="hours-duration">Duration (Hours)*</label>
+                                <div style="display: flex; align-items: center; gap: 1rem; width: 100%;">
+                                    <input type="range" id="hours-duration" name="hours-duration" min="1" max="12" value="1" step="1" required style="flex: 1; accent-color: var(--accent);">
+                                    <span id="duration-value" style="font-weight: 700; color: var(--accent); min-width: 4rem; text-align: right;">1 hour</span>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="message">Special Requests / Message to Buddy</label>
+                                <textarea id="message" name="message" rows="3" placeholder="Describe the activity, event, or specific details for your buddy..."></textarea>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Step 2: Payment Details -->
+                <div class="checkout-card" style="margin-top: 1.5rem;">
+                    <section class="payment-section">
+                        <header class="payment-section-header">
+                            <h1>2. Payment Method</h1>
+                        </header>
+
+                        <div class="payment-section-body">
+                            <div class="payment-methods" role="group" aria-label="Payment method">
+                                <button type="button" class="method-btn is-selected" id="method-card">
+                                    <span class="method-icon" aria-hidden="true">💳</span>
+                                    Pay with Card
+                                </button>
+                                <button type="button" class="method-btn" id="method-coh">
+                                    <span class="method-icon" aria-hidden="true">💵</span>
+                                    Cash On Hand
+                                </button>
+                                <button type="button" class="method-btn" disabled style="opacity: 0.5; cursor: not-allowed;" title="Unavailable for demo">
+                                    <span class="method-icon" aria-hidden="true">🐷</span>
+                                    PayLater
+                                </button>
+                                <button type="button" class="method-btn" disabled style="opacity: 0.5; cursor: not-allowed;" title="Unavailable for demo">
+                                    <span class="method-icon" aria-hidden="true">👛</span>
+                                    E-Wallet
+                                </button>
+                            </div>
+
+                            <div class="card-form-fields">
+                                <div class="form-field form-field--full">
+                                    <label for="card-number">Card number*</label>
+                                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="expiration">Expiration*</label>
+                                        <input type="text" id="expiration" name="expiration" placeholder="MM / YY" required>
+                                    </div>
+                                    <div class="form-field form-field--cvv">
+                                        <label for="cvv">CVV*</label>
+                                        <input type="password" id="cvv" name="cvv" placeholder="123" maxlength="4" required minlength="8">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </form>
+
+            <!-- Right Column: Order Summary Sidebar -->
+            <aside class="summary-sidebar">
+                <div class="summary-card">
+                    <h2 class="summary-title">Order Summary</h2>
+                    
+                    <div class="buddy-summary-profile">
+                        <div class="summary-avatar-container">
+                            <img id="summary-avatar" src="images/AnyBuddy LOGO.png" alt="Buddy Profile" class="summary-avatar" onerror="this.src='images/AnyBuddy LOGO.png'">
+                        </div>
+                        <div class="buddy-summary-details">
+                            <h3 id="summary-name" class="summary-buddy-name">Loading buddy...</h3>
+                            <span id="summary-category" class="summary-buddy-category">Category</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-tier-badge-container" style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.06); padding:0.6rem 0.8rem; border-radius:12px; margin-top:1rem; border:1px solid var(--border-glass);">
+                        <span style="font-size:0.9rem; font-weight:700; color:var(--text-secondary);">Your Loyalty Tier:</span>
+                        <span id="summary-tier-badge" class="buddy-lang-tag" style="background:var(--accent); color:#fff; font-size:0.8rem; font-weight:bold; padding:0.25rem 0.6rem; border-radius:12px; border:none; text-shadow:0 1px 2px rgba(0,0,0,0.2);">Bronze</span>
+                    </div>
+                    
+                    <div class="voucher-container" style="margin-top:1rem; background:rgba(255,255,255,0.03); padding:0.8rem; border-radius:12px; border:1px solid var(--border-glass);">
+                        <label for="voucher-code" style="font-size:0.85rem; font-weight:700; display:block; margin-bottom:0.4rem; color:var(--text-secondary);">Apply Promo Code</label>
+                        <div style="display:flex; gap:0.5rem;">
+                            <input type="text" id="voucher-code" placeholder="e.g. WELCOME50" style="flex:1; padding:0.4rem 0.6rem; font-size:0.9rem; border-radius:8px; border:1px solid var(--border); background:var(--card-bg); color:var(--text); text-transform:uppercase;">
+                            <button type="button" id="btn-apply-voucher" class="bab-btn" style="padding:0.4rem 0.8rem; font-size:0.85rem; border-radius:8px; font-weight:bold; cursor:pointer;">Apply</button>
+                        </div>
+                        <div id="voucher-message" style="margin-top:0.4rem; font-size:0.8rem; font-weight:600; min-height:1rem; transition:all 0.2s;"></div>
+                    </div>
+                    
+                    <hr class="summary-divider">
+                    
+                    <div class="price-breakdown">
+                        <div class="price-row">
+                            <span>Hourly Rate</span>
+                            <span id="summary-hourly-rate">₱0.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Duration</span>
+                            <span id="summary-duration">1 hour(s)</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Subtotal</span>
+                            <span id="summary-subtotal">₱0.00</span>
+                        </div>
+                        <div class="price-row" id="row-tier-discount" style="display:none; color:var(--accent);">
+                            <span>Tier Discount (<span id="summary-tier-discount-percent">0</span>%)</span>
+                            <span id="summary-tier-discount">₱0.00</span>
+                        </div>
+                        <div class="price-row" id="row-voucher-discount" style="display:none; color:#10b981;">
+                            <span>Promo Discount</span>
+                            <span id="summary-voucher-discount">₱0.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span id="summary-fee-label">Platform Fee (5%)</span>
+                            <span id="summary-fee">₱0.00</span>
+                        </div>
+                        
+                        <hr class="summary-divider">
+                        
+                        <div class="price-row price-row--total">
+                            <span>Total Price</span>
+                            <span id="summary-total">₱0.00</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" form="bookingPaymentForm" id="btnConfirmPayment" class="confirm-payment-btn">
+                        Confirm Payment — ₱0.00
+                    </button>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <script src="theme.js?v=30"></script>
+    <script src="app_ajax.js?v=30"></script>
+</body>
+</html>
+

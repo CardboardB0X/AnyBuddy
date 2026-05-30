@@ -1,0 +1,121 @@
+/**
+ * ============================================================
+ *  AnyBuddy — AJAX UI Component Styles
+ *  File   : ajax_ui.css
+ *  Covers : Toast notifications, field error messages,
+ *           skeleton loading cards, favorite button states.
+ *  Import : <link rel="stylesheet" href="ajax_ui.css">
+ *           (add to every page that uses app_ajax.js)
+ * ============================================================
+ */
+
+/* ── Toast Container & Individual Toasts ─────────────────── */
+#ab-toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right:  1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: .65rem;
+    pointer-events: none;
+}
+
+.ab-toast {
+    padding: .85rem 1.35rem;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: .92rem;
+    font-weight: 500;
+    max-width: 360px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.18);
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .25s ease, transform .25s ease;
+    color: #fff;
+}
+
+.ab-toast--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ab-toast--success { background: #16a34a; }
+.ab-toast--error   { background: #dc2626; }
+.ab-toast--info    { background: #2563eb; }
+
+/* Dark-mode overrides */
+[data-theme="dark"] .ab-toast--success { background: #15803d; }
+[data-theme="dark"] .ab-toast--error   { background: #b91c1c; }
+[data-theme="dark"] .ab-toast--info    { background: #1d4ed8; }
+
+
+/* ── Field-level error messages ──────────────────────────── */
+.field-error-msg {
+    display: block;
+    margin-top: .3rem;
+    font-size: .82rem;
+    color: #dc2626;
+    font-weight: 500;
+}
+
+[data-theme="dark"] .field-error-msg {
+    color: #f87171;
+}
+
+.is-invalid {
+    border-color: #dc2626 !important;
+    outline-color: #dc2626 !important;
+}
+
+[data-theme="dark"] .is-invalid {
+    border-color: #f87171 !important;
+}
+
+
+/* ── Skeleton Loading Cards ───────────────────────────────── */
+@keyframes ab-skeleton-shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position:  400px 0; }
+}
+
+.buddy-card--skeleton {
+    pointer-events: none;
+    user-select: none;
+}
+
+.buddy-skeleton-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f0f4f8 50%, #e2e8f0 75%);
+    background-size: 800px 100%;
+    animation: ab-skeleton-shimmer 1.4s infinite linear;
+}
+
+.buddy-skeleton-line {
+    border-radius: 6px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f0f4f8 50%, #e2e8f0 75%);
+    background-size: 800px 100%;
+    animation: ab-skeleton-shimmer 1.4s infinite linear;
+    margin-bottom: .5rem;
+}
+
+[data-theme="dark"] .buddy-skeleton-img,
+[data-theme="dark"] .buddy-skeleton-line {
+    background: linear-gradient(90deg, #2d3748 25%, #3a4556 50%, #2d3748 75%);
+    background-size: 800px 100%;
+}
+
+
+/* ── Favorite Button — active state ──────────────────────── */
+.favorite-btn.is-favorite {
+    color: #e53e3e;
+}
+
+
+/* ── Empty state ─────────────────────────────────────────── */
+.buddy-grid-empty {
+    grid-column: 1 / -1;
+}

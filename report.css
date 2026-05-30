@@ -1,0 +1,202 @@
+*,*::before,*::after {
+    box-sizing: border-box;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Google Sans', sans-serif;
+}
+
+/* REPORT PAGE */
+.report-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 4rem - 12rem);
+    padding: 2.5rem 1.5rem 3rem;
+    background: var(--bg-muted);
+}
+
+.report-card{
+    width: 100%;
+    max-width: 28rem;
+    padding: 2rem 2rem 1.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.report-flag-icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background: rgba(220, 38, 38, 0.15);
+    font-size: 1.25rem;
+}
+
+.report-card h1{
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.report-subtitle{
+    margin: 0 0 1.75rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.report-subtitle strong{
+    color: var(--accent);
+}
+
+.report-form{
+    text-align: left;
+}
+
+.form-field{
+    margin-bottom: 1.25rem;
+}
+
+.form-field label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+.form-field select,
+.form-field textarea{
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    background: var(--bg-input-muted);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.form-field select{
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+.form-field select option {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.form-field select:invalid{
+    color: var(--text-muted);
+}
+
+.form-field textarea{
+    resize: vertical;
+    min-height: 7rem;
+    line-height: 1.5;
+}
+
+.form-field textarea::placeholder{
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.report-info{
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
+    padding: 0.85rem 1rem;
+    background: var(--bg-input-muted);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.info-icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--text-muted);
+    color: var(--bg-card);
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-style: italic;
+    font-family: Georgia, serif;
+}
+
+.report-info p{
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+
+.report-actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.btn-cancel,
+.btn-submit{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1rem;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-cancel{
+    background: var(--bg-input-muted);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-glass);
+}
+
+.btn-cancel:hover{
+    background: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.btn-submit{
+    background: #dc2626;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+}
+
+.btn-submit:hover{
+    background: #b91c1c;
+}
+
+@media (max-width: 480px){
+    .report-actions{
+        grid-template-columns: 1fr;
+    }
+}
+
