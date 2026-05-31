@@ -54,72 +54,103 @@ try {
             $date = date('Y-m-d', strtotime('+1 day'));
         }
 
-        // Generate standard daily slots: 8 AM to 10 PM (2-hour increments)
-        $standardSlots = [
-            ['start' => '08:00:00', 'end' => '10:00:00'],
-            ['start' => '10:00:00', 'end' => '12:00:00'],
-            ['start' => '12:00:00', 'end' => '14:00:00'],
-            ['start' => '14:00:00', 'end' => '16:00:00'],
-            ['start' => '16:00:00', 'end' => '18:00:00'],
-            ['start' => '18:00:00', 'end' => '20:00:00'],
-            ['start' => '20:00:00', 'end' => '22:00:00'],
-        ];
-
-        // Fetch accepted bookings for this buddy on this date
-        $bookingStmt = $pdo->prepare("
-            SELECT b.`start_time`, b.`hours_duration`
-            FROM `tbl_bookings` b
-            INNER JOIN `tbl_booking_statuses` bs ON bs.`status_id` = b.`status_id`
-            WHERE b.`buddy_profile_id` = ? AND b.`booking_date` = ? AND bs.`status_name` IN ('Accepted', 'Requested')
+        // Fetch custom slots from tbl_buddy_availability first
+        $slotQuery = $pdo->prepare("
+            SELECT `id`, `available_date`, `start_time`, `end_time`, `is_booked`
+            FROM `tbl_buddy_availability`
+            WHERE `buddy_profile_id` = ? AND `available_date` = ?
+            ORDER BY `start_time` ASC
         ");
-        $bookingStmt->execute([$buddyProfileId, $date]);
-        $acceptedBookings = $bookingStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        $slotQuery->execute([$buddyProfileId, $date]);
+        $customSlots = $slotQuery->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
-        // Helper functions
-        if (!function_exists('time_to_mins')) {
-            function time_to_mins(string $timeStr): int {
-                $parts = explode(':', $timeStr);
-                return ((int)($parts[0] ?? 0)) * 60 + ((int)($parts[1] ?? 0));
+        if (count($customSlots) > 0) {
+            $formatted = [];
+            foreach ($customSlots as $slot) {
+                $startTimeObj = DateTime::createFromFormat('H:i:s', $slot['start_time']);
+                $endTimeObj = DateTime::createFromFormat('H:i:s', $slot['end_time']);
+                
+                $formatted[] = [
+                    'id' => (int) $slot['id'],
+                    'buddy_profile_id' => $buddyProfileId,
+                    'available_date' => $slot['available_date'],
+                    'start_time' => $slot['start_time'],
+                    'start_time_fmt' => $startTimeObj ? $startTimeObj->format('H:i') : $slot['start_time'],
+                    'nice_start_time' => $startTimeObj ? $startTimeObj->format('g:i A') : $slot['start_time'],
+                    'end_time' => $slot['end_time'],
+                    'end_time_fmt' => $endTimeObj ? $endTimeObj->format('H:i') : $slot['end_time'],
+                    'nice_end_time' => $endTimeObj ? $endTimeObj->format('g:i A') : $slot['end_time'],
+                    'is_booked' => (int) $slot['is_booked']
+                ];
             }
-        }
-
-        if (!function_exists('is_slot_overlapping')) {
-            function is_slot_overlapping(string $slotStart, string $slotEnd, array $bookings): bool {
-                $sStart = time_to_mins($slotStart);
-                $sEnd = time_to_mins($slotEnd);
-
-                foreach ($bookings as $b) {
-                    $bStart = time_to_mins($b['start_time']);
-                    $bEnd = $bStart + (int)(floatval($b['hours_duration']) * 60);
-                    if ($sStart < $bEnd && $sEnd > $bStart) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-
-        // Build response slots
-        $formatted = [];
-        $dummyId = 1;
-        foreach ($standardSlots as $slot) {
-            $isBooked = is_slot_overlapping($slot['start'], $slot['end'], $acceptedBookings);
-            
-            $startTimeObj = DateTime::createFromFormat('H:i:s', $slot['start']);
-            $endTimeObj = DateTime::createFromFormat('H:i:s', $slot['end']);
-            
-            $formatted[] = [
-                'id' => $dummyId++,
-                'buddy_profile_id' => $buddyProfileId,
-                'available_date' => $date,
-                'start_time' => $slot['start'],
-                'start_time_fmt' => $startTimeObj ? $startTimeObj->format('H:i') : $slot['start'],
-                'nice_start_time' => $startTimeObj ? $startTimeObj->format('g:i A') : $slot['start'],
-                'end_time' => $slot['end'],
-                'end_time_fmt' => $endTimeObj ? $endTimeObj->format('H:i') : $slot['end'],
-                'nice_end_time' => $endTimeObj ? $endTimeObj->format('g:i A') : $slot['end'],
-                'is_booked' => $isBooked ? 1 : 0
+        } else {
+            // Generate standard daily slots: 8 AM to 10 PM (2-hour increments)
+            $standardSlots = [
+                ['start' => '08:00:00', 'end' => '10:00:00'],
+                ['start' => '10:00:00', 'end' => '12:00:00'],
+                ['start' => '12:00:00', 'end' => '14:00:00'],
+                ['start' => '14:00:00', 'end' => '16:00:00'],
+                ['start' => '16:00:00', 'end' => '18:00:00'],
+                ['start' => '18:00:00', 'end' => '20:00:00'],
+                ['start' => '20:00:00', 'end' => '22:00:00'],
             ];
+
+            // Fetch accepted bookings for this buddy on this date
+            $bookingStmt = $pdo->prepare("
+                SELECT b.`start_time`, b.`hours_duration`
+                FROM `tbl_bookings` b
+                INNER JOIN `tbl_booking_statuses` bs ON bs.`status_id` = b.`status_id`
+                WHERE b.`buddy_profile_id` = ? AND b.`booking_date` = ? AND bs.`status_name` IN ('Accepted', 'Requested')
+            ");
+            $bookingStmt->execute([$buddyProfileId, $date]);
+            $acceptedBookings = $bookingStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+            // Helper functions
+            if (!function_exists('time_to_mins')) {
+                function time_to_mins(string $timeStr): int {
+                    $parts = explode(':', $timeStr);
+                    return ((int)($parts[0] ?? 0)) * 60 + ((int)($parts[1] ?? 0));
+                }
+            }
+
+            if (!function_exists('is_slot_overlapping')) {
+                function is_slot_overlapping(string $slotStart, string $slotEnd, array $bookings): bool {
+                    $sStart = time_to_mins($slotStart);
+                    $sEnd = time_to_mins($slotEnd);
+
+                    foreach ($bookings as $b) {
+                        $bStart = time_to_mins($b['start_time']);
+                        $bEnd = $bStart + (int)(floatval($b['hours_duration']) * 60);
+                        if ($sStart < $bEnd && $sEnd > $bStart) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+
+            // Build response slots
+            $formatted = [];
+            $dummyId = 1;
+            foreach ($standardSlots as $slot) {
+                $isBooked = is_slot_overlapping($slot['start'], $slot['end'], $acceptedBookings);
+                
+                $startTimeObj = DateTime::createFromFormat('H:i:s', $slot['start']);
+                $endTimeObj = DateTime::createFromFormat('H:i:s', $slot['end']);
+                
+                $formatted[] = [
+                    'id' => $dummyId++,
+                    'buddy_profile_id' => $buddyProfileId,
+                    'available_date' => $date,
+                    'start_time' => $slot['start'],
+                    'start_time_fmt' => $startTimeObj ? $startTimeObj->format('H:i') : $slot['start'],
+                    'nice_start_time' => $startTimeObj ? $startTimeObj->format('g:i A') : $slot['start'],
+                    'end_time' => $slot['end'],
+                    'end_time_fmt' => $endTimeObj ? $endTimeObj->format('H:i') : $slot['end'],
+                    'nice_end_time' => $endTimeObj ? $endTimeObj->format('g:i A') : $slot['end'],
+                    'is_booked' => $isBooked ? 1 : 0
+                ];
+            }
         }
 
         echo json_encode(['status' => 'success', 'slots' => $formatted]);

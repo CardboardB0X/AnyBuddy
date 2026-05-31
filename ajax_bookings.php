@@ -509,22 +509,62 @@ try {
                 } else {
                     // Check duplicate booking on booking_date (Day-based booking)
                     if (isset($buddyProfileId) && $buddyProfileId > 0) {
-                        $dupStmt = $pdo->prepare("
-                            SELECT COUNT(*) FROM `tbl_bookings` 
-                            WHERE `buddy_profile_id` = ? 
-                              AND `booking_date` = ? 
-                              AND `status_id` IN (1, 2, 3, 4)
-                        ");
-                        $dupStmt->execute([$buddyProfileId, $bookingDate]);
-                        if ((int)$dupStmt->fetchColumn() > 0) {
-                            $errors['booking_date'] = 'This buddy is already booked or requested on this date.';
+                        // Only run day-based check if there are no custom slots defined for this day
+                        $slotCheck = $pdo->prepare("SELECT COUNT(*) FROM `tbl_buddy_availability` WHERE `buddy_profile_id` = ? AND `available_date` = ?");
+                        $slotCheck->execute([$buddyProfileId, $bookingDate]);
+                        $hasCustomSlots = ((int)$slotCheck->fetchColumn() > 0);
+
+                        if (!$hasCustomSlots) {
+                            $dupStmt = $pdo->prepare("
+                                SELECT COUNT(*) FROM `tbl_bookings` 
+                                WHERE `buddy_profile_id` = ? 
+                                  AND `booking_date` = ? 
+                                  AND `status_id` IN (1, 2, 3, 4)
+                            ");
+                            $dupStmt->execute([$buddyProfileId, $bookingDate]);
+                            if ((int)$dupStmt->fetchColumn() > 0) {
+                                $errors['booking_date'] = 'This buddy is already booked or requested on this date.';
+                            }
                         }
                     }
                 }
             }
 
+            $slotIdToBook = null;
             if ($startTime === '') {
                 $errors['start_time'] = 'Start time is required.';
+            } elseif (isset($buddyProfileId) && $buddyProfileId > 0 && $bookingDate !== '' && !isset($errors['booking_date'])) {
+                // Check if buddy has custom slots for this date
+                $availCheck = $pdo->prepare("
+                    SELECT `id`, `start_time`, `is_booked` FROM `tbl_buddy_availability`
+                    WHERE `buddy_profile_id` = ? AND `available_date` = ?
+                ");
+                $availCheck->execute([$buddyProfileId, $bookingDate]);
+                $slots = $availCheck->fetchAll();
+
+                if (count($slots) > 0) {
+                    $matchFound = false;
+                    $alreadyBooked = false;
+                    
+                    foreach ($slots as $slot) {
+                        $slotStartFormatted = date('H:i', strtotime($slot['start_time']));
+                        $clientStartFormatted = date('H:i', strtotime($startTime));
+                        if ($slotStartFormatted === $clientStartFormatted) {
+                            $matchFound = true;
+                            $slotIdToBook = (int) $slot['id'];
+                            if ((int) $slot['is_booked'] === 1) {
+                                $alreadyBooked = true;
+                            }
+                            break;
+                        }
+                    }
+                    
+                    if (!$matchFound) {
+                        $errors['start_time'] = 'The selected start time does not match any of the buddy\'s available slots on this date.';
+                    } elseif ($alreadyBooked) {
+                        $errors['start_time'] = 'This availability slot has already been booked.';
+                    }
+                }
             }
 
             if ($hoursDuration <= 0 || $hoursDuration > 24) {
@@ -663,6 +703,12 @@ try {
                 ]);
 
                 $newBookingId = (int) $pdo->lastInsertId();
+
+                // Mark availability slot as booked if slot ID is found
+                if (isset($slotIdToBook) && $slotIdToBook > 0) {
+                    $markSlot = $pdo->prepare("UPDATE `tbl_buddy_availability` SET `is_booked` = 1 WHERE `id` = ?");
+                    $markSlot->execute([$slotIdToBook]);
+                }
 
                 // Notify Buddy
                 ab_add_notification(
