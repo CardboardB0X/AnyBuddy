@@ -6497,6 +6497,7 @@ function initHomepage() {
 }
 
 function initCommunityHub() {
+    // ── DOM Element References ───────────────────────────────────
     const postsFeed = document.getElementById('postsFeed');
     if (!postsFeed) return;
 
@@ -6507,6 +6508,10 @@ function initCommunityHub() {
     const charCount = document.getElementById('charCount');
     const submitPostBtn = document.getElementById('submitPostBtn');
     const postCategory = document.getElementById('postCategory');
+    const postImageFile = document.getElementById('postImageFile');
+    const postImagePreview = document.getElementById('postImagePreview');
+    const postImagePreviewContainer = document.getElementById('postImagePreviewContainer');
+    const removePostImageBtn = document.getElementById('removePostImageBtn');
 
     // Report modal elements
     const reportModal = document.getElementById('reportModal');
@@ -6520,38 +6525,78 @@ function initCommunityHub() {
 
     const currentUser = getCurrentUser();
 
-    // ── Update Auth UI ──────────────────────────────────────────
+    // ── SVG Icon Templates ──────────────────────────────────────
+    const SVG_HEART = (fill, stroke) => `<svg width="16" height="16" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
+
+    const SVG_CHAT = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`;
+
+    const SVG_REPOST = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px;"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>`;
+
+    const SVG_FLAG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>`;
+
+    const SVG_TRASH = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`;
+
+    // ── Theme-aware fallback avatar helper ───────────────────────
+    function getFallbackAvatar() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return isDark ? 'images/user-dark.png' : 'images/user-light.png';
+    }
+
+    function resolveAvatar(url) {
+        return (url && url.trim() !== '') ? url : getFallbackAvatar();
+    }
+
+    // ── Auth UI: Show/hide create-post vs guest CTA ─────────────
     if (currentUser) {
         if (createPostCard) createPostCard.style.display = 'block';
         if (guestCtaCard) guestCtaCard.style.display = 'none';
         if (currentUserAvatar) {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const fallbackAvatar = isDark ? 'images/user-dark.png' : 'images/user-light.png';
-            currentUserAvatar.src = (currentUser.avatar_url && currentUser.avatar_url.trim() !== '') ? currentUser.avatar_url : fallbackAvatar;
+            currentUserAvatar.src = resolveAvatar(currentUser.avatar_url);
         }
     } else {
         if (createPostCard) createPostCard.style.display = 'none';
         if (guestCtaCard) guestCtaCard.style.display = 'block';
     }
 
-    // ── Textarea character counter ──────────────────────────────
-    if (postContent) {
-        postContent.addEventListener('input', () => {
-            const len = postContent.value.length;
-            if (charCount) charCount.textContent = String(len);
-            if (submitPostBtn) {
-                submitPostBtn.disabled = (len === 0);
+    // ── Image Upload Preview ────────────────────────────────────
+    if (postImageFile) {
+        postImageFile.addEventListener('change', () => {
+            const file = postImageFile.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    if (postImagePreview) postImagePreview.src = e.target.result;
+                    if (postImagePreviewContainer) postImagePreviewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
             }
         });
     }
 
-    // ── Helper to format time ago ───────────────────────────────
+    if (removePostImageBtn) {
+        removePostImageBtn.addEventListener('click', () => {
+            if (postImageFile) postImageFile.value = '';
+            if (postImagePreview) postImagePreview.src = '';
+            if (postImagePreviewContainer) postImagePreviewContainer.style.display = 'none';
+        });
+    }
+
+    // ── Textarea Character Counter ──────────────────────────────
+    if (postContent) {
+        postContent.addEventListener('input', () => {
+            const len = postContent.value.length;
+            if (charCount) charCount.textContent = String(len);
+            if (submitPostBtn) submitPostBtn.disabled = (len === 0);
+        });
+    }
+
+    // ── Helper: Relative Timestamp ──────────────────────────────
     function timeAgo(dateString) {
         try {
-            const date = new Date(dateString.replace(/-/g, "/"));
+            const date = new Date(dateString.replace(/-/g, '/'));
             const now = new Date();
             const diffSeconds = Math.abs(Math.floor((now.getTime() - date.getTime()) / 1000));
-            
+
             if (diffSeconds < 60) return 'Just now';
             const diffMinutes = Math.floor(diffSeconds / 60);
             if (diffMinutes < 60) return `${diffMinutes}m ago`;
@@ -6559,7 +6604,7 @@ function initCommunityHub() {
             if (diffHours < 24) return `${diffHours}h ago`;
             const diffDays = Math.floor(diffHours / 24);
             if (diffDays < 30) return `${diffDays}d ago`;
-            
+
             return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
         } catch (e) {
             return dateString;
@@ -6580,7 +6625,6 @@ function initCommunityHub() {
                 method: 'GET',
                 headers: { 'Accept': 'application/json' }
             });
-
             const data = await response.json();
 
             if (data.status === 'success') {
@@ -6601,6 +6645,7 @@ function initCommunityHub() {
         }
     }
 
+    // ── Render Full Feed ────────────────────────────────────────
     function renderFeed(feed, currentUserId, currentUserRole) {
         if (!feed || feed.length === 0) {
             postsFeed.innerHTML = `
@@ -6612,44 +6657,103 @@ function initCommunityHub() {
         }
 
         postsFeed.innerHTML = '';
+        const fallbackAvatar = getFallbackAvatar();
+        const isGuest = !currentUserId;
+        const isAdmin = (currentUserRole === 'admin');
 
-        feed.forEach((post, idx) => {
+        feed.forEach(post => {
             const isAuthor = (post.user_id === currentUserId);
-            const isAdmin = (currentUserRole === 'admin');
             const hasLiked = post.user_has_liked;
 
-            // Category tag config
+            // --- Category tag config ---
             let catClass = 'cat-general';
             let catIcon = '☕';
             if (post.category === 'Booking Tips') { catClass = 'cat-tips'; catIcon = '💡'; }
             else if (post.category === 'Social Hangout') { catClass = 'cat-hangout'; catIcon = '🎉'; }
             else if (post.category === 'Safety Alert') { catClass = 'cat-safety'; catIcon = '🛡️'; }
 
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const fallbackAvatar = isDark ? 'images/user-dark.png' : 'images/user-light.png';
-            const avatarUrl = (post.avatar_url && post.avatar_url.trim() !== '') ? post.avatar_url : fallbackAvatar;
-
+            const avatarUrl = resolveAvatar(post.avatar_url);
             const pinnedBadge = post.is_pinned ? `<span class="pinned-badge">📌 Pinned</span>` : '';
             const pinnedClass = post.is_pinned ? 'pinned-post' : '';
 
-            // Comments lists
+            // --- (a) Repost indicator ---
+            let repostIndicator = '';
+            if (post.repost_details) {
+                repostIndicator = `<div class="repost-indicator">🔁 ${escapeHtml(post.author_name)} reposted</div>`;
+            }
+
+            // --- (b) Follow button (not for own posts or guests) ---
+            let followBtnHtml = '';
+            if (!isGuest && !isAuthor) {
+                const isFollowing = post.user_is_following;
+                const followClass = isFollowing ? 'follow-btn following' : 'follow-btn';
+                const followLabel = isFollowing ? 'Following' : 'Follow';
+                followBtnHtml = `<button type="button" class="${followClass}" data-target-user-id="${post.user_id}">${followLabel}</button>`;
+            }
+
+            // --- Followers count ---
+            const followersCountHtml = `<span class="followers-count" data-user-id="${post.user_id}">${post.followers_count} follower${post.followers_count !== 1 ? 's' : ''}</span>`;
+
+            // --- Author role badge ---
+            const authorRoleBadge = post.user_role !== 'client'
+                ? `<span class="badge-role ${post.user_role}-role">${post.user_role}</span>`
+                : '';
+
+            // --- (e) Post image ---
+            let postImageHtml = '';
+            if (post.image_url) {
+                postImageHtml = `<div class="post-item-image"><img src="${post.image_url}" alt="Post image" class="post-image-clickable" data-full-src="${post.image_url}"></div>`;
+            }
+
+            // --- (f) Repost embed card ---
+            let repostEmbedHtml = '';
+            if (post.repost_details) {
+                if (post.repost_details.deleted) {
+                    repostEmbedHtml = `<div class="repost-deleted-notice">🚫 Original post was removed</div>`;
+                } else {
+                    const rpAvatar = resolveAvatar(post.repost_details.avatar_url);
+                    const rpRoleBadge = post.repost_details.user_role !== 'client'
+                        ? `<span class="badge-role ${post.repost_details.user_role}-role">${post.repost_details.user_role}</span>`
+                        : '';
+                    let rpImageHtml = '';
+                    if (post.repost_details.image_url) {
+                        rpImageHtml = `<div class="post-item-image"><img src="${post.repost_details.image_url}" alt="Original post image"></div>`;
+                    }
+                    repostEmbedHtml = `
+                        <div class="repost-embed-card">
+                            <div class="repost-embed-header">
+                                <a href="profile.html?id=${post.repost_details.user_id}" class="repost-embed-avatar-link">
+                                    <img src="${rpAvatar}" alt="${escapeHtml(post.repost_details.author_name)}" class="avatar-circle-xs" onerror="this.src='${fallbackAvatar}'">
+                                </a>
+                                <div class="repost-embed-meta">
+                                    <a href="profile.html?id=${post.repost_details.user_id}" class="repost-embed-author">${escapeHtml(post.repost_details.author_name)} ${rpRoleBadge}</a>
+                                    <div class="repost-embed-time">${timeAgo(post.repost_details.created_at)}</div>
+                                </div>
+                            </div>
+                            <div class="repost-embed-content">${escapeHtml(post.repost_details.content)}</div>
+                            ${rpImageHtml}
+                        </div>
+                    `;
+                }
+            }
+
+            // --- (i) Comments list ---
             let commentsHtml = '';
             post.comments.forEach(comment => {
-                const commentAvatar = (comment.avatar_url && comment.avatar_url.trim() !== '') ? comment.avatar_url : fallbackAvatar;
+                const commentAvatar = resolveAvatar(comment.avatar_url);
                 const isCommentAuthor = (comment.user_id === currentUserId);
                 const deleteCommentBtn = (isCommentAuthor || isAdmin)
                     ? `<button type="button" class="comment-delete-trigger" data-comment-id="${comment.comment_id}">&times;</button>`
                     : '';
-
-                const commentRoleBadge = comment.user_role !== 'client' 
-                    ? `<span class="badge-role ${comment.user_role}-role">${comment.user_role}</span>` 
+                const commentRoleBadge = comment.user_role !== 'client'
+                    ? `<span class="badge-role ${comment.user_role}-role">${comment.user_role}</span>`
                     : '';
 
                 commentsHtml += `
                     <div class="comment-item">
-                        <img src="${commentAvatar}" alt="${escapeHtml(comment.author_name)}" class="comment-avatar" onerror="this.src='${fallbackAvatar}'">
+                        <a href="profile.html?id=${comment.user_id}"><img src="${commentAvatar}" alt="${escapeHtml(comment.author_name)}" class="comment-avatar" onerror="this.src='${fallbackAvatar}'"></a>
                         <div class="comment-details">
-                            <div class="comment-author-name">${escapeHtml(comment.author_name)} ${commentRoleBadge}</div>
+                            <div class="comment-author-name"><a href="profile.html?id=${comment.user_id}">${escapeHtml(comment.author_name)}</a> ${commentRoleBadge}</div>
                             <div class="comment-text">${escapeHtml(comment.content)}</div>
                             <div class="comment-time">${timeAgo(comment.created_at)}</div>
                         </div>
@@ -6658,12 +6762,7 @@ function initCommunityHub() {
                 `;
             });
 
-            // Author role badge
-            const authorRoleBadge = post.user_role !== 'client'
-                ? `<span class="badge-role ${post.user_role}-role">${post.user_role}</span>`
-                : '';
-
-            // Admin toolbar
+            // --- (h) Admin toolbar ---
             let adminToolbar = '';
             if (isAdmin) {
                 const pinAction = post.is_pinned ? 'unpin_post' : 'pin_post';
@@ -6673,64 +6772,82 @@ function initCommunityHub() {
                         <span class="admin-mod-label">🛡️ Moderation Tools</span>
                         <div class="admin-mod-actions">
                             <button type="button" class="admin-mod-btn btn-pin" data-action="${pinAction}" data-post-id="${post.post_id}">${pinLabel}</button>
-                            <button type="button" class="admin-mod-btn btn-delete" data-post-id="${post.post_id}">Delete Post</button>
+                            <button type="button" class="admin-mod-btn btn-delete" data-post-id="${post.post_id}">${SVG_TRASH} Delete Post</button>
                         </div>
                     </div>
                 `;
             }
 
-            // Post author delete action
-            let authorDeleteBtn = '';
-            if (isAuthor && !isAdmin) {
-                authorDeleteBtn = `
-                    <button type="button" class="feed-action-btn delete-post-btn" data-post-id="${post.post_id}" style="color:#f44336">
-                        🗑️ Delete
-                    </button>
-                `;
+            // --- (g) Footer action buttons ---
+            const likeIconFill = hasLiked ? '#fe6fbe' : 'none';
+            const likeIconStroke = hasLiked ? '#fe6fbe' : 'currentColor';
+
+            // Delete button: shown for author or admin (styled red)
+            let deleteBtn = '';
+            if (isAuthor || isAdmin) {
+                deleteBtn = `<button type="button" class="feed-action-btn delete-post-btn" data-post-id="${post.post_id}" style="color:#f44336">${SVG_TRASH} Delete</button>`;
             }
 
-            const likeIconColor = hasLiked ? '#fe6fbe' : 'currentColor';
-            const likeIconFill = hasLiked ? '#fe6fbe' : 'none';
+            // Repost button: hidden for guests
+            let repostBtn = '';
+            if (!isGuest) {
+                repostBtn = `<button type="button" class="feed-action-btn repost-action-btn" data-post-id="${post.post_id}" data-author-name="${escapeHtml(post.author_name)}" data-content="${escapeHtml(post.content)}" data-image-url="${post.image_url || ''}">${SVG_REPOST} Repost</button>`;
+            }
 
+            // Report/flag button: hidden for own posts
+            let flagBtn = '';
+            if (!isAuthor) {
+                flagBtn = `<button type="button" class="feed-action-btn flag-action-btn" data-post-id="${post.post_id}">${SVG_FLAG} Report</button>`;
+            }
+
+            // --- Build the full post card ---
             const postCard = `
                 <div class="post-item-card ${pinnedClass}" data-post-id="${post.post_id}">
+                    ${repostIndicator}
                     ${pinnedBadge}
                     <div class="post-item-header">
-                        <img src="${avatarUrl}" alt="${escapeHtml(post.author_name)}" class="avatar-circle-sm" onerror="this.src='${fallbackAvatar}'">
+                        <a href="profile.html?id=${post.user_id}" class="post-avatar-link">
+                            <img src="${avatarUrl}" alt="${escapeHtml(post.author_name)}" class="avatar-circle-sm" onerror="this.src='${fallbackAvatar}'">
+                        </a>
                         <div class="post-meta-details">
-                            <div class="post-author-name">${escapeHtml(post.author_name)} ${authorRoleBadge}</div>
+                            <div class="post-author-row">
+                                <a href="profile.html?id=${post.user_id}" class="post-author-name">${escapeHtml(post.author_name)}</a>
+                                ${authorRoleBadge}
+                                ${followBtnHtml}
+                                ${followersCountHtml}
+                            </div>
                             <div class="post-timestamp">${timeAgo(post.created_at)}</div>
                         </div>
                         <span class="post-category-tag ${catClass}">${catIcon} ${post.category}</span>
                     </div>
+
                     <div class="post-item-content">${escapeHtml(post.content)}</div>
+                    ${postImageHtml}
+                    ${repostEmbedHtml}
+
                     <div class="post-item-footer">
                         <button type="button" class="feed-action-btn like-action-btn ${hasLiked ? 'liked' : ''}" data-post-id="${post.post_id}">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="${likeIconFill}" stroke="${likeIconColor}" stroke-width="2" style="display:inline-block; vertical-align:middle; margin-right:2px;">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
+                            ${SVG_HEART(likeIconFill, likeIconStroke)}
                             <span>${post.likes_count}</span>
                         </button>
                         <button type="button" class="feed-action-btn comment-toggle-btn" data-post-id="${post.post_id}">
-                            💬 <span>Comments (${post.comments.length})</span>
+                            ${SVG_CHAT}
+                            <span>Comments (${post.comments.length})</span>
                         </button>
-                        <button type="button" class="feed-action-btn flag-action-btn" data-post-id="${post.post_id}">
-                            🚩 Report
-                        </button>
-                        ${authorDeleteBtn}
+                        ${repostBtn}
+                        ${flagBtn}
+                        ${deleteBtn}
                     </div>
 
                     ${adminToolbar}
 
-                    <!-- Nested Comments Container -->
+                    <!-- Comments Section (hidden by default) -->
                     <div class="comments-section" id="comments-${post.post_id}" style="display:none;">
                         <div class="comments-list">${commentsHtml}</div>
                         ${currentUser ? `
                         <div class="add-comment-wrapper">
                             <input type="text" class="comment-input-box" placeholder="Write a comment..." data-post-id="${post.post_id}">
-                            <button type="button" class="submit-comment-btn" data-post-id="${post.post_id}">
-                                ➔
-                            </button>
+                            <button type="button" class="submit-comment-btn" data-post-id="${post.post_id}">➔</button>
                         </div>` : ''}
                     </div>
                 </div>
@@ -6739,25 +6856,27 @@ function initCommunityHub() {
         });
     }
 
-    // ── Submit Post ─────────────────────────────────────────────
+    // ── Submit Post (FormData for file upload) ──────────────────
     if (submitPostBtn) {
         submitPostBtn.addEventListener('click', async () => {
             const content = postContent.value.trim();
             const category = postCategory.value;
-
             if (content === '') return;
 
             setButtonLoading(submitPostBtn, true);
 
             try {
+                const formData = new FormData();
+                formData.append('action', 'create_post');
+                formData.append('content', content);
+                formData.append('category', category);
+                if (postImageFile && postImageFile.files[0]) {
+                    formData.append('image', postImageFile.files[0]);
+                }
+
                 const response = await fetch('ajax_community.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'create_post',
-                        content: content,
-                        category: category
-                    })
+                    body: formData // No Content-Type header — browser sets multipart boundary
                 });
 
                 const data = await response.json();
@@ -6765,6 +6884,9 @@ function initCommunityHub() {
                     showToast(data.message, 'success');
                     postContent.value = '';
                     if (charCount) charCount.textContent = '0';
+                    if (postImageFile) postImageFile.value = '';
+                    if (postImagePreview) postImagePreview.src = '';
+                    if (postImagePreviewContainer) postImagePreviewContainer.style.display = 'none';
                     submitPostBtn.disabled = true;
                     loadFeed();
                 } else {
@@ -6778,7 +6900,112 @@ function initCommunityHub() {
         });
     }
 
-    // ── Feed Interactions (Likes, Comments, Deletion) ─────────────
+    // ── Image Lightbox (dynamically created) ────────────────────
+    function openLightbox(imageSrc) {
+        // Remove any existing lightbox
+        const existing = document.getElementById('communityLightbox');
+        if (existing) existing.remove();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'communityLightbox';
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;cursor:pointer;';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '✕';
+        closeBtn.style.cssText = 'position:absolute;top:16px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:10000;';
+        closeBtn.addEventListener('click', () => overlay.remove());
+
+        const img = document.createElement('img');
+        img.src = imageSrc;
+        img.alt = 'Full size image';
+        img.style.cssText = 'max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 4px 32px rgba(0,0,0,0.5);cursor:default;';
+        img.addEventListener('click', (e) => e.stopPropagation());
+
+        overlay.appendChild(closeBtn);
+        overlay.appendChild(img);
+        overlay.addEventListener('click', () => overlay.remove());
+
+        document.body.appendChild(overlay);
+    }
+
+    // ── Repost Modal (dynamically created) ──────────────────────
+    function openRepostModal(postId, originalAuthor, originalContent, originalImageUrl) {
+        // Remove any existing repost modal
+        const existing = document.getElementById('repostModal');
+        if (existing) existing.remove();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'repostModal';
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;';
+
+        // Build original post preview
+        let previewImageHtml = '';
+        if (originalImageUrl) {
+            previewImageHtml = `<div style="margin-top:8px;"><img src="${originalImageUrl}" alt="Post image" style="max-width:100%;max-height:120px;border-radius:6px;"></div>`;
+        }
+
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = 'background:var(--bg-primary, #fff);border-radius:12px;padding:24px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2);';
+        modalContent.innerHTML = `
+            <h3 style="margin:0 0 16px 0;font-size:1.1rem;">🔁 Repost</h3>
+            <textarea id="repostComment" placeholder="Add a comment (optional)..." rows="3" style="width:100%;border:1px solid var(--border-color, #ddd);border-radius:8px;padding:10px;font-size:0.95rem;resize:vertical;box-sizing:border-box;background:var(--bg-secondary, #f9f9f9);color:var(--text-primary, #333);"></textarea>
+            <div style="margin-top:12px;padding:12px;border:1px solid var(--border-color, #ddd);border-radius:8px;background:var(--bg-secondary, #f9f9f9);">
+                <div style="font-weight:600;font-size:0.85rem;color:var(--text-secondary, #666);margin-bottom:6px;">${escapeHtml(originalAuthor)}</div>
+                <div style="font-size:0.9rem;color:var(--text-primary, #333);">${escapeHtml(originalContent)}</div>
+                ${previewImageHtml}
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;">
+                <button type="button" id="cancelRepostBtn" style="padding:8px 18px;border:1px solid var(--border-color, #ddd);background:none;border-radius:8px;cursor:pointer;color:var(--text-primary, #333);">Cancel</button>
+                <button type="button" id="confirmRepostBtn" style="padding:8px 18px;background:var(--accent-color, #6c5ce7);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Repost</button>
+            </div>
+        `;
+
+        overlay.appendChild(modalContent);
+
+        // Close on backdrop click
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+        });
+
+        // Cancel button
+        modalContent.querySelector('#cancelRepostBtn').addEventListener('click', () => overlay.remove());
+
+        // Confirm repost
+        modalContent.querySelector('#confirmRepostBtn').addEventListener('click', async () => {
+            const comment = modalContent.querySelector('#repostComment').value.trim();
+            const confirmBtn = modalContent.querySelector('#confirmRepostBtn');
+            setButtonLoading(confirmBtn, true);
+
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'repost_post',
+                        post_id: postId,
+                        content: comment
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(data.message || 'Reposted successfully!', 'success');
+                    overlay.remove();
+                    loadFeed();
+                } else {
+                    showToast(data.message || 'Failed to repost.', 'error');
+                }
+            } catch (err) {
+                showToast('Failed to repost. Try again.', 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
+            }
+        });
+
+        document.body.appendChild(overlay);
+        modalContent.querySelector('#repostComment').focus();
+    }
+
+    // ── Event Delegation: Single click listener on postsFeed ────
     postsFeed.addEventListener('click', async (e) => {
         const likeBtn = e.target.closest('.like-action-btn');
         const commentToggle = e.target.closest('.comment-toggle-btn');
@@ -6788,8 +7015,69 @@ function initCommunityHub() {
         const adminDelete = e.target.closest('.btn-delete');
         const adminPin = e.target.closest('.btn-pin');
         const flagBtn = e.target.closest('.flag-action-btn');
+        const followBtn = e.target.closest('.follow-btn');
+        const repostBtn = e.target.closest('.repost-action-btn');
+        const imageClick = e.target.closest('.post-image-clickable');
 
-        // Like Toggle
+        // ── Image Lightbox ──
+        if (imageClick) {
+            const fullSrc = imageClick.dataset.fullSrc || imageClick.src;
+            openLightbox(fullSrc);
+            return;
+        }
+
+        // ── Follow / Unfollow ──
+        if (followBtn) {
+            if (!currentUser) {
+                showToast('You must log in to follow users!', 'warning');
+                return;
+            }
+            const targetUserId = followBtn.dataset.targetUserId;
+            followBtn.disabled = true;
+
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'follow_user', target_user_id: Number(targetUserId) })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const isNowFollowing = followBtn.classList.toggle('following');
+                    followBtn.textContent = isNowFollowing ? 'Following' : 'Follow';
+
+                    // Update all followers count spans for this user
+                    const countSpans = postsFeed.querySelectorAll(`.followers-count[data-user-id="${targetUserId}"]`);
+                    countSpans.forEach(span => {
+                        const newCount = data.followers_count ?? 0;
+                        span.textContent = `${newCount} follower${newCount !== 1 ? 's' : ''}`;
+                    });
+                } else {
+                    showToast(data.message || 'Failed to update follow status.', 'error');
+                }
+            } catch (err) {
+                showToast('Network error. Try again.', 'error');
+            } finally {
+                followBtn.disabled = false;
+            }
+            return;
+        }
+
+        // ── Repost ──
+        if (repostBtn) {
+            if (!currentUser) {
+                showToast('You must log in to repost!', 'warning');
+                return;
+            }
+            const postId = repostBtn.dataset.postId;
+            const authorName = repostBtn.dataset.authorName;
+            const content = repostBtn.dataset.content;
+            const imageUrl = repostBtn.dataset.imageUrl;
+            openRepostModal(postId, authorName, content, imageUrl);
+            return;
+        }
+
+        // ── Like Toggle ──
         if (likeBtn) {
             if (!currentUser) {
                 showToast('You must log in to like posts!', 'warning');
@@ -6814,16 +7102,16 @@ function initCommunityHub() {
                     } else {
                         likeBtn.classList.remove('liked');
                         svg.setAttribute('fill', 'none');
-                        const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-                        svg.setAttribute('stroke', isDarkTheme ? '#fff' : '#000');
+                        svg.setAttribute('stroke', 'currentColor');
                     }
                 }
             } catch (err) {
-                // Ignore silent network failure
+                // Silent network failure
             }
+            return;
         }
 
-        // Comments Toggle
+        // ── Comments Toggle ──
         if (commentToggle) {
             const postId = commentToggle.dataset.postId;
             const sect = document.getElementById(`comments-${postId}`);
@@ -6831,25 +7119,21 @@ function initCommunityHub() {
                 const isHidden = (sect.style.display === 'none');
                 sect.style.display = isHidden ? 'block' : 'none';
             }
+            return;
         }
 
-        // Submit Comment
+        // ── Submit Comment ──
         if (submitComment) {
             const postId = submitComment.dataset.postId;
             const inputField = postsFeed.querySelector(`.comment-input-box[data-post-id="${postId}"]`);
             const content = inputField ? inputField.value.trim() : '';
-
             if (content === '') return;
 
             try {
                 const res = await fetch('ajax_community.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'create_comment',
-                        post_id: postId,
-                        content: content
-                    })
+                    body: JSON.stringify({ action: 'create_comment', post_id: postId, content: content })
                 });
                 const data = await res.json();
                 if (data.status === 'success') {
@@ -6861,9 +7145,10 @@ function initCommunityHub() {
             } catch (err) {
                 showToast('Failed to post comment.', 'error');
             }
+            return;
         }
 
-        // Delete Comment (Author or Admin)
+        // ── Delete Comment ──
         if (commentDelete) {
             if (!confirm('Are you sure you want to delete this comment?')) return;
             const commentId = commentDelete.dataset.commentId;
@@ -6883,9 +7168,10 @@ function initCommunityHub() {
             } catch (err) {
                 showToast('Failed to delete comment.', 'error');
             }
+            return;
         }
 
-        // Delete Post (Author or Admin)
+        // ── Delete Post (Author or Admin) ──
         if (authorDelete || adminDelete) {
             if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) return;
             const postId = (authorDelete || adminDelete).dataset.postId;
@@ -6905,9 +7191,10 @@ function initCommunityHub() {
             } catch (err) {
                 showToast('Failed to delete post.', 'error');
             }
+            return;
         }
 
-        // Admin Toggle Pin
+        // ── Admin Toggle Pin ──
         if (adminPin) {
             const action = adminPin.dataset.action;
             const postId = adminPin.dataset.postId;
@@ -6927,12 +7214,13 @@ function initCommunityHub() {
             } catch (err) {
                 showToast('Action failed.', 'error');
             }
+            return;
         }
 
-        // Open Report Dialog
+        // ── Open Report Dialog ──
         if (flagBtn) {
             if (!currentUser) {
-                showToast('You must log in to flag posts!', 'warning');
+                showToast('You must log in to report posts!', 'warning');
                 return;
             }
             const postId = flagBtn.dataset.postId;
@@ -6942,7 +7230,7 @@ function initCommunityHub() {
         }
     });
 
-    // ── Bind modal closing ──────────────────────────────────────
+    // ── Report Modal: Close handlers ────────────────────────────
     if (closeReportModalBtn) closeReportModalBtn.addEventListener('click', () => { reportModal.style.display = 'none'; });
     if (cancelReportBtn) cancelReportBtn.addEventListener('click', () => { reportModal.style.display = 'none'; });
     if (reportModal) {
@@ -6951,7 +7239,7 @@ function initCommunityHub() {
         });
     }
 
-    // ── Submit Report ───────────────────────────────────────────
+    // ── Report Modal: Submit handler ────────────────────────────
     if (submitReportBtn) {
         submitReportBtn.addEventListener('click', async () => {
             const postId = reportPostId ? reportPostId.value : '';
@@ -6993,7 +7281,7 @@ function initCommunityHub() {
         });
     }
 
-    // Initial Load
+    // ── Initial Feed Load ───────────────────────────────────────
     loadFeed();
 }
 

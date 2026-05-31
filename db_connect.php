@@ -76,15 +76,29 @@ function ab_pdo(): PDO
                 // Ensure community tables exist
                 $pdo->exec("
                     CREATE TABLE IF NOT EXISTS `tbl_community_posts` (
-                        `post_id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                        `user_id`    INT UNSIGNED NOT NULL,
-                        `category`   ENUM('General', 'Booking Tips', 'Social Hangout', 'Safety Alert') NOT NULL DEFAULT 'General',
-                        `content`    TEXT NOT NULL,
-                        `is_pinned`  TINYINT(1) NOT NULL DEFAULT 0,
-                        `status`     ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
-                        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        `post_id`      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                        `user_id`      INT UNSIGNED NOT NULL,
+                        `category`     ENUM('General', 'Booking Tips', 'Social Hangout', 'Safety Alert') NOT NULL DEFAULT 'General',
+                        `content`      TEXT NOT NULL,
+                        `image_url`    VARCHAR(500) NULL DEFAULT NULL,
+                        `repost_of_id` INT UNSIGNED NULL DEFAULT NULL,
+                        `is_pinned`    TINYINT(1) NOT NULL DEFAULT 0,
+                        `status`       ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
+                        `created_at`   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         PRIMARY KEY (`post_id`),
-                        CONSTRAINT `fk_posts_user_mig` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+                        CONSTRAINT `fk_posts_user_mig` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE,
+                        CONSTRAINT `fk_posts_repost_mig` FOREIGN KEY (`repost_of_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE SET NULL
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
+
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS `tbl_user_follows` (
+                        `follower_id` INT UNSIGNED NOT NULL,
+                        `followed_id` INT UNSIGNED NOT NULL,
+                        `created_at`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        PRIMARY KEY (`follower_id`, `followed_id`),
+                        CONSTRAINT `fk_follows_follower_mig` FOREIGN KEY (`follower_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE,
+                        CONSTRAINT `fk_follows_followed_mig` FOREIGN KEY (`followed_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
                 ");
 
@@ -337,7 +351,7 @@ function ab_init_database(PDO $pdo, bool $echoHtml = false): void
         'tbl_buddy_availability', 'tbl_emergency_contacts', 'tbl_bookings',
         'tbl_messages', 'tbl_reviews', 'tbl_user_tiers', 'tbl_vouchers', 'tbl_payment_methods',
         'tbl_audit_logs', 'tbl_system_settings',
-        'tbl_community_reports', 'tbl_post_comments', 'tbl_post_likes', 'tbl_community_posts'
+        'tbl_community_reports', 'tbl_post_comments', 'tbl_post_likes', 'tbl_community_posts', 'tbl_user_follows'
     ];
     foreach ($tablesToDrop as $tbl) {
         $pdo->exec("DROP TABLE IF EXISTS `$tbl` CASCADE");
@@ -696,19 +710,36 @@ function ab_init_database(PDO $pdo, bool $echoHtml = false): void
     // 19. tbl_community_posts
     $sqlCommunityPosts = "
     CREATE TABLE `tbl_community_posts` (
-        `post_id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        `user_id`    INT UNSIGNED NOT NULL,
-        `category`   ENUM('General', 'Booking Tips', 'Social Hangout', 'Safety Alert') NOT NULL DEFAULT 'General',
-        `content`    TEXT NOT NULL,
-        `is_pinned`  TINYINT(1) NOT NULL DEFAULT 0,
-        `status`     ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
-        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `post_id`      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `user_id`      INT UNSIGNED NOT NULL,
+        `category`     ENUM('General', 'Booking Tips', 'Social Hangout', 'Safety Alert') NOT NULL DEFAULT 'General',
+        `content`      TEXT NOT NULL,
+        `image_url`    VARCHAR(500) NULL DEFAULT NULL,
+        `repost_of_id` INT UNSIGNED NULL DEFAULT NULL,
+        `is_pinned`    TINYINT(1) NOT NULL DEFAULT 0,
+        `status`       ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
+        `created_at`   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (`post_id`),
-        CONSTRAINT `fk_posts_user_init` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+        CONSTRAINT `fk_posts_user_init` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE,
+        CONSTRAINT `fk_posts_repost_init` FOREIGN KEY (`repost_of_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE SET NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     ";
     $pdo->exec($sqlCommunityPosts);
     $step('Table `tbl_community_posts` created', true);
+
+    // 19b. tbl_user_follows
+    $sqlUserFollows = "
+    CREATE TABLE `tbl_user_follows` (
+        `follower_id` INT UNSIGNED NOT NULL,
+        `followed_id` INT UNSIGNED NOT NULL,
+        `created_at`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`follower_id`, `followed_id`),
+        CONSTRAINT `fk_follows_follower_init` FOREIGN KEY (`follower_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE,
+        CONSTRAINT `fk_follows_followed_init` FOREIGN KEY (`followed_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+    $pdo->exec($sqlUserFollows);
+    $step('Table `tbl_user_follows` created', true);
 
     // 20. tbl_post_likes
     $sqlPostLikes = "
