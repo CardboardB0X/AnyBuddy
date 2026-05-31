@@ -12,6 +12,10 @@
     --border: #6E6E49;
     --accent: #fe6fbe;
     --shadow: rgba(0, 0, 0, 0.08);
+    --bg-navbar: rgba(255, 255, 255, 0.85);
+    --border-glass: rgba(110, 110, 73, 0.2);
+    --bg-glass: rgba(255, 255, 255, 0.65);
+    --input-bg: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -26,6 +30,10 @@
     --border: #272c35;
     --accent: #fe6fbe;
     --shadow: rgba(0, 0, 0, 0.5);
+    --bg-navbar: rgba(13, 15, 18, 0.85);
+    --border-glass: rgba(39, 44, 53, 0.4);
+    --bg-glass: rgba(21, 24, 30, 0.65);
+    --input-bg: #0d0f12;
 }
 
 html{
