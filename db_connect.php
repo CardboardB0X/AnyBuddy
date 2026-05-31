@@ -72,6 +72,62 @@ function ab_pdo(): PDO
                         ('maintenance_mode', '0');
                     ");
                 }
+
+                // Ensure community tables exist
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS `tbl_community_posts` (
+                        `post_id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                        `user_id`    INT UNSIGNED NOT NULL,
+                        `category`   ENUM('General', 'Booking Tips', 'Social Hangout', 'Safety Alert') NOT NULL DEFAULT 'General',
+                        `content`    TEXT NOT NULL,
+                        `is_pinned`  TINYINT(1) NOT NULL DEFAULT 0,
+                        `status`     ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
+                        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        PRIMARY KEY (`post_id`),
+                        CONSTRAINT `fk_posts_user_mig` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
+
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS `tbl_post_likes` (
+                        `post_id` INT UNSIGNED NOT NULL,
+                        `user_id` INT UNSIGNED NOT NULL,
+                        PRIMARY KEY (`post_id`, `user_id`),
+                        CONSTRAINT `fk_likes_post_mig` FOREIGN KEY (`post_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE CASCADE,
+                        CONSTRAINT `fk_likes_user_mig` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
+
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS `tbl_post_comments` (
+                        `comment_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                        `post_id`    INT UNSIGNED NOT NULL,
+                        `user_id`    INT UNSIGNED NOT NULL,
+                        `content`    TEXT NOT NULL,
+                        `status`     ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
+                        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        PRIMARY KEY (`comment_id`),
+                        CONSTRAINT `fk_comments_post_mig` FOREIGN KEY (`post_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE CASCADE,
+                        CONSTRAINT `fk_comments_user_mig` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
+
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS `tbl_community_reports` (
+                        `report_id`   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                        `post_id`     INT UNSIGNED NULL DEFAULT NULL,
+                        `comment_id`  INT UNSIGNED NULL DEFAULT NULL,
+                        `reporter_id` INT UNSIGNED NOT NULL,
+                        `reason`      VARCHAR(100) NOT NULL,
+                        `details`     TEXT NOT NULL,
+                        `status`      ENUM('pending', 'resolved') NOT NULL DEFAULT 'pending',
+                        `created_at`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        PRIMARY KEY (`report_id`),
+                        CONSTRAINT `fk_rep_post_mig` FOREIGN KEY (`post_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE CASCADE,
+                        CONSTRAINT `fk_rep_comment_mig` FOREIGN KEY (`comment_id`) REFERENCES `tbl_post_comments` (`comment_id`) ON DELETE CASCADE,
+                        CONSTRAINT `fk_rep_user_mig` FOREIGN KEY (`reporter_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
             } catch (Exception $migEx) {
                 // Silently ignore during bootstrap / initialization
             }
@@ -280,7 +336,8 @@ function ab_init_database(PDO $pdo, bool $echoHtml = false): void
         'tbl_specialties', 'tbl_languages', 'tbl_notifications', 'tbl_reports',
         'tbl_buddy_availability', 'tbl_emergency_contacts', 'tbl_bookings',
         'tbl_messages', 'tbl_reviews', 'tbl_user_tiers', 'tbl_vouchers', 'tbl_payment_methods',
-        'tbl_audit_logs', 'tbl_system_settings'
+        'tbl_audit_logs', 'tbl_system_settings',
+        'tbl_community_reports', 'tbl_post_comments', 'tbl_post_likes', 'tbl_community_posts'
     ];
     foreach ($tablesToDrop as $tbl) {
         $pdo->exec("DROP TABLE IF EXISTS `$tbl` CASCADE");
@@ -636,6 +693,73 @@ function ab_init_database(PDO $pdo, bool $echoHtml = false): void
     $pdo->exec($sqlSystemSettings);
     $step('Table `tbl_system_settings` created', true);
 
+    // 19. tbl_community_posts
+    $sqlCommunityPosts = "
+    CREATE TABLE `tbl_community_posts` (
+        `post_id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `user_id`    INT UNSIGNED NOT NULL,
+        `category`   ENUM('General', 'Booking Tips', 'Social Hangout', 'Safety Alert') NOT NULL DEFAULT 'General',
+        `content`    TEXT NOT NULL,
+        `is_pinned`  TINYINT(1) NOT NULL DEFAULT 0,
+        `status`     ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
+        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`post_id`),
+        CONSTRAINT `fk_posts_user_init` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+    $pdo->exec($sqlCommunityPosts);
+    $step('Table `tbl_community_posts` created', true);
+
+    // 20. tbl_post_likes
+    $sqlPostLikes = "
+    CREATE TABLE `tbl_post_likes` (
+        `post_id` INT UNSIGNED NOT NULL,
+        `user_id` INT UNSIGNED NOT NULL,
+        PRIMARY KEY (`post_id`, `user_id`),
+        CONSTRAINT `fk_likes_post_init` FOREIGN KEY (`post_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE CASCADE,
+        CONSTRAINT `fk_likes_user_init` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+    $pdo->exec($sqlPostLikes);
+    $step('Table `tbl_post_likes` created', true);
+
+    // 21. tbl_post_comments
+    $sqlPostComments = "
+    CREATE TABLE `tbl_post_comments` (
+        `comment_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `post_id`    INT UNSIGNED NOT NULL,
+        `user_id`    INT UNSIGNED NOT NULL,
+        `content`    TEXT NOT NULL,
+        `status`     ENUM('active', 'flagged', 'hidden') NOT NULL DEFAULT 'active',
+        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`comment_id`),
+        CONSTRAINT `fk_comments_post_init` FOREIGN KEY (`post_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE CASCADE,
+        CONSTRAINT `fk_comments_user_init` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+    $pdo->exec($sqlPostComments);
+    $step('Table `tbl_post_comments` created', true);
+
+    // 22. tbl_community_reports
+    $sqlCommunityReports = "
+    CREATE TABLE `tbl_community_reports` (
+        `report_id`   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `post_id`     INT UNSIGNED NULL DEFAULT NULL,
+        `comment_id`  INT UNSIGNED NULL DEFAULT NULL,
+        `reporter_id` INT UNSIGNED NOT NULL,
+        `reason`      VARCHAR(100) NOT NULL,
+        `details`     TEXT NOT NULL,
+        `status`      ENUM('pending', 'resolved') NOT NULL DEFAULT 'pending',
+        `created_at`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`report_id`),
+        CONSTRAINT `fk_rep_post_init` FOREIGN KEY (`post_id`) REFERENCES `tbl_community_posts` (`post_id`) ON DELETE CASCADE,
+        CONSTRAINT `fk_rep_comment_init` FOREIGN KEY (`comment_id`) REFERENCES `tbl_post_comments` (`comment_id`) ON DELETE CASCADE,
+        CONSTRAINT `fk_rep_user_init` FOREIGN KEY (`reporter_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ";
+    $pdo->exec($sqlCommunityReports);
+    $step('Table `tbl_community_reports` created', true);
+
     $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
 
     // ── Seed Reference Data ───────────────────────────────────────
@@ -819,6 +943,28 @@ function ab_init_database(PDO $pdo, bool $echoHtml = false): void
         $stmtGallery->execute($g);
     }
     $step('Seeded gallery images', true);
+
+    // Seed Sample Community Posts
+    $pdo->exec("
+    INSERT INTO `tbl_community_posts` (`post_id`, `user_id`, `category`, `content`, `is_pinned`, `status`) VALUES
+    (1, 14, 'Safety Alert', 'Welcome to the AnyBuddy Community Hub! Remember to keep your communications inside the platform and always meet in public settings for safety.', 1, 'active'),
+    (2, 3, 'General', 'Hi guys! Angelo here. I have added new morning availability slots for this upcoming weekend. Feel free to book me if you need support or lifting helper!', 0, 'active'),
+    (3, 5, 'Social Hangout', 'Had an awesome piano session with a client today. Music truly heals! Teaching is so fulfilling.', 0, 'active');
+    ");
+
+    // Seed Sample Post Likes
+    $pdo->exec("
+    INSERT INTO `tbl_post_likes` (`post_id`, `user_id`) VALUES
+    (1, 3), (1, 13), (2, 13), (3, 14);
+    ");
+
+    // Seed Sample Post Comments
+    $pdo->exec("
+    INSERT INTO `tbl_post_comments` (`comment_id`, `post_id`, `user_id`, `content`, `status`) VALUES
+    (1, 1, 3, 'Great reminder! Safety is always number one.', 'active'),
+    (2, 3, 13, 'You are an amazing teacher, Liah! Highly recommended.', 'active');
+    ");
+    $step('Seeded sample community posts, likes, and comments', true);
 
     // Seed Initial System Audit Log
     $pdo->exec("

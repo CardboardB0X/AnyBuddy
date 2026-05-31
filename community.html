@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        (function(){if(localStorage.getItem('anybuddy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=35">
+    <link rel="stylesheet" href="community.css?v=35">
+    <link rel="stylesheet" href="ajax_ui.css?v=35">
+    <link rel="icon" href="images/AnyBuddy LOGO.png" type="image/png">
+    <title>Community Hub — AnyBuddy</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="homepage.html" class="navlogo">
+            <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+            <h2>AnyBuddy</h2>
+        </a>
+        <div class="navlinks">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="community.html" class="active-nav">Community</a>
+            <a href="about.html">About</a>
+            <a href="login.html" class="nav-login-link">Login</a>
+            <a href="signup.html" class="nav-signup-link">Sign up</a>
+            <a class="bab-btn" href="become-buddy.html">Become a Buddy</a>
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <img class="theme-toggle-icon" src="images/light-mode.png" alt="Switch to dark mode">
+            </button>
+            <a href="login.html" class="nav-user-link">
+                <img class="nav-user-icon" src="images/user-light.png" alt="User">
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="community-wrapper">
+        <div class="community-banner">
+            <h1>Community Hub</h1>
+            <p>Connect with buddies, share tips, updates, and stay informed!</p>
+        </div>
+
+        <div class="community-content">
+            <!-- Create Post Card -->
+            <div class="create-post-card" id="createPostCard" style="display: none;">
+                <div class="post-card-header">
+                    <img id="currentUserAvatar" class="avatar-circle-sm" src="images/user-light.png" alt="User Avatar">
+                    <div class="post-author-meta">
+                        <span class="post-box-label">Share an update</span>
+                        <select id="postCategory" class="post-category-select">
+                            <option value="General">☕ General Discussion</option>
+                            <option value="Booking Tips">💡 Booking Tips</option>
+                            <option value="Social Hangout">🎉 Social Hangout</option>
+                            <option value="Safety Alert">🛡️ Safety Alert</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="post-card-body">
+                    <textarea id="postContent" placeholder="What is on your mind? Share your schedule, tips, or experiences..." rows="3" maxlength="500"></textarea>
+                </div>
+                <div class="post-card-footer">
+                    <span class="counter-text"><span id="charCount">0</span> / 500 characters</span>
+                    <button type="button" id="submitPostBtn" class="submit-post-btn">Post to Feed</button>
+                </div>
+            </div>
+
+            <!-- Log In Call-to-Action (shown when guest) -->
+            <div class="guest-cta-card" id="guestCtaCard">
+                <p>Want to join the discussion, like posts, or comment? Log in to your account.</p>
+                <div class="cta-buttons">
+                    <a href="login.html" class="cta-login-btn">Log In</a>
+                    <a href="signup.html" class="cta-signup-btn">Sign Up</a>
+                </div>
+            </div>
+
+            <!-- Feed Container -->
+            <div class="posts-feed" id="postsFeed">
+                <div class="feed-status-box">
+                    <div class="status-spinner"></div>
+                    <p>Loading community posts...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal Dialog -->
+    <div class="modal-overlay" id="reportModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Report Content</h3>
+                <button type="button" class="close-modal-btn" id="closeReportModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="reportPostId" value="">
+                <input type="hidden" id="reportCommentId" value="">
+                
+                <label class="form-label" for="reportReason">Reason for Report</label>
+                <select id="reportReason" class="form-select">
+                    <option value="Harassment">Harassment or Abuse</option>
+                    <option value="Spam">Spam or Advertisement</option>
+                    <option value="Inappropriate">Inappropriate content</option>
+                    <option value="Misleading">Misleading or Scam</option>
+                </select>
+
+                <label class="form-label" for="reportDetails">Additional Details</label>
+                <textarea id="reportDetails" class="form-textarea" placeholder="Describe why this content violates community guidelines..." rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-cancel-btn" id="cancelReportBtn">Cancel</button>
+                <button type="button" class="modal-submit-btn" id="submitReportBtn">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="media-icons">
+            <div class="footer-logo">
+                <img src="images/AnyBuddy LOGO.png" alt="AnyBuddy Logo" width=40 height=40>
+                <h3>AnyBuddy</h3>
+            </div>
+            <ul class="social-media-links">
+                <li><a href="javascript:void(0)"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="javascript:void(0)"><img src="images/instagram.png" alt="Instagram"></a></li>
+            </ul>
+        </div>
+        <div class="platform-links">
+            <h3>Platform</h3>
+            <ul>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+        <div class="legal">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Service</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Cancellation and Refund</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="theme.js?v=35"></script>
+    <!-- We will inject community UI bindings in app_ajax.js directly -->
+    <script src="app_ajax.js?v=35"></script>
+</body>
+</html>

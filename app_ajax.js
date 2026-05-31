@@ -6496,16 +6496,519 @@ function initHomepage() {
     }
 }
 
+function initCommunityHub() {
+    const postsFeed = document.getElementById('postsFeed');
+    if (!postsFeed) return;
+
+    const createPostCard = document.getElementById('createPostCard');
+    const guestCtaCard = document.getElementById('guestCtaCard');
+    const currentUserAvatar = document.getElementById('currentUserAvatar');
+    const postContent = document.getElementById('postContent');
+    const charCount = document.getElementById('charCount');
+    const submitPostBtn = document.getElementById('submitPostBtn');
+    const postCategory = document.getElementById('postCategory');
+
+    // Report modal elements
+    const reportModal = document.getElementById('reportModal');
+    const closeReportModalBtn = document.getElementById('closeReportModalBtn');
+    const cancelReportBtn = document.getElementById('cancelReportBtn');
+    const submitReportBtn = document.getElementById('submitReportBtn');
+    const reportPostId = document.getElementById('reportPostId');
+    const reportCommentId = document.getElementById('reportCommentId');
+    const reportReason = document.getElementById('reportReason');
+    const reportDetails = document.getElementById('reportDetails');
+
+    const currentUser = getCurrentUser();
+
+    // ── Update Auth UI ──────────────────────────────────────────
+    if (currentUser) {
+        if (createPostCard) createPostCard.style.display = 'block';
+        if (guestCtaCard) guestCtaCard.style.display = 'none';
+        if (currentUserAvatar) {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const fallbackAvatar = isDark ? 'images/user-dark.png' : 'images/user-light.png';
+            currentUserAvatar.src = (currentUser.avatar_url && currentUser.avatar_url.trim() !== '') ? currentUser.avatar_url : fallbackAvatar;
+        }
+    } else {
+        if (createPostCard) createPostCard.style.display = 'none';
+        if (guestCtaCard) guestCtaCard.style.display = 'block';
+    }
+
+    // ── Textarea character counter ──────────────────────────────
+    if (postContent) {
+        postContent.addEventListener('input', () => {
+            const len = postContent.value.length;
+            if (charCount) charCount.textContent = String(len);
+            if (submitPostBtn) {
+                submitPostBtn.disabled = (len === 0);
+            }
+        });
+    }
+
+    // ── Helper to format time ago ───────────────────────────────
+    function timeAgo(dateString) {
+        try {
+            const date = new Date(dateString.replace(/-/g, "/"));
+            const now = new Date();
+            const diffSeconds = Math.abs(Math.floor((now.getTime() - date.getTime()) / 1000));
+            
+            if (diffSeconds < 60) return 'Just now';
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            if (diffMinutes < 60) return `${diffMinutes}m ago`;
+            const diffHours = Math.floor(diffMinutes / 60);
+            if (diffHours < 24) return `${diffHours}h ago`;
+            const diffDays = Math.floor(diffHours / 24);
+            if (diffDays < 30) return `${diffDays}d ago`;
+            
+            return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+        } catch (e) {
+            return dateString;
+        }
+    }
+
+    // ── Fetch & Render Community Feed ───────────────────────────
+    async function loadFeed() {
+        postsFeed.innerHTML = `
+            <div class="feed-status-box">
+                <div class="status-spinner"></div>
+                <p>Loading community posts...</p>
+            </div>
+        `;
+
+        try {
+            const response = await fetch('ajax_community.php', {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                renderFeed(data.feed, data.current_user_id, data.current_user_role);
+            } else {
+                postsFeed.innerHTML = `
+                    <div class="feed-status-box">
+                        <p style="color:#f44336">Failed to load feed: ${escapeHtml(data.message)}</p>
+                    </div>
+                `;
+            }
+        } catch (err) {
+            postsFeed.innerHTML = `
+                <div class="feed-status-box">
+                    <p style="color:#f44336">Connection error — could not load community feed.</p>
+                </div>
+            `;
+        }
+    }
+
+    function renderFeed(feed, currentUserId, currentUserRole) {
+        if (!feed || feed.length === 0) {
+            postsFeed.innerHTML = `
+                <div class="feed-status-box">
+                    <p style="opacity:0.6">No posts found in the hub. Be the first to share an update!</p>
+                </div>
+            `;
+            return;
+        }
+
+        postsFeed.innerHTML = '';
+
+        feed.forEach((post, idx) => {
+            const isAuthor = (post.user_id === currentUserId);
+            const isAdmin = (currentUserRole === 'admin');
+            const hasLiked = post.user_has_liked;
+
+            // Category tag config
+            let catClass = 'cat-general';
+            let catIcon = '☕';
+            if (post.category === 'Booking Tips') { catClass = 'cat-tips'; catIcon = '💡'; }
+            else if (post.category === 'Social Hangout') { catClass = 'cat-hangout'; catIcon = '🎉'; }
+            else if (post.category === 'Safety Alert') { catClass = 'cat-safety'; catIcon = '🛡️'; }
+
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const fallbackAvatar = isDark ? 'images/user-dark.png' : 'images/user-light.png';
+            const avatarUrl = (post.avatar_url && post.avatar_url.trim() !== '') ? post.avatar_url : fallbackAvatar;
+
+            const pinnedBadge = post.is_pinned ? `<span class="pinned-badge">📌 Pinned</span>` : '';
+            const pinnedClass = post.is_pinned ? 'pinned-post' : '';
+
+            // Comments lists
+            let commentsHtml = '';
+            post.comments.forEach(comment => {
+                const commentAvatar = (comment.avatar_url && comment.avatar_url.trim() !== '') ? comment.avatar_url : fallbackAvatar;
+                const isCommentAuthor = (comment.user_id === currentUserId);
+                const deleteCommentBtn = (isCommentAuthor || isAdmin)
+                    ? `<button type="button" class="comment-delete-trigger" data-comment-id="${comment.comment_id}">&times;</button>`
+                    : '';
+
+                const commentRoleBadge = comment.user_role !== 'client' 
+                    ? `<span class="badge-role ${comment.user_role}-role">${comment.user_role}</span>` 
+                    : '';
+
+                commentsHtml += `
+                    <div class="comment-item">
+                        <img src="${commentAvatar}" alt="${escapeHtml(comment.author_name)}" class="comment-avatar" onerror="this.src='${fallbackAvatar}'">
+                        <div class="comment-details">
+                            <div class="comment-author-name">${escapeHtml(comment.author_name)} ${commentRoleBadge}</div>
+                            <div class="comment-text">${escapeHtml(comment.content)}</div>
+                            <div class="comment-time">${timeAgo(comment.created_at)}</div>
+                        </div>
+                        ${deleteCommentBtn}
+                    </div>
+                `;
+            });
+
+            // Author role badge
+            const authorRoleBadge = post.user_role !== 'client'
+                ? `<span class="badge-role ${post.user_role}-role">${post.user_role}</span>`
+                : '';
+
+            // Admin toolbar
+            let adminToolbar = '';
+            if (isAdmin) {
+                const pinAction = post.is_pinned ? 'unpin_post' : 'pin_post';
+                const pinLabel = post.is_pinned ? '📍 Unpin Post' : '📌 Pin Post';
+                adminToolbar = `
+                    <div class="admin-moderation-bar">
+                        <span class="admin-mod-label">🛡️ Moderation Tools</span>
+                        <div class="admin-mod-actions">
+                            <button type="button" class="admin-mod-btn btn-pin" data-action="${pinAction}" data-post-id="${post.post_id}">${pinLabel}</button>
+                            <button type="button" class="admin-mod-btn btn-delete" data-post-id="${post.post_id}">Delete Post</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Post author delete action
+            let authorDeleteBtn = '';
+            if (isAuthor && !isAdmin) {
+                authorDeleteBtn = `
+                    <button type="button" class="feed-action-btn delete-post-btn" data-post-id="${post.post_id}" style="color:#f44336">
+                        🗑️ Delete
+                    </button>
+                `;
+            }
+
+            const likeIconColor = hasLiked ? '#fe6fbe' : 'currentColor';
+            const likeIconFill = hasLiked ? '#fe6fbe' : 'none';
+
+            const postCard = `
+                <div class="post-item-card ${pinnedClass}" data-post-id="${post.post_id}">
+                    ${pinnedBadge}
+                    <div class="post-item-header">
+                        <img src="${avatarUrl}" alt="${escapeHtml(post.author_name)}" class="avatar-circle-sm" onerror="this.src='${fallbackAvatar}'">
+                        <div class="post-meta-details">
+                            <div class="post-author-name">${escapeHtml(post.author_name)} ${authorRoleBadge}</div>
+                            <div class="post-timestamp">${timeAgo(post.created_at)}</div>
+                        </div>
+                        <span class="post-category-tag ${catClass}">${catIcon} ${post.category}</span>
+                    </div>
+                    <div class="post-item-content">${escapeHtml(post.content)}</div>
+                    <div class="post-item-footer">
+                        <button type="button" class="feed-action-btn like-action-btn ${hasLiked ? 'liked' : ''}" data-post-id="${post.post_id}">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="${likeIconFill}" stroke="${likeIconColor}" stroke-width="2" style="display:inline-block; vertical-align:middle; margin-right:2px;">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            <span>${post.likes_count}</span>
+                        </button>
+                        <button type="button" class="feed-action-btn comment-toggle-btn" data-post-id="${post.post_id}">
+                            💬 <span>Comments (${post.comments.length})</span>
+                        </button>
+                        <button type="button" class="feed-action-btn flag-action-btn" data-post-id="${post.post_id}">
+                            🚩 Report
+                        </button>
+                        ${authorDeleteBtn}
+                    </div>
+
+                    ${adminToolbar}
+
+                    <!-- Nested Comments Container -->
+                    <div class="comments-section" id="comments-${post.post_id}" style="display:none;">
+                        <div class="comments-list">${commentsHtml}</div>
+                        ${currentUser ? `
+                        <div class="add-comment-wrapper">
+                            <input type="text" class="comment-input-box" placeholder="Write a comment..." data-post-id="${post.post_id}">
+                            <button type="button" class="submit-comment-btn" data-post-id="${post.post_id}">
+                                ➔
+                            </button>
+                        </div>` : ''}
+                    </div>
+                </div>
+            `;
+            postsFeed.insertAdjacentHTML('beforeend', postCard);
+        });
+    }
+
+    // ── Submit Post ─────────────────────────────────────────────
+    if (submitPostBtn) {
+        submitPostBtn.addEventListener('click', async () => {
+            const content = postContent.value.trim();
+            const category = postCategory.value;
+
+            if (content === '') return;
+
+            setButtonLoading(submitPostBtn, true);
+
+            try {
+                const response = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'create_post',
+                        content: content,
+                        category: category
+                    })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    postContent.value = '';
+                    if (charCount) charCount.textContent = '0';
+                    submitPostBtn.disabled = true;
+                    loadFeed();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (err) {
+                showToast('Failed to create post. Try again.', 'error');
+            } finally {
+                setButtonLoading(submitPostBtn, false);
+            }
+        });
+    }
+
+    // ── Feed Interactions (Likes, Comments, Deletion) ─────────────
+    postsFeed.addEventListener('click', async (e) => {
+        const likeBtn = e.target.closest('.like-action-btn');
+        const commentToggle = e.target.closest('.comment-toggle-btn');
+        const submitComment = e.target.closest('.submit-comment-btn');
+        const commentDelete = e.target.closest('.comment-delete-trigger');
+        const authorDelete = e.target.closest('.delete-post-btn');
+        const adminDelete = e.target.closest('.btn-delete');
+        const adminPin = e.target.closest('.btn-pin');
+        const flagBtn = e.target.closest('.flag-action-btn');
+
+        // Like Toggle
+        if (likeBtn) {
+            if (!currentUser) {
+                showToast('You must log in to like posts!', 'warning');
+                return;
+            }
+            const postId = likeBtn.dataset.postId;
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'like_post', post_id: postId })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const span = likeBtn.querySelector('span');
+                    const svg = likeBtn.querySelector('svg');
+                    span.textContent = data.likes_count;
+                    if (data.state === 'liked') {
+                        likeBtn.classList.add('liked');
+                        svg.setAttribute('fill', '#fe6fbe');
+                        svg.setAttribute('stroke', '#fe6fbe');
+                    } else {
+                        likeBtn.classList.remove('liked');
+                        svg.setAttribute('fill', 'none');
+                        const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+                        svg.setAttribute('stroke', isDarkTheme ? '#fff' : '#000');
+                    }
+                }
+            } catch (err) {
+                // Ignore silent network failure
+            }
+        }
+
+        // Comments Toggle
+        if (commentToggle) {
+            const postId = commentToggle.dataset.postId;
+            const sect = document.getElementById(`comments-${postId}`);
+            if (sect) {
+                const isHidden = (sect.style.display === 'none');
+                sect.style.display = isHidden ? 'block' : 'none';
+            }
+        }
+
+        // Submit Comment
+        if (submitComment) {
+            const postId = submitComment.dataset.postId;
+            const inputField = postsFeed.querySelector(`.comment-input-box[data-post-id="${postId}"]`);
+            const content = inputField ? inputField.value.trim() : '';
+
+            if (content === '') return;
+
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'create_comment',
+                        post_id: postId,
+                        content: content
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    loadFeed();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (err) {
+                showToast('Failed to post comment.', 'error');
+            }
+        }
+
+        // Delete Comment (Author or Admin)
+        if (commentDelete) {
+            if (!confirm('Are you sure you want to delete this comment?')) return;
+            const commentId = commentDelete.dataset.commentId;
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'delete_comment', comment_id: commentId })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    loadFeed();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (err) {
+                showToast('Failed to delete comment.', 'error');
+            }
+        }
+
+        // Delete Post (Author or Admin)
+        if (authorDelete || adminDelete) {
+            if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) return;
+            const postId = (authorDelete || adminDelete).dataset.postId;
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'delete_post', post_id: postId })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    loadFeed();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (err) {
+                showToast('Failed to delete post.', 'error');
+            }
+        }
+
+        // Admin Toggle Pin
+        if (adminPin) {
+            const action = adminPin.dataset.action;
+            const postId = adminPin.dataset.postId;
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: action, post_id: postId })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    loadFeed();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (err) {
+                showToast('Action failed.', 'error');
+            }
+        }
+
+        // Open Report Dialog
+        if (flagBtn) {
+            if (!currentUser) {
+                showToast('You must log in to flag posts!', 'warning');
+                return;
+            }
+            const postId = flagBtn.dataset.postId;
+            if (reportPostId) reportPostId.value = postId;
+            if (reportCommentId) reportCommentId.value = '';
+            if (reportModal) reportModal.style.display = 'flex';
+        }
+    });
+
+    // ── Bind modal closing ──────────────────────────────────────
+    if (closeReportModalBtn) closeReportModalBtn.addEventListener('click', () => { reportModal.style.display = 'none'; });
+    if (cancelReportBtn) cancelReportBtn.addEventListener('click', () => { reportModal.style.display = 'none'; });
+    if (reportModal) {
+        reportModal.addEventListener('click', (e) => {
+            if (e.target === reportModal) reportModal.style.display = 'none';
+        });
+    }
+
+    // ── Submit Report ───────────────────────────────────────────
+    if (submitReportBtn) {
+        submitReportBtn.addEventListener('click', async () => {
+            const postId = reportPostId ? reportPostId.value : '';
+            const commentId = reportCommentId ? reportCommentId.value : '';
+            const reason = reportReason.value;
+            const details = reportDetails.value.trim();
+
+            if (reason === '') return;
+
+            setButtonLoading(submitReportBtn, true);
+
+            try {
+                const res = await fetch('ajax_community.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'report_item',
+                        post_id: postId || undefined,
+                        comment_id: commentId || undefined,
+                        reason: reason,
+                        details: details
+                    })
+                });
+
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    reportModal.style.display = 'none';
+                    if (reportDetails) reportDetails.value = '';
+                    loadFeed();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (err) {
+                showToast('Report submission failed.', 'error');
+            } finally {
+                setButtonLoading(submitReportBtn, false);
+            }
+        });
+    }
+
+    // Initial Load
+    loadFeed();
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initScrollRevealAndCounters();
         initChatPage();
         initAdminDashboard();
         initHomepage();
+        initCommunityHub();
     });
 } else {
     initScrollRevealAndCounters();
     initChatPage();
     initAdminDashboard();
     initHomepage();
+    initCommunityHub();
 }

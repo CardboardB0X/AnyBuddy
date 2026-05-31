@@ -22,6 +22,7 @@
                 </a>
                 <div class="navlinks">
                     <a href="marketplace.html" class="theme-nav-link">Marketplace</a>
+                    <a href="community.html" class="theme-nav-link">Community</a>
                     <a href="about.html" class="theme-nav-link">About</a>
                     <a href="chat.html" class="theme-nav-link auth-only-logged-in" id="navChatLink" style="display: none;">Chat</a>
                     <a href="login.html" class="theme-nav-link auth-only-logged-out" id="navLoginLink">Login</a>
@@ -78,6 +79,7 @@
                     <h3>Platform</h3>
                     <ul>
                         <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="community.html">Community</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="login.html" class="auth-only-logged-out">Login</a></li>
                         <li><a href="signup.html" class="auth-only-logged-out">Sign up</a></li>
@@ -201,6 +203,7 @@
                 <div class="drawer-menu-links">
                     <div class="mobile-only-nav">
                         <a href="marketplace.html">Marketplace</a>
+                        <a href="community.html">Community</a>
                         <a href="about.html">About</a>
                         <a href="login.html" class="auth-only-logged-out">Login</a>
                         <a href="signup.html" class="auth-only-logged-out">Sign up</a>
